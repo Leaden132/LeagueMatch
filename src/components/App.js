@@ -4,6 +4,7 @@ import axios from "axios";
 import MatchHistory from './MatchHistory'
 import SearchBar from './SearchBar'
 import RankedInfo from './RankedInfo'
+import TestField from "./TestField";
 
 function App() {
 
@@ -14,13 +15,33 @@ function App() {
   const [rankedInfo, setRankedInfo] = useState({});
   const [matchInfo, setMatchInfo] = useState([]);
   const [matchDetail, setMatchDetail] = useState([]);
+  const [champArray, setChampArray] = useState({});
   
   
   const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
   const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
   const matchDetailArray = [];
 
-  const getAccountId = (search) => {
+
+  useEffect(()=>{
+
+    axios({
+      method:'GET',
+      url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json',
+      responseType: 'json',
+    })
+    .then((res)=> {
+      setChampArray(res.data.data);
+    })
+
+
+    
+
+
+
+  },[])
+
+  const getAccountId = async (search) => {
     
     axios({
       method:'GET',
@@ -72,40 +93,43 @@ function App() {
         rankedInfoObj.rank = rankNum;
         console.log(rankedInfoObj);
         setRankedInfo(rankedInfoObj);
-
-      });
-
-
-      axios({
-        method:'GET',
-        url: 'https://proxy.hackeryou.com',
-        responseType: 'json',
-        params: {
-          reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountInfoObj.accountId}?api_key=${apiKey}&method=GET&dataType=json`
-        }
-      })
-      .then((res)=> {
-        console.log(res);
-        let matchArray = res.data.matches;
         
-        let initMatchArray = matchArray.slice(0, 9);
 
-        let newArray = initMatchArray.map((match)=>{
-          getMatchDetail(match.gameId);
+        axios({
+          method:'GET',
+          url: 'https://proxy.hackeryou.com',
+          responseType: 'json',
+          params: {
+            reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountInfoObj.accountId}?api_key=${apiKey}&method=GET&dataType=json`
+          }
         })
-        
-
-
-        
-        console.log(matchDetailArray);
-        setMatchInfo(matchDetailArray);
-        setDisplayMatchHistory(true);
-
-
-
-
+        .then((res)=> {
+          console.log(res);
+          let matchArray = res.data.matches;
+          
+          let initMatchArray = matchArray.slice(0, 9);
+  
+          let newArray = initMatchArray.map((match)=>{
+            getMatchDetail(match.gameId);
+          })
+          
+          
+          console.log(matchDetailArray);
+          setMatchInfo(matchDetailArray);
+          
+          setDisplayRankedInfo(true);
+          // setDisplayMatchHistory(true);
+          setTimeout(()=>{setDisplayMatchHistory(true)}, 3000);
+          
+  
+  
+  
+        });
 
       });
+
+
+      
 
 
 
@@ -134,7 +158,6 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     getAccountId();
-    setTimeout(()=>{setDisplayRankedInfo(true)}, 3000);
     
   }
 
@@ -147,13 +170,13 @@ function App() {
 
         <SearchBar handleSubmit={handleSubmit}/>
 
-
+          {displayRankedInfo ? "yes" : "no"}
         
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (<div></div>)}
 
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} /> : <div></div>}
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} /> : <div></div>}
 
-
+        {/* <TestField/> */}
 
 
 
