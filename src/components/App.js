@@ -130,19 +130,34 @@ function App() {
   
   
         });
-
       });
-
-
-      
-
-
-
-
-
-
     });
   }
+
+
+
+
+
+
+
+
+  // useEffect(()=>{
+  //   if(matchInfo){
+  //     setDisplayRankedInfo(true);
+  //   }
+    
+    
+
+  // },[matchInfo])
+
+  // useEffect(()=>{
+  //   if(displayRankedInfo){
+  //     setTimeout(()=>{setDisplayMatchHistory(true)}, 5000);
+  //   }
+    
+  // },[displayRankedInfo])
+
+
 
   const getMatchDetail = (gameId) => {
 
@@ -179,7 +194,7 @@ function App() {
   }
 
   return (
-    
+
 
     
     <div className="App">
@@ -189,9 +204,9 @@ function App() {
 
           {displayRankedInfo ? "yes" : "no"}
         
-        {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (<div></div>)}
+        {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)}
 
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} trigger={trigger} /> : <div></div>}
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} trigger={trigger} /> : null}
 
         {/* <TestField/> */}
 
