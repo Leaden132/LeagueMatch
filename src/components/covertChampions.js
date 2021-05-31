@@ -1,25 +1,25 @@
 import axios from 'axios'
 
 
-const convertChampions = (championId) => {
+const convertChampions = (championId, champArray) => {
 
-    let championName = 'ashe';
+    // console.log(champArray);
+    // console.log(championId);
 
-    axios({
-        method:'GET',
-        url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json',
-        responseType: 'json',
-      })
-      .then((res)=> {
-        const championArray = Object.keys(res.data);
+          let championName = 'ashe';
+        const championArray = Object.keys(champArray);
             for(let i = 0 ; i <championArray.length ; i++){
-                if (res.data[championArray[i]].key == championId){
+                if (champArray[championArray[i]].key == championId){
                     championName = championArray[i];
                 }
             }
+            console.log(championArray);
+            console.log(championName);
             return championName;
 
-      })
+      
+
+
 
 
 }

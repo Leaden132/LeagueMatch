@@ -1,6 +1,6 @@
 import convertChampions from "./covertChampions.js"
 
-const MatchHistory = ({ matchInfo, matchDetailArray }) => {
+const MatchHistory = ({ matchInfo, matchDetailArray, champArray}) => {
   console.log(matchInfo);
 
   let participants = matchInfo.map((match) => {
@@ -40,53 +40,65 @@ const MatchHistory = ({ matchInfo, matchDetailArray }) => {
     return playerArray;
   });
 
-  console.log(playerInfo);
-  console.log(championInfo);
 
   return (
     <>
       {playerInfo.map((player, index) => {
         let champion = championInfo[index];
+        // console.log(champion[1].championId)
+        // console.log(convertChampions(champion[1].championId, champArray));
+        
+
         return (
-          <>
+          <div className="matchHistory">
             <div className={`game${index} game`}>
               <div className={`blueTeam${index} blue`}>
                 <div>
-                  {player[0].summonerName} {index} - {convertChampions(champion[0].championId)}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[0].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[0].championId, champArray)}></img>
+                  {player[0].summonerName} - {convertChampions(champion[0].championId, champArray)}
                 </div>
                 <div>
-                  {player[1].summonerName} {index} - {convertChampions(champion[1].championId)}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[1].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[1].championId, champArray)}></img>
+                  {player[1].summonerName} - {convertChampions(champion[1].championId, champArray)}
                 </div>
                 <div>
-                  {player[2].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[2].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[2].championId, champArray)}></img>
+                  {player[2].summonerName} - {convertChampions(champion[2].championId, champArray)}
                 </div>
                 <div>
-                  {player[3].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[3].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[3].championId, champArray)}></img>
+                  {player[3].summonerName} - {convertChampions(champion[3].championId, champArray)}
                 </div>
                 <div>
-                  {player[4].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[4].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[4].championId, champArray)}></img>
+                  {player[4].summonerName} - {convertChampions(champion[4].championId, champArray)}
                 </div>
               </div>
 
               <div className={`redTeam${index} red`}>
                 <div>
-                  {player[5].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[5].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[5].championId, champArray)}></img>
+                  {player[5].summonerName} - {convertChampions(champion[5].championId, champArray)}
                 </div>
                 <div>
-                  {player[6].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[6].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[6].championId, champArray)}></img>
+                  {player[6].summonerName} - {convertChampions(champion[6].championId, champArray)}
                 </div>
                 <div>
-                  {player[7].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[7].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[7].championId, champArray)}></img>
+                  {player[7].summonerName} - {convertChampions(champion[7].championId, champArray)}
                 </div>
                 <div>
-                  {player[8].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[8].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[8].championId, champArray)}></img>
+                  {player[8].summonerName} - {convertChampions(champion[8].championId, champArray)}
                 </div>
                 <div>
-                  {player[9].summonerName} {index}
+                <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[9].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[9].championId, champArray)}></img>
+                  {player[9].summonerName} -{convertChampions(champion[9].championId, champArray)}
                 </div>
               </div>
             </div>
-          </>
+          </div>
         );
       })}
 

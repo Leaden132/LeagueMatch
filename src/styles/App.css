@@ -30,7 +30,7 @@ html {
 .game {
   display: flex;
   margin-bottom: 50px;
-  border: 2px solid black;
+  border: 2px solid white;
   width: 80%;
 }
 
