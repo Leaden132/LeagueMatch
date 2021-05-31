@@ -13,9 +13,12 @@ function App() {
   const [accountInfo, setAccountInfo] = useState({});
   const [rankedInfo, setRankedInfo] = useState({});
   const [matchInfo, setMatchInfo] = useState([]);
+  const [matchDetail, setMatchDetail] = useState([]);
+  
   
   const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
-  
+  const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
+  const matchDetailArray = [];
 
   const getAccountId = (search) => {
     
@@ -37,7 +40,7 @@ function App() {
         puuid:res.data.puuid,
         summonerLevel: res.data.summonerLevel}
 
-      setAccountInfo(accountInfo);
+      setAccountInfo(accountInfoObj);
       console.log(accountInfoObj.accountId);
 
       axios({
@@ -84,10 +87,23 @@ function App() {
       .then((res)=> {
         console.log(res);
         let matchArray = res.data.matches;
-        setMatchInfo(matchArray);
+        
+        let initMatchArray = matchArray.slice(0, 9);
+
+        let newArray = initMatchArray.map((match)=>{
+          getMatchDetail(match.gameId);
+        })
+        
 
 
         
+        console.log(matchDetailArray);
+        setMatchInfo(matchDetailArray);
+        setDisplayMatchHistory(true);
+
+
+
+
 
       });
 
@@ -99,11 +115,26 @@ function App() {
     });
   }
 
+  const getMatchDetail = (gameId) => {
+
+      axios({
+        method:'GET',
+        url: 'https://proxy.hackeryou.com',
+        responseType: 'json',
+        params: {
+          reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${apiKey}&method=GET&dataType=json`
+        }
+      })
+      .then((res)=> {
+        matchDetailArray.push(res.data);
+      });
+
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     getAccountId();
-    setTimeout(()=>{setDisplayRankedInfo(true)}, 1000);
+    setTimeout(()=>{setDisplayRankedInfo(true)}, 3000);
     
   }
 
@@ -118,9 +149,9 @@ function App() {
 
 
         
-        {displayRankedInfo ? <RankedInfo rankedInfo = {rankedInfo}/> : <div></div>}
+        {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (<div></div>)}
 
-        <MatchHistory  />
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} /> : <div></div>}
 
 
 
