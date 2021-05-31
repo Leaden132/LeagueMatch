@@ -16,8 +16,9 @@ function App() {
   const [matchInfo, setMatchInfo] = useState([]);
   const [matchDetail, setMatchDetail] = useState([]);
   const [champArray, setChampArray] = useState({});
+
   
-  
+  const [trigger, setTrigger] = useState(false);
   const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
   const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
   const matchDetailArray = [];
@@ -35,20 +36,23 @@ function App() {
     })
 
 
-    
+
 
 
 
   },[])
 
-  const getAccountId = async (search) => {
+  const getAccountId = (search) => {
     
+
+
+
     axios({
       method:'GET',
       url: 'https://proxy.hackeryou.com',
       responseType: 'json',
       params: {
-        reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userInput}?api_key=${apiKey}&method=GET&dataType=json`
+        reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${search}?api_key=${apiKey}&method=GET&dataType=json`
       }
     })
     .then(function(res) {
@@ -107,7 +111,7 @@ function App() {
           console.log(res);
           let matchArray = res.data.matches;
           
-          let initMatchArray = matchArray.slice(0, 9);
+          let initMatchArray = matchArray.slice(0, 10);
   
           let newArray = initMatchArray.map((match)=>{
             getMatchDetail(match.gameId);
@@ -118,9 +122,10 @@ function App() {
           setMatchInfo(matchDetailArray);
           
           setDisplayRankedInfo(true);
-          // setDisplayMatchHistory(true);
-          setTimeout(()=>{setDisplayMatchHistory(true)}, 3000);
+          setDisplayMatchHistory(true);
+          // setTimeout(()=>{setDisplayMatchHistory(true)}, 5000);
           
+          setTimeout(()=>{setTrigger(!trigger)}, 1000);
   
   
   
@@ -157,8 +162,20 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getAccountId();
+    console.log(event);
+
+    let userNameValue = event.target[0].value;
+    console.log(userNameValue);
+
+
+    getAccountId(userNameValue);
     
+  }
+
+  const searchNew = (query) => {
+    setDisplayRankedInfo(false);
+    setDisplayMatchHistory(false);
+    getAccountId(query);
   }
 
   return (
@@ -174,7 +191,7 @@ function App() {
         
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (<div></div>)}
 
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} /> : <div></div>}
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} trigger={trigger} /> : <div></div>}
 
         {/* <TestField/> */}
 
