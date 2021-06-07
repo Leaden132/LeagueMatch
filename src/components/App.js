@@ -1,4 +1,4 @@
-import "../styles/App.css";
+import "../styles/App.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MatchHistory from './MatchHistory'
@@ -136,7 +136,28 @@ function App() {
 
 
 
-
+  const getDate = (playedTime) => {
+    let date = new Date();
+    let nowDate = date.getTime();
+    let playedTimeStamp = nowDate - playedTime;
+    let playedDate = 0;
+    if (playedTimeStamp <60000) {
+        playedDate = 1;
+        return "Match played less than a minute ago";
+    }
+    else if (playedTimeStamp < 3600000) {
+        playedDate = playedTimeStamp / 60000;
+        return `Match played ${Math.floor(playedDate)} minutes ago`;
+    }
+    else if (playedTimeStamp < 86400000) {
+        playedDate = playedTimeStamp / 3600000;
+        return `Match played ${Math.floor(playedDate)} hours ago`;
+    }
+    else {
+        playedDate = playedTimeStamp /86400000;
+        return `Match played ${Math.floor(playedDate)} days ago`;
+    }
+}
 
 
 
@@ -181,8 +202,6 @@ function App() {
 
     let userNameValue = event.target[0].value;
     console.log(userNameValue);
-
-
     getAccountId(userNameValue);
     
   }
@@ -194,8 +213,6 @@ function App() {
   }
 
   return (
-
-
     
     <div className="App">
 
@@ -206,7 +223,7 @@ function App() {
         
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)}
 
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} trigger={trigger} /> : null}
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} trigger={trigger} /> : null}
 
         {/* <TestField/> */}
 
