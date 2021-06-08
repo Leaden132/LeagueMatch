@@ -5,6 +5,13 @@ import MatchHistory from './MatchHistory'
 import SearchBar from './SearchBar'
 import RankedInfo from './RankedInfo'
 
+import { 
+  BrowserRouter as Router
+} from 'react-router-dom';
+
+
+import { Switch, Route } from "react-router-loading";
+
 function App() {
 
   const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
@@ -198,11 +205,13 @@ function App() {
 
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSearch = (event) => {
+    // event.preventDefault();
     console.log(event);
+    console.log(event.target.form[0].value);
 
-    let userNameValue = event.target[0].value;
+    let userNameValue = event.target.form[0].value
+    // let userNameValue = event.target[0].value;
     console.log(userNameValue);
     getAccountId(userNameValue);
     
@@ -212,19 +221,40 @@ function App() {
     setDisplayRankedInfo(false);
     setDisplayMatchHistory(false);
     getAccountId(query);
+    
   }
 
   return (
-    
+    <Router>
     <div className="App">
 
+    {/* <Route exact path="/" render={() => (
+    <Redirect to="/searchDashboard"/>
+    )}/> */}
 
-        <SearchBar handleSubmit={handleSubmit}/>
+    {/* <Route exact path="/" component={Catalogue} /> */}
+    
+
+    
+    {/* <SearchBar handleSubmit={handleSubmit}/> */}
         <div className="flexContainer">
         
-        {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)}
+        <Route path='/' render={ () => <SearchBar handleSearch={handleSearch}/> } />
+
+
+        <Route exact path='/profile' render={ () => <RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>} />
+
+
+{/* 
+        {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)} */}
+
+
         <div className="matchHistory">
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} searchNew={searchNew} trigger={trigger} /> : null}
+        
+        <Route exact path='/profile' render={()=> <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} searchNew={searchNew} trigger={trigger}/>} />
+
+        {/* {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} searchNew={searchNew} trigger={trigger} /> : null} */}
+
         </div>
 
         </div>
@@ -237,7 +267,7 @@ function App() {
 
     </div>
 
-
+    </Router>
   );
 }
 
