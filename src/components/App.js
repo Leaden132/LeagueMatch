@@ -221,9 +221,6 @@ function App() {
 
         <SearchBar handleSubmit={handleSubmit}/>
         <div className="flexContainer">
-
-        
-          {displayRankedInfo ? "yes" : "no"}
         
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)}
         <div className="matchHistory">
