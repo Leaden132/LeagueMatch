@@ -17,9 +17,8 @@ const convertSummoners = (spellId) => {
   };
 
 //   const spellArray = Object.keys(spellIdObj);
-
   for (const spell in spellIdObj) {
-    if (spell == spellId) {
+    if (parseInt(spell, 10) === spellId) {
       return spellIdObj[spell];
     }
   }

@@ -4,17 +4,16 @@ import axios from "axios";
 import MatchHistory from './MatchHistory'
 import SearchBar from './SearchBar'
 import RankedInfo from './RankedInfo'
-import TestField from "./TestField";
 
 function App() {
 
   const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
   
-  const [userInput, setUserInput] = useState('tfblade');
+  // const [userInput, setUserInput] = useState('tfblade');
   const [accountInfo, setAccountInfo] = useState({});
   const [rankedInfo, setRankedInfo] = useState({});
   const [matchInfo, setMatchInfo] = useState([]);
-  const [matchDetail, setMatchDetail] = useState([]);
+  // const [matchDetail, setMatchDetail] = useState([]);
   const [champArray, setChampArray] = useState({});
 
   
@@ -81,6 +80,7 @@ function App() {
         let rankedInfoObj = res.data[0];
         let rankNum = 0;
         switch (rankedInfoObj.rank) {
+            
             case "I":
                 rankNum = 1;
             break;
@@ -93,6 +93,8 @@ function App() {
             case "IV":
                 rankNum = 4;
                 break;
+          
+            default:break;
         }
         rankedInfoObj.rank = rankNum;
         console.log(rankedInfoObj);
@@ -113,8 +115,8 @@ function App() {
           
           let initMatchArray = matchArray.slice(0, 10);
   
-          let newArray = initMatchArray.map((match)=>{
-            getMatchDetail(match.gameId);
+          initMatchArray.map((match)=>{
+            return getMatchDetail(match.gameId);
           })
           
           
@@ -218,16 +220,17 @@ function App() {
 
 
         <SearchBar handleSubmit={handleSubmit}/>
+        <div className="flexContainer">
 
+        
           {displayRankedInfo ? "yes" : "no"}
         
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)}
+        <div className="matchHistory">
+        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} searchNew={searchNew} trigger={trigger} /> : null}
+        </div>
 
-        {displayMatchHistory ? <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} trigger={trigger} /> : null}
-
-        {/* <TestField/> */}
-
-
+        </div>
 
 
 
