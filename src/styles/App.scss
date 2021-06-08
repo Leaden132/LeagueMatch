@@ -1,5 +1,5 @@
 @import "setup";
-
+@import "variables";
 
 
 
@@ -15,10 +15,19 @@ html {
   }
   
   .rank {
-    width: 12%;
+    width: 70%;
+  }
+
+  .rankedInfo {
+    border:3px solid $color2;
+    margin-right:50px;
+  }
+
+  .flexContainer {
+    display:flex;
   }
   
-  .matchHistory {
+  .match {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -73,10 +82,17 @@ html {
     align-content:flex-start;
     height:300px;
     width:1000px;
+    position:relative;
   }
   
   .gameInfo {
     width:200px;
+    
+  }
+
+  .championImage {
+    width:50px;
+    height:50px;
   }
   
   .game li {
@@ -86,7 +102,8 @@ html {
   
   .userPlayInfo {
     position:absolute;
-    left:50px;
+    top: 0;
+    left: 0;
     display:flex;
   
   }
@@ -96,12 +113,52 @@ html {
     left:620px;
   }
   
+  .otherUsers {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
   .items {
-    display:flex;
-    flex-wrap:wrap;
-    width:200px;
-    
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    margin-left: 50px;
+    // width:120px;
+    gap:5px;
+  
+  .trinket {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 4;
+  }
+
+  .item-upper {
+    display: grid;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+
+  .item-lower {
+    display: grid;
+    grid-row-start:3;
+    grid-row-end:5; 
+  }
     img{
-        width:50px;
+        width:40px;
+        border: 1px solid $color2;
+        // background-image:url('../assets/opacity.1.png');
     }
+  }
+
+
+  .levelDetail {
+    display:flex;
+    flex-direction: column;
+
   }
