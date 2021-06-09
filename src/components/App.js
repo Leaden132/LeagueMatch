@@ -7,9 +7,10 @@ import RankedInfo from './RankedInfo'
 import HomePage from './HomePage'
 
 import { 
-  BrowserRouter as Router,
+  BrowserRouter as Router
 } from 'react-router-dom';
 
+import History from './History';
 
 import { Switch, Route } from "react-router-loading";
 
@@ -24,9 +25,6 @@ function App() {
   // // const [matchDetail, setMatchDetail] = useState([]);
   const [champArray, setChampArray] = useState({});
   const [userSearch, setUserSearch] = useState('');
-
-  
-  const [trigger, setTrigger] = useState(false);
   const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
   const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
   const matchDetailArray = [];
@@ -186,6 +184,8 @@ function App() {
     
   }
 
+  // const history = createHistory();
+
   return (
     <Router>
     <div className="App">
@@ -193,10 +193,8 @@ function App() {
     {/* <Route exact path="/" render={() => (
     <Redirect to="/searchDashboard"/>
     )}/> */}
-
     {/* <Route exact path="/" component={Catalogue} /> */}
     
-
     
     {/* <SearchBar handleSubmit={handleSubmit}/> */}
         <div className="flexContainer">
@@ -212,7 +210,7 @@ function App() {
 
 
         <div className="matchHistory">
-        <Route exact path='/profile' render={()=> <MatchHistory getDate={getDate} searchNew={searchNew} search={userSearch} champArray={champArray}/> } />
+        <Route exact path={`/profile`} render={()=> <MatchHistory getDate={getDate} searchNew={searchNew} search={userSearch} champArray={champArray}/> } />
         
         {/* <Route exact path='/profile' render={()=> <MatchHistory matchInfo={matchInfo} accountInfo = {accountInfo} matchDetailArray = {matchDetailArray} champArray = {champArray} getAccountId={getAccountId} getDate={getDate} searchNew={searchNew} search={userSearch} trigger={trigger}/>} /> */}
 

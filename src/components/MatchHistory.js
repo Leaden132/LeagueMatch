@@ -10,7 +10,8 @@ const MatchHistory = ({
   champArray,
   getDate,
   searchNew,
-  search
+  search,
+  updateFunction
 }) => {
 
   const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
@@ -44,7 +45,7 @@ const MatchHistory = ({
 
   useEffect(()=>{
     console.log(search);
-    if (search){
+    if (search !==''){
     
       axios({
         method:'GET',
@@ -93,7 +94,6 @@ const MatchHistory = ({
               case "IV":
                   rankNum = 4;
                   break;
-            
               default:break;
           }
           rankedInfoObj.rank = rankNum;
@@ -125,6 +125,7 @@ const MatchHistory = ({
             
             setDisplayRankedInfo(true);
             setDisplayMatchHistory(true);
+            setTimeout(()=>{setTrigger(!trigger)}, 1000);
           });
         });
       });
@@ -181,7 +182,7 @@ const MatchHistory = ({
   // const kpCalc = (a) => {
   //   return a;
   // }
-
+if (displayMatchHistory) {
   return (
     <>
       {playerInfo.map((player, index) => {
@@ -326,6 +327,11 @@ const MatchHistory = ({
       })}
     </>
   );
+}
+else {
+  return null;
+}
+  
 };
 
 export default MatchHistory;
