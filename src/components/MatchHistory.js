@@ -2,7 +2,9 @@ import convertChampions from "./covertChampions.js";
 import convertSummoners from "./convertSummoners.js";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+import {useParams} from "react-router";
 
 
 
@@ -11,7 +13,8 @@ const MatchHistory = ({
   getDate,
   searchNew,
   search,
-  updateFunction
+  updateFunction,
+  match
 }) => {
 
   const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
@@ -28,22 +31,17 @@ const MatchHistory = ({
   const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
   const matchDetailArray = [];
 
-  const getMatchDetail = (gameId) => {
-
-    axios({
-      method:'GET',
-      url: 'https://proxy.hackeryou.com',
-      responseType: 'json',
-      params: {
-        reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${apiKey}&method=GET&dataType=json`
-      }
-    })
-    .then((res)=> {
-      matchDetailArray.push(res.data);
-    });
-}
+  // const { searchName } = useLocation();
 
   useEffect(()=>{
+
+
+
+    // const searchParams = new URLSearchParams(searchName)
+    // const userName = searchParams.get('name');
+    // console.log('yay', userName);
+
+    console.log(match);
     console.log(search);
     if (search !==''){
     
@@ -135,6 +133,20 @@ const MatchHistory = ({
 
 
 
+  const getMatchDetail = (gameId) => {
+
+    axios({
+      method:'GET',
+      url: 'https://proxy.hackeryou.com',
+      responseType: 'json',
+      params: {
+        reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${apiKey}&method=GET&dataType=json`
+      }
+    })
+    .then((res)=> {
+      matchDetailArray.push(res.data);
+    });
+}
 
 
 
@@ -182,9 +194,9 @@ const MatchHistory = ({
   // const kpCalc = (a) => {
   //   return a;
   // }
-if (displayMatchHistory) {
+
   return (
-    <>
+    <div className="matchHistory">
       {playerInfo.map((player, index) => {
         let champion = championInfo[index];
         return (
@@ -325,13 +337,8 @@ if (displayMatchHistory) {
           </div>
         );
       })}
-    </>
+    </div>
   );
-}
-else {
-  return null;
-}
-  
 };
 
 export default MatchHistory;
