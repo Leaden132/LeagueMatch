@@ -5,7 +5,7 @@ import History from './History';
 
 const SearchBar = ({handleSearch}) => {
 
-  // const [input, setInput] = useState('');
+  const [input, setInput] = useState('');
   // const [searchName, setSearchName] = useState('');
 
   // useEffect(()=>{
@@ -34,6 +34,7 @@ const SearchBar = ({handleSearch}) => {
   //   setInput('');
   // }
 
+
     return(
         <section className="searchBar">
       <nav>
@@ -51,9 +52,9 @@ const SearchBar = ({handleSearch}) => {
   <label htmlFor="searchInput">
     Summoner Name: 
     {/* <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/> */}
-    <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" defaultValue="TFblade"/>
+    <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
   </label>
-  <Link to={`/profile`}>
+  <Link to={`/profile/userName=${input}`}>
     <button className="searchButton" onClick={handleSearch}>Search</button>
     </Link>
   
