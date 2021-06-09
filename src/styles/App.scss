@@ -18,6 +18,10 @@ html {
     width: 70%;
   }
 
+  .homePage {
+    margin-top:100px;
+  }
+
   .searchBar {
     margin-right:100px;
     display:flex;
@@ -48,6 +52,7 @@ html {
     text-align: center;
     color: #fff;
     cursor: pointer;
+    margin-right:20px;
 }
 
 input[type=text] {
