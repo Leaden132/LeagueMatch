@@ -125,7 +125,7 @@ function App() {
 {/* 
         {displayRankedInfo ? (<RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>) : (null)} */}
       <Switch>
-      <Route exact path={`/profile/userName=${userSearch}`} render={()=> <MatchHistory getDate={getDate} searchNew={searchNew} search={userSearch} champArray={champArray}/> } />
+      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory getDate={getDate} searchNew={searchNew} search={userSearch} champArray={champArray}/> } />
       <Route exact path='/' render={()=> <HomePage handleSearch={handleSearch}/>}/>
       </Switch>
 
