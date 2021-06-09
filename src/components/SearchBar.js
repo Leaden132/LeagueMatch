@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import History from './History';
+// import History from './History';
 
 
 const SearchBar = ({handleSearch}) => {
 
   const [input, setInput] = useState('');
+  const history = useHistory();
   // const [searchName, setSearchName] = useState('');
 
   // useEffect(()=>{
@@ -34,6 +35,11 @@ const SearchBar = ({handleSearch}) => {
   //   setInput('');
   // }
 
+    const submitForm = (e) => {
+      e.preventDefault()
+      history.push(`/profile/${input}`); 
+    }
+
 
     return(
         <section className="searchBar">
@@ -45,22 +51,29 @@ const SearchBar = ({handleSearch}) => {
         </ul>
       </nav>
 
-
-
-
-<form action="#">
+<form onSubmit={submitForm}>
   <label htmlFor="searchInput">
     Summoner Name: 
-    {/* <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/> */}
     <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
   </label>
-  <Link to={`/profile/userName=${input}`}>
-    <button className="searchButton" onClick={handleSearch}>Search</button>
-    </Link>
-  
+    <button type="submit" className="searchButton">Search</button>
 </form>
+
+
         </section>
     )
 }
 
 export default SearchBar;
+
+
+// <form action="#">
+//   <label htmlFor="searchInput">
+//     Summoner Name: 
+//     {/* <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/> */}
+//     <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
+//   </label>
+//     <Link to={`/profile/${input}`}>
+//     <button className="searchButton" onClick={handleSearch}>Search</button>
+//     </Link>
+// </form>

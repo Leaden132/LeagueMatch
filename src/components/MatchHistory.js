@@ -2,9 +2,9 @@ import convertChampions from "./covertChampions.js";
 import convertSummoners from "./convertSummoners.js";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams, useHistory } from 'react-router-dom';
 
-import {useParams} from "react-router";
+// import {useParams} from "react-router";
 
 
 
@@ -13,8 +13,7 @@ const MatchHistory = ({
   getDate,
   searchNew,
   search,
-  updateFunction,
-  match
+  updateFunction
 }) => {
 
   const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
@@ -29,28 +28,22 @@ const MatchHistory = ({
   const [trigger, setTrigger] = useState(false);
   const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
   const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
+  const [userName, setUserName] = useState('');
   const matchDetailArray = [];
-
-  // const { searchName } = useLocation();
+  const name = useParams();
+  const location = useLocation();
+  console.log(location);
 
   useEffect(()=>{
-
-
-
-    // const searchParams = new URLSearchParams(searchName)
-    // const userName = searchParams.get('name');
-    // console.log('yay', userName);
-
-    console.log(match);
-    console.log(search);
-    if (search !==''){
+    setUserName(name.userName);
+    if (userName !==''){
     
       axios({
         method:'GET',
         url: 'https://proxy.hackeryou.com',
         responseType: 'json',
         params: {
-          reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${search}?api_key=${apiKey}&method=GET&dataType=json`
+          reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userName}?api_key=${apiKey}&method=GET&dataType=json`
         }
       })
       .then(function(res) {
@@ -128,7 +121,7 @@ const MatchHistory = ({
         });
       });
     }
-  },[search])
+  },[userName])
 
 
 

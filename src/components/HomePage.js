@@ -1,20 +1,27 @@
-import {Link} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+import {useState} from 'react'
+
 
 const HomePage = ({handleSearch}) => {
+  const [input, setInput] = useState('');
+  const history = useHistory();
+  
+  const submitForm = (e) => {
+    e.preventDefault()
+    history.push(`/profile/${input}`); 
+  }
 
     return (
         <div className="homePage">
             <h1>League Stats</h1>
 
-            <form action="#">
+            <form onSubmit={submitForm}>
   <label htmlFor="searchInput">
-    <input type="text" name="summonerName" placeholder="Search for Summoner Names" className="searchInput" defaultValue="TFblade"/>
+    Summoner Name: 
+    <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
   </label>
-  <Link to={`/profile`}>
-    <input type="submit" value="Search" onClick={handleSearch}/>
-    </Link>
-  
-    </form>
+    <button type="submit" className="searchButton">Search</button>
+</form>
 
 
         </div>
