@@ -1,15 +1,149 @@
 import convertChampions from "./covertChampions.js";
 import convertSummoners from "./convertSummoners.js";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useLocation, useParams, useHistory } from 'react-router-dom';
+
+// import {useParams} from "react-router";
+
+
 
 const MatchHistory = ({
-  matchInfo,
-  accountInfo,
-  matchDetailArray,
   champArray,
-  getAccountId,
   getDate,
   searchNew,
+  search,
+  updateFunction
 }) => {
+
+  const apiKey =`RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`;
+  
+  // const [userInput, setUserInput] = useState('tfblade');
+  const [accountInfo, setAccountInfo] = useState({});
+  const [rankedInfo, setRankedInfo] = useState({});
+  const [matchInfo, setMatchInfo] = useState([]);
+  // const [matchDetail, setMatchDetail] = useState([]);
+  // const [champArray, setChampArray] = useState({});
+  // const [userSearch, setUserSearch] = useState('tfblade');
+  const [trigger, setTrigger] = useState(false);
+  const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
+  const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
+  const [userName, setUserName] = useState('');
+  const matchDetailArray = [];
+  const name = useParams();
+  const location = useLocation();
+  console.log(location);
+
+  useEffect(()=>{
+    setUserName(name.userName);
+    if (userName !==''){
+    
+      axios({
+        method:'GET',
+        url: 'https://proxy.hackeryou.com',
+        responseType: 'json',
+        params: {
+          reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userName}?api_key=${apiKey}&method=GET&dataType=json`
+        }
+      })
+      .then(function(res) {
+        console.log(res);
+        let accountInfoObj = {        
+          accountId: res.data.accountId,
+          id: res.data.id,
+          name: res.data.name,
+          profileIconId: res.data.profileIconId,
+          puuid:res.data.puuid,
+          summonerLevel: res.data.summonerLevel}
+  
+        setAccountInfo(accountInfoObj);
+        console.log(accountInfoObj.accountId);
+  
+        axios({
+          method:'GET',
+          url: 'https://proxy.hackeryou.com',
+          responseType: 'json',
+          params: {
+            reqUrl: `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`
+          }
+        })
+        .then((res)=> {
+          console.log(res);
+          let rankedInfoObj = res.data[0];
+          let rankNum = 0;
+          switch (rankedInfoObj.rank) {
+              
+              case "I":
+                  rankNum = 1;
+              break;
+              case "II":
+                  rankNum = 2;
+                  break;
+              case "III":
+                  rankNum = 3;
+                  break;
+              case "IV":
+                  rankNum = 4;
+                  break;
+              default:break;
+          }
+          rankedInfoObj.rank = rankNum;
+          console.log(rankedInfoObj);
+          setRankedInfo(rankedInfoObj);
+          
+  
+          axios({
+            method:'GET',
+            url: 'https://proxy.hackeryou.com',
+            responseType: 'json',
+            params: {
+              reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountInfoObj.accountId}?api_key=${apiKey}&method=GET&dataType=json`
+            }
+          })
+          .then((res)=> {
+            console.log(res);
+            let matchArray = res.data.matches;
+            
+            let initMatchArray = matchArray.slice(0, 10);
+    
+            initMatchArray.map((match)=>{
+              return getMatchDetail(match.gameId);
+            })
+            
+            
+            console.log(matchDetailArray);
+            setMatchInfo(matchDetailArray);
+            
+            setDisplayRankedInfo(true);
+            setDisplayMatchHistory(true);
+            setTimeout(()=>{setTrigger(!trigger)}, 1000);
+          });
+        });
+      });
+    }
+  },[userName])
+
+
+
+
+  const getMatchDetail = (gameId) => {
+
+    axios({
+      method:'GET',
+      url: 'https://proxy.hackeryou.com',
+      responseType: 'json',
+      params: {
+        reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${apiKey}&method=GET&dataType=json`
+      }
+    })
+    .then((res)=> {
+      matchDetailArray.push(res.data);
+    });
+}
+
+
+
+
   console.log(matchInfo);
 
   matchInfo.sort((a, b) => b.gameCreation-a.gameCreation);
@@ -55,7 +189,7 @@ const MatchHistory = ({
   // }
 
   return (
-    <>
+    <div className="matchHistory">
       {playerInfo.map((player, index) => {
         let champion = championInfo[index];
         return (
@@ -196,7 +330,7 @@ const MatchHistory = ({
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 
