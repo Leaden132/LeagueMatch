@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import RankedInfo from "./RankedInfo";
+import PulseLoader from 'react-spinners/PulseLoader';
+import { css } from "@emotion/react";
 
 const MatchHistory = ({
   champArray,
@@ -17,16 +19,29 @@ const MatchHistory = ({
   const [matchInfo, setMatchInfo] = useState([]);
   // const [newSearch, setNewSearch] = useState(false);
   const [trigger, setTrigger] = useState(false);
+  const [loading, setLoading] = useState(false);
   // const [userName, setUserName] = useState("");
   const [error, setError] = useState(false);
   const matchDetailArray = [];
   const name = useParams();
   const history = useHistory();
   let sumName = '';
+  
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    margin-top:300px;
+    border-color: red;
+    `
+  
+
 
   console.log(process.env);
 
   useEffect(() => {
+    setLoading(true);
+
+
 // eslint-disable-next-line react-hooks/exhaustive-deps
     sumName = name.userName.replace(/\s+/g, '');
 
@@ -109,7 +124,7 @@ const MatchHistory = ({
             console.log(matchDetailArray);
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
-              setTrigger(!trigger);
+              setLoading(false);
             }, 1500);
           });
         });
@@ -141,28 +156,46 @@ const MatchHistory = ({
     let playedDate = 0;
     if (playedTimeStamp <60000) {
         playedDate = 1;
-        return "Match played less than a minute ago";
+        return "2 minutes ago";
     }
     else if (playedTimeStamp < 3600000) {
         playedDate = playedTimeStamp / 60000;
-        return `Match played ${Math.floor(playedDate)} minutes ago`;
+        return `${Math.floor(playedDate)} minutes ago`;
     }
     else if (playedTimeStamp < 86400000) {
         playedDate = playedTimeStamp / 3600000;
-        return `Match played ${Math.floor(playedDate)} hours ago`;
+        return `${Math.floor(playedDate)} hours ago`;
     }
     else {
         playedDate = playedTimeStamp /86400000;
-        return `Match played ${Math.floor(playedDate)} days ago`;
+        return `${Math.floor(playedDate)} days ago`;
     }
 }
+
+  const metaConvert = (info) => {
+    if (info === "CLASSIC"){
+      return "Ranked Solo";
+    }
+    else {
+      return info;
+    }
+  }
 
   console.log(matchInfo);
   // console.log(matchDetailArray);
 
   matchInfo.sort((a, b) => b.gameCreation - a.gameCreation);
-  const dateArray = matchInfo.map((game)=>{
-    return game.gameCreation;
+  const metaDataArray = matchInfo.map((game)=>{
+    return {
+      date: game.gameCreation,
+      duration: game.gameDuration,
+      gameMode: game.gameMode,
+      gameType: game.gameType,
+      mapId: game.mapId,
+      platform: game.platformId,
+      seasonId: game.seasonId
+    
+    };
   })
 
   console.log(matchInfo);
@@ -201,9 +234,6 @@ const MatchHistory = ({
     return ((k + a) / d).toFixed(1);
   };
 
-  // const kpCalc = (a) => {
-  //   return a;
-  // }
 
 
 
@@ -213,6 +243,19 @@ const MatchHistory = ({
   else {
   return (
     <>
+
+    {
+      loading ? 
+
+      <PulseLoader
+      css={override}
+      size={50}
+      color={"#160d33"}
+      loading={loading}
+      /> 
+      
+      :
+      <>
       <RankedInfo accountInfo={accountInfo} rankedInfo={rankedInfo} />
       <div className="matchHistory">
         {playerInfo.map((player, index) => {
@@ -220,7 +263,10 @@ const MatchHistory = ({
           return (
             <div className="match" key={`player${index}`}>
               <div className={`game`}>
-                <div className="date">{getDate(dateArray[index])}</div>
+                <div className="metaInfo">
+                  <span>{getDate(metaDataArray[index].date)}</span>
+                  <span>{metaConvert(metaDataArray[index].gameMode)}</span>
+                  </div>
                 {champion.map((champ, i) => {
                   let itemArray = [];
                   for (let i = 0; i < 7; i++) {
@@ -342,6 +388,8 @@ const MatchHistory = ({
         }
         )}
       </div>
+      </>
+  }
     </>
   );
 }
