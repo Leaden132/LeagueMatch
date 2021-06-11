@@ -27,7 +27,7 @@ const MatchHistory = ({
   console.log(process.env);
 
   useEffect(() => {
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     sumName = name.userName.replace(/\s+/g, '');
 
     console.log(sumName);
@@ -373,17 +373,3 @@ export default MatchHistory;
 // 				<div class="ChampionName">
 // 	<a href="/champion/velkoz/statistics" target="_blank">Vel'Koz</a>
 // </div>
-
-{
-  /* <div class="GameStats">
-				<div class="GameType" title="ARAM">
-					ARAM
-				</div>
-				<div class="TimeStamp"><span class="_timeago _timeCountAssigned tip" data-datetime="1622960472" data-type="" data-interval="60" title="Jun 6 2021 2:21 AM">18 hours ago</span></div>
-				<div class="Bar"></div>
-				<div class="GameResult">
-											Defeat									</div>
-									<div class="GameLength">21m 3s</div>
-				
-							</div> */
-}
