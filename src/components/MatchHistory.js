@@ -21,6 +21,7 @@ const MatchHistory = ({
   const [trigger, setTrigger] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [userName, setUserName] = useState("");
+  const [mainChamp, setMainChamp] = useState('Gwen');
   const [error, setError] = useState(false);
   const matchDetailArray = [];
   const name = useParams();
@@ -69,6 +70,23 @@ const MatchHistory = ({
 
         setAccountInfo(accountInfoObj);
         console.log(accountInfoObj.accountId);
+
+        axios({
+          method: "GET",
+          url: "https://proxy.hackeryou.com",
+          responseType: "json",
+          params: {
+            reqUrl: `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
+          },
+        }).then((res) => {
+          setMainChamp(convertChampions(res.data[0].championId, champArray));
+        }).catch((error)=>{
+          console.log(error);
+        })
+
+        
+
+
 
         axios({
           method: "GET",
@@ -179,7 +197,15 @@ const MatchHistory = ({
     else {
       return info;
     }
+
+    
   }
+
+  const convertDuration = (info) => {
+    const durationRemainder = info%60
+    return `${Math.floor(info/60)} : ${durationRemainder}`
+  }
+
 
   console.log(matchInfo);
   // console.log(matchDetailArray);
@@ -234,6 +260,12 @@ const MatchHistory = ({
     return ((k + a) / d).toFixed(1);
   };
 
+  const headerStyle = {
+    background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${mainChamp}_1.jpg")`,
+    backgroundSize:'100% auto',
+    backgroundRepeat:'no-repeat',
+    backgroundPosition:'center, top'
+  }
 
 
 
@@ -255,17 +287,37 @@ const MatchHistory = ({
       /> 
       
       :
-      <>
+      <section className="result">
+        <div className="headerImageContainer">
+          <div className="headerBackground" style={headerStyle}></div>
+        </div>
+        <div className="searchResult">
       <RankedInfo accountInfo={accountInfo} rankedInfo={rankedInfo} />
       <div className="matchHistory">
         {playerInfo.map((player, index) => {
           let champion = championInfo[index];
+          let playerId = '';
+          let win=false;
+          console.log(champion);
+          for(let i=0; i<10 ; i++){
+            if (player[i].accountId === accountInfo.accountId) {
+              if (champion[i].stats.win) {
+                win=true;
+              }
+              else {
+                win=false;
+              }
+            }
+          }
+
           return (
-            <div className="match" key={`player${index}`}>
+            <div className={`match ${win ? 'win' : 'loss'}`} key={`player${index}`}>
               <div className={`game`}>
                 <div className="metaInfo">
-                  <span>{getDate(metaDataArray[index].date)}</span>
                   <span>{metaConvert(metaDataArray[index].gameMode)}</span>
+                  <span className="matchOutcome">{`${win ? 'Victory' : 'Defeat'}`}</span>
+                  <span>{getDate(metaDataArray[index].date)}</span>
+                  <span className="gameDuration" title="match duration">{convertDuration(metaDataArray[index].duration)}</span>
                   </div>
                 {champion.map((champ, i) => {
                   let itemArray = [];
@@ -300,15 +352,20 @@ const MatchHistory = ({
                   return (
                     <div key={`blue${i}`} className="gameInfo">
                       {player[i].accountId === accountInfo.accountId && (
-                        <div className="userPlayInfo">
+
+                        
+                        <div className={`userPlayInfo`}>
+                          <div className="champContainer">
                           <img
-                            src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(
+                            
+                            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                               champ.championId,
                               champArray
-                            )}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`}
+                            )}.png`}
                             className="championImage"
                             alt={convertChampions(champ.championId, champArray)}
                           ></img>
+                          </div>
                           {convertChampions(champ.championId, champArray)}
                           <div className="summonerSpell">
                             <div className="spell spell1">
@@ -358,10 +415,10 @@ const MatchHistory = ({
 
                       <li className="otherPlayerInfo">
                         <img
-                          src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(
+                          src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                             champ.championId,
                             champArray
-                          )}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`}
+                          )}.png`}
                           alt={convertChampions(champ.championId, champArray)}
                         ></img>
                         {/* <Link to={`/profile/${player[i].summonerName}`}> */}
@@ -388,7 +445,8 @@ const MatchHistory = ({
         }
         )}
       </div>
-      </>
+      </div>
+      </section>
   }
     </>
   );

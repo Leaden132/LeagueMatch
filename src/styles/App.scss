@@ -77,47 +77,191 @@ input[type=text] {
     height:50px;
   }
 
-  .rankedInfo {
-    border:3px solid $color2;
-    margin-left:20px;
-    margin-right:50px;
-    margin-top:100px;
-    font-size:1.8rem;
-    display:flex;
-    width:20%;
-    height:200px;
-    background:#000725;
-    border-radius:10px;
-    .rank {
-      width: 150px;
-      height: 150px;
-      align-self:center;
-    }
-    .ranked {
-      align-self:center;
-      display:flex;
-      flex-direction: column;
-    }
-    .tier {
-      margin-top:10px;
-      margin-bottom:10px;
-      color: #A6E1FA;
-    }
-  }
+
 
   .matchHistory {
     margin-top:100px;
+
+    .match {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+
+      .game {
+        display: flex;
+        flex-direction: column;
+        flex-wrap:wrap;
+        align-items:center;
+        align-content:flex-start;
+        height:250px;
+        width:60vw;
+        position:relative;
+        font-size:1.8rem;
+        border-radius:10px;
+        margin-bottom: 50px;
+        border: 2px solid white;
+        
+
+    
+        .metaInfo {
+          position:absolute;
+          width:40%;
+          top:5px;
+          left:30px;
+          display:flex;
+          justify-content: space-between;
+
+          .gameDuration {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+
+            // &:hover {
+
+            // }
+          }
+
+        }
+
+
+        .gameInfo {
+          width:220px;
+
+
+
+          .otherPlayerInfo {
+            position:relative;
+            display:flex;
+            top:10px;
+            left:620px;
+            img {
+              width:35px;
+              margin-right:10px;
+            }
+          }
+
+          .otherUsers {
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+            font-size: 1.8rem;
+            text-align:left;
+            
+        }
+
+          .userPlayInfo {
+            position:absolute;
+            top: 100px;
+            left: 50px;
+            display:flex;
+        
+            .champContainer {
+              width:7rem;
+              height:7rem;
+              border: 3px solid green;
+              overflow:hidden;
+              border-radius:50%;
+              filter:drop-shadow(rgba(0, 0, 0, 0.4) 0px 3px 5px);
+        
+              .championImage{
+                width:100%;
+                height:100%;
+                border-radius:50%;
+                overflow:hidden;
+                // border: 2px solid white;
+                transform:scale(1.15);
+              }
+            }
+            
+          }
+          
+        }
+        li {
+          list-style:none;
+          margin: 5px;
+        }
+      }
+    }
+    .win {
+      .game{
+        background-image: linear-gradient(to left, rgba(34, 12, 12, 0.692), rgba(3, 21, 126, 0.918));
+      }
+    }
+
+    .loss {
+      .game{
+        background-image: linear-gradient(to left, rgba(34, 12, 12, 0.692), rgba(185, 10, 10, 0.918));
+      }
+    }
   }
+
+
 
   .flexContainer {
     display:flex;
+
+    .result{
+      
+      width:100%;
+      display:flex;
+      margin-top:50px;
+      // background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.884)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg);
+      // background-repeat:no-repeat;
+      // background-size:contain;
+
+    }
+
+    .headerBackground {
+      position:absolute;
+      z-index:-1;
+      width:100%;
+      height:500px;
+      border-bottom: 2px solid grey;
+      box-shadow: grey 0 0 10px inset;
+    }
+
+    .searchResult{
+      display:flex;
+
+
+      .rankedInfo {
+        border:3px solid $color2;
+        margin-left:20px;
+        margin-right:50px;
+        margin-top:100px;
+        font-size:1.8rem;
+        display:flex;
+        width:20%;
+        height:200px;
+        background:#000725;
+        border-radius:10px;
+        .rank {
+          width: 150px;
+          height: 150px;
+          align-self:center;
+        }
+        .ranked {
+          align-self:center;
+          display:flex;
+          flex-direction: column;
+        }
+        .tier {
+          margin-top:10px;
+          margin-bottom:10px;
+          color: #A6E1FA;
+        }
+      }
+
+
+
+    }
   }
   
-  .match {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
+
   
   .playerName {
     margin-top: 15px;
@@ -127,12 +271,7 @@ input[type=text] {
     display: flex;
   }
   
-  .game {
-    display: flex;
-    margin-bottom: 50px;
-    border: 2px solid white;
-    width: 80%;
-  }
+
   
   a {
     color: white;
@@ -160,70 +299,24 @@ input[type=text] {
     height: 50px;
   }
   
-  .game {
-    display: flex;
-    flex-direction: column;
-    flex-wrap:wrap;
-    align-items:center;
-    align-content:flex-start;
-    height:250px;
-    width:60vw;
-    position:relative;
-    font-size:1.8rem;
-    border-radius:10px;
-  }
+
+
 
   
-  .gameInfo {
-    width:20rem;
-    
-  }
+
 
   .championImage {
     width:50px;
     height:50px;
   }
   
-  .game li {
-    list-style:none;
-    margin: 5px;
-  }
-  
-  .userPlayInfo {
-    position:absolute;
-    top: 100px;
-    left: 0;
-    display:flex;
 
-    .championImage{
-      border-radius:50%;
-      overflow:hidden;
-      border: 3px solid white;
-    }
-  }
   
-  .otherPlayerInfo {
-    position:relative;
-    display:flex;
-    top:10px;
-    left:620px;
-    img {
-      width:35px;
-      margin-right:10px;
-    }
-  }
+
   
-  .otherUsers {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    font-size: 1.8rem;
-    
-}
+
+  
+
 
   .items {
     display:grid;
@@ -270,9 +363,3 @@ input[type=text] {
     font-size:2rem;
   }
 
-  .metaInfo {
-    position:absolute;
-    top:50px;
-    display:flex;
-    flex-direction:column;
-  }

@@ -2,7 +2,7 @@
 
 const convertChampions = (championId, champArray) => {
 
-          let championName = 'ashe';
+          let championName = 'Gwen';
         const championArray = Object.keys(champArray);
             for(let i = 0 ; i <championArray.length ; i++){
                 if (parseInt(champArray[championArray[i]].key, 10) === championId){
