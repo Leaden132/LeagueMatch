@@ -2,13 +2,13 @@ import {useHistory} from 'react-router-dom'
 import {useState} from 'react'
 
 
-const HomePage = ({handleSearch}) => {
+const HomePage = () => {
   const [input, setInput] = useState('');
   const history = useHistory();
-  
+
   const submitForm = (e) => {
     e.preventDefault()
-    history.push(`/profile/${input}`); 
+    history.push(`/profile/${input.replace(/\s+/g, '')}`);
   }
 
     return (
