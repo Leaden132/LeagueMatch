@@ -2,29 +2,25 @@ import convertChampions from "./covertChampions.js";
 import convertSummoners from "./convertSummoners.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory, useLocation, useParams, Link } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import RankedInfo from "./RankedInfo";
 
 const MatchHistory = ({
   champArray,
-  getDate,
   searchNew,
   updateFunction,
+  handleUpdate
 }) => {
   const apiKey = process.env.REACT_APP_apiKey;
-  // `RGAPI-7a7ab972-8c0f-4665-bdb0-b65051695a9f`
   const [accountInfo, setAccountInfo] = useState({});
   const [rankedInfo, setRankedInfo] = useState({});
   const [matchInfo, setMatchInfo] = useState([]);
-  const [newSearch, setNewSearch] = useState(false);
+  // const [newSearch, setNewSearch] = useState(false);
   const [trigger, setTrigger] = useState(false);
-  const [displayRankedInfo, setDisplayRankedInfo] = useState(false);
-  const [displayMatchHistory, setDisplayMatchHistory] = useState(false);
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
   const [error, setError] = useState(false);
   const matchDetailArray = [];
   const name = useParams();
-  const location = useLocation();
   const history = useHistory();
   let sumName = '';
 
@@ -35,7 +31,7 @@ const MatchHistory = ({
     sumName = name.userName.replace(/\s+/g, '');
 
     console.log(sumName);
-    setUserName(name.userName.replace(/\s+/g, ''));
+    // setUserName(name.userName.replace(/\s+/g, ''));
 
     if (sumName !== '') {
       axios({
@@ -114,15 +110,14 @@ const MatchHistory = ({
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
               setTrigger(!trigger);
-            }, 2000);
-            
+            }, 1500);
           });
         });
       }).catch(error => {
         setError(true);
       });
     }
-  }, [name, newSearch]);
+  }, [name]);
 
   const getMatchDetail = (gameId) => {
     axios({
@@ -134,15 +129,41 @@ const MatchHistory = ({
       },
     }).then((res) => {
       matchDetailArray.push(res.data);
+    }).catch((error)=>{
+      setError(true);
     });
   };
 
-
+  const getDate = (playedTime) => {
+    let date = new Date();
+    let nowDate = date.getTime();
+    let playedTimeStamp = nowDate - playedTime;
+    let playedDate = 0;
+    if (playedTimeStamp <60000) {
+        playedDate = 1;
+        return "Match played less than a minute ago";
+    }
+    else if (playedTimeStamp < 3600000) {
+        playedDate = playedTimeStamp / 60000;
+        return `Match played ${Math.floor(playedDate)} minutes ago`;
+    }
+    else if (playedTimeStamp < 86400000) {
+        playedDate = playedTimeStamp / 3600000;
+        return `Match played ${Math.floor(playedDate)} hours ago`;
+    }
+    else {
+        playedDate = playedTimeStamp /86400000;
+        return `Match played ${Math.floor(playedDate)} days ago`;
+    }
+}
 
   console.log(matchInfo);
   // console.log(matchDetailArray);
 
   matchInfo.sort((a, b) => b.gameCreation - a.gameCreation);
+  const dateArray = matchInfo.map((game)=>{
+    return game.gameCreation;
+  })
 
   console.log(matchInfo);
 
@@ -190,7 +211,7 @@ const MatchHistory = ({
 
 
   if (error) {
-    return <div class="error">This username is not registered at League of Legends, Please check spelling</div>
+    return <div className="error">This username is not registered at League of Legends, Please check spelling</div>
   }
   else {
   return (
@@ -202,6 +223,7 @@ const MatchHistory = ({
           return (
             <div className="match" key={`player${index}`}>
               <div className={`game`}>
+                <div className="date">{getDate(dateArray[index])}</div>
                 {champion.map((champ, i) => {
                   let itemArray = [];
                   for (let i = 0; i < 7; i++) {
@@ -236,7 +258,6 @@ const MatchHistory = ({
                     <div key={`blue${i}`} className="gameInfo">
                       {player[i].accountId === accountInfo.accountId && (
                         <div className="userPlayInfo">
-                          {/* <a> */}
                           <img
                             src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(
                               champ.championId,
@@ -245,7 +266,6 @@ const MatchHistory = ({
                             className="championImage"
                             alt={convertChampions(champ.championId, champArray)}
                           ></img>
-                          {/* </a> */}
                           {convertChampions(champ.championId, champArray)}
                           <div className="summonerSpell">
                             <div className="spell spell1">
@@ -307,9 +327,9 @@ const MatchHistory = ({
                           onClick={() => {
                             history.push(`/profile/${player[i].summonerName.replace(/\s+/g, '')}`);
                             
-                            setTimeout(() => {
-                              setNewSearch(!newSearch);
-                            }, 1000);
+                            // setTimeout(() => {
+                            //   setNewSearch(!newSearch);
+                            // }, 1000);
                           }}
                         >
                           {player[i].summonerName}
