@@ -25,10 +25,13 @@ function App() {
       responseType: 'json',
     })
     .then((res)=> {
+      console.log(res);
       setChampArray(res.data.data);
     })
 
 
+
+    
   },[])
 
 
