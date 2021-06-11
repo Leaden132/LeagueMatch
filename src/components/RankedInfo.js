@@ -1,8 +1,8 @@
 
 const RankedInfo = ({accountInfo, rankedInfo}) => {
 
-    
-    // console.log(rankedInfo);
+    console.log(accountInfo);
+    console.log(rankedInfo);
     const tierConvert = (tier) => {
         if (tier)
         return tier.charAt(0).toUpperCase() + tier.slice(1).toLowerCase();
