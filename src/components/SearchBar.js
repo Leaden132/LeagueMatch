@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-// import History from './History';
 
 
-const SearchBar = ({handleSearch}) => {
+const SearchBar = () => {
 
   const [input, setInput] = useState('');
   const history = useHistory();
@@ -37,7 +36,7 @@ const SearchBar = ({handleSearch}) => {
 
     const submitForm = (e) => {
       e.preventDefault()
-      history.push(`/profile/${input}`); 
+      history.push(`/profile/${input.replace(/\s+/g, '')}`);
     }
 
 
