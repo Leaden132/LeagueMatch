@@ -179,9 +179,6 @@ const MatchHistory = ({
     return playerArray;
   });
 
-  // let playedTime = matchInfo.map((match) => {
-  //   return match.gameCreation;
-  // });
 
   let participantChampions = matchInfo.map((match) => {
     return match.participants;
@@ -207,7 +204,7 @@ const MatchHistory = ({
   // const kpCalc = (a) => {
   //   return a;
   // }
-  //     <RankedInfo accountInfo = {accountInfo} rankedInfo = {rankedInfo}/>
+
 
 
   if (error) {
