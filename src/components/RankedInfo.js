@@ -1,21 +1,23 @@
 
 const RankedInfo = ({accountInfo, rankedInfo}) => {
 
-    // console.log(accountInfo);
+    
+    // console.log(rankedInfo);
+    const tierConvert = (tier) => {
+        if (tier)
+        return tier.charAt(0).toUpperCase() + tier.slice(1).toLowerCase();
+    }
 
     return(
         <section className="rankedInfo">
-        <p>Level: {accountInfo.summonerLevel}</p>
-        <div className = "ranked">
-        <p>Rank: {rankedInfo.tier} {rankedInfo.rank} {rankedInfo.leaguePoints} lp</p>
         <img className = "rank" src = {`https://opgg-static.akamaized.net/images/medals/${rankedInfo.tier}_${rankedInfo.rank}.png?image=q_auto:best&amp;v=1`} alt={`${rankedInfo.tier} tier`}/>
-
-
-
-
-        <p>Win Rate: {rankedInfo.wins} wins / {rankedInfo.losses} losses - {Math.floor((rankedInfo.wins / (rankedInfo.wins + rankedInfo.losses)) * 100)}% Win Rate </p>
-        </div>
-        <div className = "good">
+        <div className = "ranked">
+            <span>Ranked Solo</span>
+            <span className="tier">{tierConvert(rankedInfo.tier)} {rankedInfo.rank}</span>
+            <span> {rankedInfo.leaguePoints} LP / {rankedInfo.wins}W {rankedInfo.losses}L</span>
+            
+            <span>Win Rate: {Math.floor((rankedInfo.wins / (rankedInfo.wins + rankedInfo.losses)) * 100)}%</span>
+            <span>Summoner level: {accountInfo.summonerLevel}</span>
         </div>
         </section>
     )
