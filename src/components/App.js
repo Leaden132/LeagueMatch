@@ -2,8 +2,7 @@
 
 import "../styles/App.scss";
 import { useEffect, useState, Suspense, lazy } from "react";
-import { useLocation, Switch } from 'react-router-dom';
-import {Route} from 'react-router-loading';
+import { Route} from 'react-router-dom';
 import axios from "axios";
 import Fallback from './Fallback';
 
@@ -18,8 +17,6 @@ const HomePage = lazy(()=> import ('./HomePage'))
 function App() {
   require('dotenv').config()
   const [champArray, setChampArray] = useState({});
-  const [userSearch, setUserSearch] = useState('');
-  const location = useLocation();
 
   useEffect(()=>{
     axios({
@@ -31,33 +28,9 @@ function App() {
       setChampArray(res.data.data);
     })
 
-    // setUserSearch(userName);
 
   },[])
 
-
-  const getDate = (playedTime) => {
-    let date = new Date();
-    let nowDate = date.getTime();
-    let playedTimeStamp = nowDate - playedTime;
-    let playedDate = 0;
-    if (playedTimeStamp <60000) {
-        playedDate = 1;
-        return "Match played less than a minute ago";
-    }
-    else if (playedTimeStamp < 3600000) {
-        playedDate = playedTimeStamp / 60000;
-        return `Match played ${Math.floor(playedDate)} minutes ago`;
-    }
-    else if (playedTimeStamp < 86400000) {
-        playedDate = playedTimeStamp / 3600000;
-        return `Match played ${Math.floor(playedDate)} hours ago`;
-    }
-    else {
-        playedDate = playedTimeStamp /86400000;
-        return `Match played ${Math.floor(playedDate)} days ago`;
-    }
-}
 
 
 
@@ -76,7 +49,6 @@ function App() {
 
 
 
-
   return (
     <div className="App">
 
@@ -84,7 +56,7 @@ function App() {
         <div className="flexContainer">
       <Suspense fallback={<Fallback/>}>
       <Route path='/' render={ () => <SearchBar /> } />
-      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory getDate={getDate} search={userSearch} champArray={champArray}/> } />
+      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champArray={champArray}/> } />
       <Route exact path='/' render={()=> <HomePage/>}/>
       </Suspense>
 
