@@ -375,6 +375,7 @@ const MatchHistory = ({
                                 )}.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
                                 alt="summoner spells"
                               ></img>
+                              <span className="toolTip">This is SPELL!</span>
                             </div>
                             <div className="spell spell2">
                               <img
@@ -383,6 +384,7 @@ const MatchHistory = ({
                                 )}.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
                                 alt="summoner spells"
                               ></img>
+                              <span className="toolTip">This is SPELL!</span>
                             </div>
                           </div>
                           <div className="runes">
