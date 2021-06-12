@@ -8,7 +8,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
 const MatchHistory = ({
-  champArray,
+  champObj,
   searchNew,
   updateFunction,
   handleUpdate
@@ -76,7 +76,7 @@ const MatchHistory = ({
             reqUrl: `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
           },
         }).then((res) => {
-          setMainChamp(convertChampions(res.data[0].championId, champArray));
+          setMainChamp(convertChampions(res.data[0].championId, champObj));
         }).catch((error)=>{
           console.log(error);
         })
@@ -356,13 +356,13 @@ const MatchHistory = ({
                             
                             src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                               champ.championId,
-                              champArray
+                              champObj
                             )}.png`}
                             className="championImage"
-                            alt={convertChampions(champ.championId, champArray)}
+                            alt={convertChampions(champ.championId, champObj)}
                           ></img>
                           </div>
-                          {convertChampions(champ.championId, champArray)}
+                          {convertChampions(champ.championId, champObj)}
                           <div className="summonerSpell">
                             <div className="spell spell1">
                               <img
@@ -415,9 +415,9 @@ const MatchHistory = ({
                         <img
                           src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                             champ.championId,
-                            champArray
+                            champObj
                           )}.png`}
-                          alt={convertChampions(champ.championId, champArray)}
+                          alt={convertChampions(champ.championId, champObj)}
                         ></img>
                         {/* <Link to={`/profile/${player[i].summonerName}`}> */}
                         <button
@@ -457,8 +457,8 @@ export default MatchHistory;
 
 //     return(
 //         <div>
-//         <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[0].championId, champArray)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[i].championId, champArray)}></img>
-//           <a href="#" onClick={()=>{getAccountId(player[i].summonerName)}}>{player[i].summonerName} </a> - {convertChampions(champion[i].championId, champArray)}
+//         <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[0].championId, champObj)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[i].championId, champObj)}></img>
+//           <a href="#" onClick={()=>{getAccountId(player[i].summonerName)}}>{player[i].summonerName} </a> - {convertChampions(champion[i].championId, champObj)}
 //         </div>
 //     )
 // }

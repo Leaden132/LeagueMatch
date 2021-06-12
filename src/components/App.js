@@ -5,6 +5,8 @@ import { useEffect, useState, Suspense, lazy } from "react";
 import { Route} from 'react-router-dom';
 import axios from "axios";
 import Fallback from './Fallback';
+import Champions from "./Champions";
+import InidividualChampInfo from './IndividualChampInfo';
 
 const MatchHistory = lazy(()=> import ('./MatchHistory'))
 const SearchBar = lazy(()=> import ('./SearchBar'))
@@ -16,7 +18,7 @@ const HomePage = lazy(()=> import ('./HomePage'))
 
 function App() {
   require('dotenv').config()
-  const [champArray, setChampArray] = useState({});
+  const [champObj, setChampObj] = useState({});
 
   useEffect(()=>{
     axios({
@@ -26,29 +28,10 @@ function App() {
     })
     .then((res)=> {
       console.log(res);
-      setChampArray(res.data.data);
+      setChampObj(res.data.data);
     })
-
-
-
     
   },[])
-
-
-
-
-  // const handleSearch = (event) => {
-  //   // event.preventDefault();
-  //   console.log(event);
-  //   console.log(event.target.form[0].value);
-
-  //   let userNameValue = event.target.form[0].value
-  //   // let userNameValue = event.target[0].value;
-  //   console.log(userNameValue);
-  //   // getAccountId(userNameValue);
-  //   setUserSearch(userNameValue);
-    
-  // }
 
 
 
@@ -59,8 +42,11 @@ function App() {
         <div className="flexContainer">
       <Suspense fallback={<Fallback/>}>
       <Route path='/' render={ () => <SearchBar /> } />
-      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champArray={champArray}/> } />
+      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champArray={champObj}/> } />
       <Route exact path='/' render={()=> <HomePage/>}/>
+
+      <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
+      <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
       </Suspense>
 
 
