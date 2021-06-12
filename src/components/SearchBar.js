@@ -45,7 +45,7 @@ const SearchBar = () => {
       <nav>
         <ul>
           <Link to="/">home</Link>
-          <li>champions</li>
+          <Link to="/champions">home</Link>
           <Link to="/profile">profile</Link>
         </ul>
       </nav>
