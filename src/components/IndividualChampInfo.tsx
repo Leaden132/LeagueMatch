@@ -5,9 +5,9 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
 const InidividualChampInfo = () => {
-    const name = useParams();
-    console.log(name.champName);
-    let champName = name.champName;
+  const {champName} = useParams<{champName: string}>();
+
+    console.log(champName);
     const override = css`
     display: block;
     margin: 0 auto;
@@ -24,7 +24,7 @@ const InidividualChampInfo = () => {
 
 
     const [loading, setLoading] = useState(true);
-    const [champObj, setChampObj] = useState({});
+    const [champObj, setChampObj] = useState<any>({});
 
     useEffect(()=>{
         setLoading(true);
@@ -99,32 +99,12 @@ loading={loading}
     <div className="stat" ></div>
     </div>
 
-
-
-
-
                 </div>
-
-
                 <div className="champDetail">
                 <p>{champName}</p>
                 <p>{champObj.blurb}</p>
                 <p>{champObj.image.full}</p>
-
                 </div>
-
-                
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
             </div>
 }
             </>

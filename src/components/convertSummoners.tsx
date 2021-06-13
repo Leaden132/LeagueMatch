@@ -1,5 +1,5 @@
-const convertSummoners = (spellId) => {
-  const spellIdObj = {
+const convertSummoners = (spellId:number) => {
+  const spellIdObj:any = {
     21: "SummonerBarrier",
     1: "SummonerBoost",
     14: "SummonerDot",

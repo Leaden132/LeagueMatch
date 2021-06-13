@@ -1,9 +1,14 @@
 
-const RankedInfo = ({accountInfo, rankedInfo}) => {
+interface Props {
+    accountInfo: object;
+    rankedInfo: object;
+}
+
+const RankedInfo: React.FC<Props> = ({accountInfo, rankedInfo}:any) => {
 
     console.log(accountInfo);
     console.log(rankedInfo);
-    const tierConvert = (tier) => {
+    const tierConvert = (tier:string) => {
         if (tier)
         return tier.charAt(0).toUpperCase() + tier.slice(1).toLowerCase();
     }

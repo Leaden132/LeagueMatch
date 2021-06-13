@@ -1,40 +1,15 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const SearchBar = () => {
 
   const [input, setInput] = useState('');
   const history = useHistory();
-  // const [searchName, setSearchName] = useState('');
+  const element = <FontAwesomeIcon icon={faSearch} />
 
-  // useEffect(()=>{
-    
-  //   const params = new URLSearchParams(window.location.search);
-
-  //   const q = params.get('q');
-
-  //   setSearchName(q ? q : 'qqcait');
-  //   //eslint-disable-next-line
-  // }, [])
-
-  // const userSearch = (event) => {
-  //   console.log(event);
-  //   search = event.target.value;
-  // }
-
-  // let history = useHistory();
-
-  // const submitAction = (event) => {
-  //   event.preventDefault();
-  //   setSearchName(input);
-
-  //   History.push('/search?q=' + input);
-
-  //   setInput('');
-  // }
-
-    const submitForm = (e) => {
+    const submitForm = (e: React.FormEvent) => {
       e.preventDefault()
       history.push(`/profile/${input.replace(/\s+/g, '')}`);
     }
@@ -44,18 +19,17 @@ const SearchBar = () => {
         <section className="searchBar">
       <nav>
         <ul>
-          <Link to="/">home</Link>
-          <Link to="/champions">home</Link>
-          <Link to="/profile">profile</Link>
+          <Link to="/"><li>home</li></Link>
+          <Link to="/champions"><li>Champions</li></Link>
+          {/* <Link to="/profile">profile</Link> */}
         </ul>
       </nav>
 
 <form onSubmit={submitForm}>
   <label htmlFor="searchInput">
-    Summoner Name: 
-    <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
+    <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} required onChange={(e)=> setInput(e.target.value)}/>
   </label>
-    <button type="submit" className="searchButton">Search</button>
+  <button type="submit" className="searchButton">{element}</button>
 </form>
 
 
