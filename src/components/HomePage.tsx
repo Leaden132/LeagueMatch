@@ -10,18 +10,18 @@ const HomePage = () => {
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />
 
-  const submitForm = (e) => {
-    e.preventDefault()
+  const submitForm = (e: React.FormEvent) => {
+    console.log(e);
+    e.preventDefault();
     history.push(`/profile/${input.replace(/\s+/g, '')}`);
+
   }
 
     return (
-      
 <div className="main">
         <div className="background">
           {/* <img src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg"></img> */}
         </div>
-
 
         <div className="homePage">
           <div className="mainTitle">
@@ -31,7 +31,7 @@ const HomePage = () => {
 <div className="midContent">
 <form onSubmit={submitForm}>
   <label htmlFor="searchInput">
-    <input type="text" name="summonerName" placeholder="Search by summoner names" className="searchInput" value={input} onChange={(e)=> setInput(e.target.value)}/>
+    <input type="text" name="summonerName" placeholder="Search by summoner names" className="searchInput" value={input} required onChange={(e)=> setInput(e.target.value)}/>
   </label>
     <button type="submit" className="searchButton">{element}</button>
 </form>

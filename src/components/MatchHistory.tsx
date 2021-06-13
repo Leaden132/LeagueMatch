@@ -1,5 +1,5 @@
-import convertChampions from "./covertChampions.js";
-import convertSummoners from "./convertSummoners.js";
+import convertChampions from "./covertChampions";
+import convertSummoners from "./convertSummoners";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
@@ -7,23 +7,21 @@ import RankedInfo from "./RankedInfo";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
-const MatchHistory = ({
-  champObj,
-  searchNew,
-  updateFunction,
-  handleUpdate
-}) => {
+
+const MatchHistory = (champObj:any) => {
   const apiKey = process.env.REACT_APP_apiKey;
-  const [accountInfo, setAccountInfo] = useState({});
-  const [rankedInfo, setRankedInfo] = useState({});
-  const [matchInfo, setMatchInfo] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [mainChamp, setMainChamp] = useState('Gwen');
-  const [error, setError] = useState(false);
-  const matchDetailArray = [];
-  const name = useParams();
+  const [accountInfo, setAccountInfo] = useState<any>({});
+  const [rankedInfo, setRankedInfo] = useState<object>({});
+  const [matchInfo, setMatchInfo] = useState<Array<object>>([]);
+  const [matchLoading, setMatchLoading] = useState<boolean>(false);
+  const [mainChamp, setMainChamp] = useState<string>('Gwen');
+  const [error, setError] = useState<boolean>(false);
+  const matchDetailArray: Array<object>= [];
+  const {userName} = useParams<{userName: string}>();
   const history = useHistory();
   let sumName = '';
+
+  console.log(champObj);
   
   const override = css`
     display: block;
@@ -37,11 +35,11 @@ const MatchHistory = ({
   console.log(process.env);
 
   useEffect(() => {
-    setLoading(true);
+    setMatchLoading(true);
 
 
 // eslint-disable-next-line react-hooks/exhaustive-deps
-    sumName = name.userName.replace(/\s+/g, '');
+    sumName = userName.replace(/\s+/g, '');
 
     console.log(sumName);
     // setUserName(name.userName.replace(/\s+/g, ''));
@@ -130,26 +128,33 @@ const MatchHistory = ({
             console.log(res);
             let matchArray = res.data.matches;
 
-            let initMatchArray = matchArray.slice(0, 10);
+            let initMatchArray: Array<any> = matchArray.slice(0, 10);
 
-            initMatchArray.map((match) => {
-              return getMatchDetail(match.gameId);
+            // interface matchProps {
+            //   match: {
+            //     gameId: number;
+            //   }
+              
+            // }
+
+            initMatchArray.forEach((match:any) => {
+              getMatchDetail(match.gameId);
             });
 
             console.log(matchDetailArray);
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
-              setLoading(false);
-            }, 1500);
+              setMatchLoading(false);
+            }, 3000);
           });
         });
       }).catch(error => {
         setError(true);
       });
     }
-  }, [name]);
+  }, [userName]);
 
-  const getMatchDetail = (gameId) => {
+  const getMatchDetail = (gameId:number) => {
     axios({
       method: "GET",
       url: "https://proxy.hackeryou.com",
@@ -164,7 +169,7 @@ const MatchHistory = ({
     });
   };
 
-  const getDate = (playedTime) => {
+  const getDate = (playedTime:number) => {
     let date = new Date();
     let nowDate = date.getTime();
     let playedTimeStamp = nowDate - playedTime;
@@ -187,7 +192,7 @@ const MatchHistory = ({
     }
 }
 
-  const metaConvert = (info) => {
+  const metaConvert = (info:string) => {
     if (info === "CLASSIC"){
       return "Ranked Solo";
     }
@@ -198,7 +203,7 @@ const MatchHistory = ({
     
   }
 
-  const convertDuration = (info) => {
+  const convertDuration = (info: number) => {
     const durationRemainder = info%60
     return `${Math.floor(info/60)} : ${durationRemainder}`
   }
@@ -207,8 +212,8 @@ const MatchHistory = ({
   console.log(matchInfo);
   // console.log(matchDetailArray);
 
-  matchInfo.sort((a, b) => b.gameCreation - a.gameCreation);
-  const metaDataArray = matchInfo.map((game)=>{
+  matchInfo.sort((a:any, b:any) => b.gameCreation - a.gameCreation);
+  const metaDataArray = matchInfo.map((game:any)=>{
     return {
       date: game.gameCreation,
       duration: game.gameDuration,
@@ -223,34 +228,34 @@ const MatchHistory = ({
 
   console.log(matchInfo);
 
-  let participants = matchInfo.map((match) => {
+  let participants = matchInfo.map((match:any) => {
     return match.participantIdentities;
   });
 
 
   let playerInfo = participants.map((participant, index) => {
-    let playerArray = participant.map((player) => {
+    let playerArray = participant.map((player:any) => {
       return player.player;
     });
     return playerArray;
   });
 
 
-  let participantChampions = matchInfo.map((match) => {
+  let participantChampions = matchInfo.map((match:any) => {
     return match.participants;
   });
   console.log(participants);
   console.log(participantChampions);
 
   let championInfo = participantChampions.map((participant, index) => {
-    let championArray = participant.map((champion) => {
+    let championArray = participant.map((champion:object) => {
       // console.log(champion);
       return champion;
     });
     return championArray;
   });
 
-  const kdaCalc = (k, d, a) => {
+  const kdaCalc = (k:number, d:number, a:number) => {
     if ((k + a) / d === Infinity) {
       return "perfect KDA";
     }
@@ -274,13 +279,13 @@ const MatchHistory = ({
     <>
 
     {
-      loading ? 
+      matchLoading ? 
 
       <PulseLoader
       css={override}
       size={50}
       color={"#160d33"}
-      loading={loading}
+      loading={matchLoading}
       /> 
       
       :
@@ -315,15 +320,15 @@ const MatchHistory = ({
                   <span>{getDate(metaDataArray[index].date)}</span>
                   <span className="gameDuration" title="match duration">{convertDuration(metaDataArray[index].duration)}</span>
                   </div>
-                {champion.map((champ, i) => {
+                {champion.map((champ:any, i:number) => {
                   let itemArray = [];
                   for (let i = 0; i < 7; i++) {
                     // if (champ.stats.item!==0)
                     const imgSrc =
                       champ.stats[`item${i}`] !== 0
-                        ? `https://opgg-static.akamaized.net/images/lol/item/${
+                        ? `http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${
                             champ.stats[`item${i}`]
-                          }.png?image=q_auto:best&amp;v=1621997707`
+                          }.png`
                         : "https://opgg-static.akamaized.net/images/pattern/opacity.1.png";
                     if (i < 3) {
                       itemArray.push(
@@ -351,6 +356,7 @@ const MatchHistory = ({
 
                         
                         <div className={`userPlayInfo`}>
+                          <div className="champNameContainer">
                           <div className="champContainer">
                           <img
                             
@@ -361,23 +367,25 @@ const MatchHistory = ({
                             className="championImage"
                             alt={convertChampions(champ.championId, champObj)}
                           ></img>
+
                           </div>
-                          {convertChampions(champ.championId, champObj)}
+                          <p>{convertChampions(champ.championId, champObj)}</p>
+                          </div>
                           <div className="summonerSpell">
                             <div className="spell spell1">
                               <img
-                                src={`//opgg-static.akamaized.net/images/lol/spell/${convertSummoners(
+                                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
                                   champ.spell1Id
-                                )}.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
+                                )}.png`}
                                 alt="summoner spells"
                               ></img>
                               <span className="toolTip">This is SPELL!</span>
                             </div>
                             <div className="spell spell2">
                               <img
-                                src={`//opgg-static.akamaized.net/images/lol/spell/${convertSummoners(
+                                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
                                   champ.spell2Id
-                                )}.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
+                                )}.png`}
                                 alt="summoner spells"
                               ></img>
                               <span className="toolTip">This is SPELL!</span>

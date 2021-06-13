@@ -16,9 +16,9 @@ const HomePage = lazy(()=> import ('./HomePage'))
 // import HomePage from './HomePage'
 
 
-function App() {
+const App = () => {
   require('dotenv').config()
-  const [champObj, setChampObj] = useState({});
+  const [champObj, setChampObj] = useState<object>({data:''});
 
   useEffect(()=>{
     axios({
@@ -42,7 +42,7 @@ function App() {
         <div className="flexContainer">
       <Suspense fallback={<Fallback/>}>
       <Route path='/' render={ () => <SearchBar /> } />
-      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champArray={champObj}/> } />
+      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champObj={champObj}/> } />
       <Route exact path='/' render={()=> <HomePage/>}/>
 
       <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>

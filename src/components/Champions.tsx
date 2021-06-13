@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-const Champions = ({champObj}) => {
+const Champions = ({champObj}:any) => {
 
 
   const champArray = Object.keys(champObj);
@@ -22,7 +22,7 @@ const Champions = ({champObj}) => {
             <div className="champEachInfo">
               <span className="champName">{champObj[champ].id}</span>
               <span>{champObj[champ].title}</span>
-              <span>{champObj[champ].tags.map((tag)=>{
+              <span>{champObj[champ].tags.map((tag:string)=>{
                   return tag
               })}</span>
               <span>{champObj[champ].partype}</span>
