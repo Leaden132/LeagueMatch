@@ -8,10 +8,11 @@ const Champions = ({champObj}:any) => {
 
   return (
     <div className="championSection">
+      <div className="wrapper">
       {champArray.map((champ, index) => (
-        <Link to={`/champions/${champObj[champ].id}`}>
+        <Link to={`/champions/${champObj[champ].id}`} key={`link-${index}`}>
         <div key={`champ-${index}`} className="champEachBox">
-          <li className="championFlex" key={index}>
+          <li className="championFlex">
             <div className="champEachContainer">
               <img
                 src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj[champ].id}.png`}
@@ -21,17 +22,21 @@ const Champions = ({champObj}:any) => {
             </div>
             <div className="champEachInfo">
               <span className="champName">{champObj[champ].id}</span>
-              <span>{champObj[champ].title}</span>
-              <span>{champObj[champ].tags.map((tag:string)=>{
-                  return tag
+              <span className="champTitle">{champObj[champ].title}</span>
+              <span>{champObj[champ].tags.map((tag:string, i:number)=>{
+                  return (
+
+                    <img key={`champImage-${i}`} className="classes" src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`} alt={`${tag} icon`}></img>
+                    // <p>{tag}</p>
+                    
+                    )
               })}</span>
-              <span>{champObj[champ].partype}</span>
-              <span>{champObj[champ].title}</span>
             </div>
           </li>
         </div>
         </Link>
       ))}
+      </div>
     </div>
   );
 };

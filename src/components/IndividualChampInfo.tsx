@@ -23,6 +23,7 @@ const InidividualChampInfo = () => {
       }
 
 
+
     const [loading, setLoading] = useState(true);
     const [champObj, setChampObj] = useState<any>({});
 
@@ -46,7 +47,7 @@ const InidividualChampInfo = () => {
       
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-
+        console.log(champObj);
     
         return (
             <>
@@ -62,49 +63,75 @@ loading={loading}
 
 :
             <div className="eachInfo">
-
+              
 
             <div className="champImageContainer">
           <div className="champBackground" style={champInfoStyle}></div>
         </div>
+        <div className="wrapper">
                 <div className="champInfoBox">
-                <p>{champName}</p>
-                <p>{champObj.lore}</p>
-
                 <div className="champEachInfoContainer">
                 <img
                 src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj.id}.png`}
                 alt={champObj.id}
                 className="championEach"
               ></img>
+                              
               </div>
+              <div className="classContainer">
+              <h2>{champName}</h2>
+              <div>
+              {
+                champObj.tags.map((tag:string, i:number, arr:Array<string>)=>{
+                  if (arr.length - 1 === i) {
+                    return <span>{tag}</span>
+                } else {
+                  return <span>{tag} / </span>
+                }
+                })
+              }
+</div>
+              <span>{champObj.tags.map((tag:string)=>{
+                  return (
+
+                    <img className="classes" src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`} alt={`${tag} icon`}></img>
+                    // <p>{tag}</p>
+                    
+                    )
+              })}</span>
+              </div>
+                <p>{champObj.lore}</p>
+
+
                 </div>
+                
 
 
-                <div className="champStatContainer">
-    <h1>stats</h1>
-    <div className="statContainer">
+                <div className="champStatContainer" >
+    <h2>Champion Stats</h2>
+
+<div className="statContainer">
+    <p>Attack</p>
     <div className="stat attack" style={{width:`${champObj.info.attack}0%`}}></div>
-    </div>
-    <div className="statContainer">
-    <div className="stat attack" style={{width:`${champObj.info.defense}0%`}}></div>
-    </div>
-    <div className="statContainer">
-    <div className="stat attack" style={{width:`${champObj.info.magic}0%`}}></div>
-    </div>
-    <div className="statContainer">
-    <div className="stat attack" style={{width:`${champObj.info.difficulty}0%`}}></div>
-    </div>
-    <div className="statContainer">
-    <div className="stat" ></div>
-    </div>
+  </div>
+
+  <div className="statContainer">
+    <p>Defense</p>
+    <div className="stat defense" style={{width:`${champObj.info.defense}0%`}}></div>
+  </div>
+
+  <div className="statContainer">
+    <p>Magic</p>
+    <div className="stat magic" style={{width:`${champObj.info.magic}0%`}}></div>
+  </div>
+
+  <div className="statContainer">
+    <p>Difficulty</p>
+    <div className="stat difficulty" style={{width:`${champObj.info.difficulty}0%`}}></div>
+  </div>
 
                 </div>
-                <div className="champDetail">
-                <p>{champName}</p>
-                <p>{champObj.blurb}</p>
-                <p>{champObj.image.full}</p>
-                </div>
+            </div>
             </div>
 }
             </>
