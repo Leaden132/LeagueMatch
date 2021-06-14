@@ -16,7 +16,7 @@ const InidividualChampInfo = () => {
     `
 
     const champInfoStyle = {
-        background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
+        background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
         backgroundSize:'100% auto',
         backgroundRepeat:'no-repeat',
         backgroundPosition:'center, top'
@@ -32,7 +32,7 @@ const InidividualChampInfo = () => {
 
       axios({
         method:'GET',
-        url: `http://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/champion/${champName}.json`,
+        url: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/champion/${champName}.json`,
         responseType: 'json',
       })
       .then((res)=> {
@@ -72,7 +72,7 @@ loading={loading}
                 <div className="champInfoBox">
                 <div className="champEachInfoContainer">
                 <img
-                src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj.id}.png`}
+                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj.id}.png`}
                 alt={champObj.id}
                 className="championEach"
               ></img>

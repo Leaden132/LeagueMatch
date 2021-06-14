@@ -306,7 +306,7 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
           return (
             <div className="eachProficiency">
             <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
               champ.championId,
               champObj
             )}.png`}
@@ -356,7 +356,7 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
                   for (let i = 0; i < 7; i++) {
                     const imgSrc =
                       champ.stats[`item${i}`] !== 0
-                        ? `http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${
+                        ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${
                             champ.stats[`item${i}`]
                           }.png`
                         : "https://opgg-static.akamaized.net/images/pattern/opacity.1.png";
@@ -390,7 +390,7 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
                           <div className="champContainer">
                           <img
                             
-                            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                               champ.championId,
                               champObj
                             )}.png`}
@@ -425,7 +425,7 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
                             <div className="rune">
                               {" "}
                               <img
-                                src={`//opgg-static.akamaized.net/images/lol/perk/8128.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
+                                src={`https://opgg-static.akamaized.net/images/lol/perk/8128.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
                                 alt="runes"
                               ></img>
                             </div>
@@ -451,7 +451,7 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
 
                       <li className="otherPlayerInfo">
                         <img
-                          src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+                          src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                             champ.championId,
                             champObj
                           )}.png`}

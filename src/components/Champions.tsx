@@ -15,7 +15,7 @@ const Champions = ({champObj}:any) => {
           <li className="championFlex">
             <div className="champEachContainer">
               <img
-                src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj[champ].id}.png`}
+                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj[champ].id}.png`}
                 alt={champObj[champ].id}
                 className="championEach"
               ></img>

@@ -126,7 +126,7 @@ loading={loading}
           return(
             <div className="eachRotation" >
           <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
               champId,
               champObj
             )}.png`}
@@ -147,7 +147,7 @@ loading={loading}
           return(
             <div className="eachRotation" >
           <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
               champId,
               champObj
             )}.png`}
