@@ -109,7 +109,13 @@ loading={loading}
 </form>
 </div>
 
-
+<div className="suggestion">
+  <div className="suggestionContainer">
+    <span>You don't play league of legends and don't know any user names?</span>
+  <span>Try searching with "TFblade" first!</span>
+  </div>
+  
+</div>
 
 
 
