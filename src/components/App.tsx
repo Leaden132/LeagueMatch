@@ -7,6 +7,7 @@ import axios from "axios";
 import Fallback from './Fallback';
 import Champions from "./Champions";
 import InidividualChampInfo from './IndividualChampInfo';
+import About from './About';
 
 const MatchHistory = lazy(()=> import ('./MatchHistory'))
 const SearchBar = lazy(()=> import ('./SearchBar'))
@@ -44,6 +45,7 @@ const App = () => {
       <Route path='/' render={ () => <SearchBar /> } />
       <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champObj={champObj}/> } />
       <Route exact path='/' render={()=> <HomePage/>}/>
+      <Route exact path='/about' render={()=><About/>}/>
 
       <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
       <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>

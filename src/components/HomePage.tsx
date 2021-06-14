@@ -3,11 +3,9 @@ import {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { promises } from 'fs'
 import convertChampions from "./convertChampions";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
-
 
 
 const HomePage = () => {
@@ -24,7 +22,7 @@ const HomePage = () => {
   margin-top:300px;
   border-color: red;
   `
-  const apiKey = process.env.REACT_APP_apiKey;
+  // const apiKey = process.env.REACT_APP_apiKey;
 
 
   //There is problem with Riot API regarding Rotation champions, later update to correct api call! 
@@ -111,12 +109,16 @@ loading={loading}
 </form>
 </div>
 
+
+
+
+
 <div className="rotations">
   <div className="rotation">
       {
         rotation.map((champId)=>{
           return(
-            <div className="eachRotation">
+            <div className="eachRotation" >
           <img
             src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
               champId,
@@ -124,6 +126,7 @@ loading={loading}
             )}.png`}
             className="profImage"
             alt={convertChampions(champId, champObj)}
+            // style={{height:'100px'}}
           ></img>
           <div>{convertChampions(champId, champObj)}</div>
             </div>
@@ -133,7 +136,25 @@ loading={loading}
       }
   </div>
   <div className="rotationForNewPlayers">
-
+  {
+        rotationForNewPlayers.map((champId)=>{
+          return(
+            <div className="eachRotation" >
+          <img
+            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+              champId,
+              champObj
+            )}.png`}
+            className="profImage"
+            alt={convertChampions(champId, champObj)}
+            // style={{height:'100px'}}
+          ></img>
+          <div>{convertChampions(champId, champObj)}</div>
+            </div>
+          )
+          // <div>{convertChampions(champId, champObj)}</div>
+        })
+      }
   </div>
 </div>
 

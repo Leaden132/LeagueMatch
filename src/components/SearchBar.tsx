@@ -20,6 +20,7 @@ const SearchBar = () => {
       <nav>
         <ul>
           <Link to="/"><li>home</li></Link>
+          <Link to="/about"><li>About</li></Link>
           <Link to="/champions"><li>Champions</li></Link>
           {/* <Link to="/profile">profile</Link> */}
         </ul>
