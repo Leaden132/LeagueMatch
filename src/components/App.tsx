@@ -18,7 +18,7 @@ const HomePage = lazy(()=> import ('./HomePage'))
 
 const App = () => {
   require('dotenv').config()
-  const [champObj, setChampObj] = useState<object>({data:''});
+  const [champObj, setChampObj] = useState<object>({});
 
   useEffect(()=>{
     axios({

@@ -9,6 +9,11 @@ html {
     color: white;
   }
   
+  body{
+    font-size:1.8rem;
+  }
+
+
   .champion {
     display: flex;
     flex-wrap: wrap;
@@ -40,7 +45,7 @@ html {
       display:flex;
       align-items:center;
       align-self:center;
-      font-size:2rem;
+
       margin-top:15vh;
 
       input[type=text] {
@@ -187,7 +192,7 @@ input[type=text] {
 
 
   .matchHistory {
-    margin-top:300px;
+    margin-top:200px;
 
     .match {
       display: flex;
@@ -203,7 +208,6 @@ input[type=text] {
         height:250px;
         width:60vw;
         position:relative;
-        font-size:1.8rem;
         border-radius:10px;
         margin-bottom: 50px;
         border: 2px solid white;
@@ -232,7 +236,7 @@ input[type=text] {
 
 
         .gameInfo {
-          width:220px;
+          width:200px;
 
 
 
@@ -241,9 +245,14 @@ input[type=text] {
             display:flex;
             top:10px;
             left:600px;
+            overflow:ellipsis;
             img {
               width:35px;
               margin-right:10px;
+            }
+            .otherUsers{
+              overflow:hidden;
+              text-overflow:ellipsis;
             }
           }
 
@@ -255,7 +264,6 @@ input[type=text] {
             font: inherit;
             cursor: pointer;
             outline: inherit;
-            font-size: 1.8rem;
             text-align:left;
             
         }
@@ -263,7 +271,7 @@ input[type=text] {
           .userPlayInfo {
             position:absolute;
             top: 35%;
-            left: 5%;
+            left: 2%;
             display:flex;
             align-items: center;
 
@@ -353,13 +361,17 @@ input[type=text] {
 
   .championSection{
     margin-top:100px;
-    font-size:2rem;
-  }
+    display:flex;
+    flex-wrap:wrap;
+
+
 
   .champEachBox{
     width:250px;
     height:250px;
     background-color:rgb(6, 4, 26);
+    margin-left:20px;
+    margin-bottom:20px;
 
   .championFlex {
     display:flex;
@@ -399,7 +411,7 @@ input[type=text] {
   }
 
 }
-
+}
 .champEachInfoContainer{
   width:7rem;
   height:7rem;
@@ -421,7 +433,6 @@ input[type=text] {
 
 .eachInfo {
   margin-top:51px;
-  font-size:2rem;
 
 
 
@@ -502,28 +513,6 @@ input[type=text] {
     width: 100%;
   }
   
-  // .bar{
-  //   background-color: #EEE;
-  //   padding: 2px;
-  //   border-radius: 15px;
-  //   margin-bottom: 5px;
-  //   font-size: 14px;
-  //   color: #FFF;
-  //   font-weight: bold;
-  //   text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-  // }
-
-  // .bar::before{
-  //   content:  attr(data-skill);
-  //   background-color: #f3b0ff;
-  //   display: inline-block;
-  //   padding: 5px 0 5px 10px;
-  //   border-radius: inherit;
-  //   animation: load 2s 0s;
-  //   -webkit-animation: load 2s 0s;
-  //   -moz-animation: load 2s 0s;
-  //   -o-animation: load 2s 0s;
-  // }
   
   .bar.front::before{
     background-color: #ffcc33;
@@ -584,8 +573,7 @@ input[type=text] {
         border:3px solid $color2;
         margin-left:20px;
         margin-right:50px;
-        margin-top:300px;
-        font-size:1.8rem;
+        margin-top:200px;
         display:flex;
         flex-wrap:wrap;
         width:25vw;
@@ -675,7 +663,7 @@ input[type=text] {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
-    margin-left: 50px;
+    margin-left: 10px;
     // width:120px;
     gap:5px;
   
@@ -715,5 +703,64 @@ input[type=text] {
     margin-top:100px;
     font-size:2rem;
   }
+
+  .proficiency {
+    display:flex;
+    flex-direction:column;
+    
+    .mastery {
+      margin:20px;
+      margin-left:50px;
+      font-size:2.5rem;
+      color:white;
+    }
+
+    .eachProficiency {
+      display:flex;
+      flex-wrap:wrap;
+      border:3px solid $color2;
+      margin-left:20px;
+      margin-bottom:10px;
+      width:25vw;
+      background:#000725;
+      border-radius:10px;
+
+
+      .masteryInfo {
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        margin-left:20px;
+
+        span {
+          margin:5px 0;
+        }
+      }
+
+      .profImage{
+        width:70px;
+        margin:5px;
+      }
+    }
+  }
+
+  .rotations{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top:50px;
+    .rotation {
+      display:flex;
+      flex-wrap:wrap;
+      
+      width:75vw;
+      
+      .eachRotation{
+        margin:10px;
+      }
+      
+    }
+  }
+
 
 @import 'mediaQueries';

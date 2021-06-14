@@ -11,7 +11,7 @@ const SearchBar = () => {
 
     const submitForm = (e: React.FormEvent) => {
       e.preventDefault()
-      history.push(`/profile/${input.replace(/\s+/g, '')}`);
+      history.push(`/profile/${encodeURI(input)}`);
     }
 
 
