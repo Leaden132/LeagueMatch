@@ -905,6 +905,22 @@ input[type=text] {
       }
       
     }
+
+    .rotationForNewPlayers{
+      display:flex;
+      flex-wrap:wrap;
+      
+      width:75vw;
+      
+      .eachRotation{
+        margin:10px;
+
+        .profImage{
+          width:65px;
+        }
+      }
+      
+    }
   }
 
 // .carousel{
