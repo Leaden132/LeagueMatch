@@ -701,14 +701,14 @@ input[type=text] {
 
 
       .rankedInfo {
-        border:3px solid $color2;
+        border:3px solid grey;
         margin-left:20px;
         margin-right:50px;
         margin-top:200px;
         display:flex;
         flex-wrap:wrap;
         width:25vw;
-        height:20vh;
+        height:200px;
         background:#000725;
         border-radius:10px;
         .rank {
@@ -778,7 +778,21 @@ input[type=text] {
   }
   
 
+  .suggestion{
+    display:flex;
+    justify-content: center;
+    font-size:1.8rem;
+    text-align: center;
+    margin-right:60px;
+    margin-top:10px;
 
+    .suggestionContainer{
+      width:600px;
+      display:flex;
+      flex-direction:column;
+      border: 3px solid $color2;
+    }
+  }
 
   
 
@@ -855,7 +869,7 @@ input[type=text] {
     .eachProficiency {
       display:flex;
       flex-wrap:wrap;
-      border:3px solid $color2;
+      border:3px solid grey;
       margin-left:20px;
       margin-bottom:10px;
       width:25vw;
