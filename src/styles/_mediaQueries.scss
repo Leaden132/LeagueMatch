@@ -1,0 +1,108 @@
+
+
+@media (max-width: 1700px) {
+
+.searchResult {
+    font-size:1.6rem !important;
+
+    .game {
+        font-size:1.6rem;
+
+
+        .otherPlayerInfo{
+            left:500px !important;
+        }
+    }
+}
+
+
+}
+
+@media (max-width: 1530px) {
+
+    .flexContainer {
+        .searchResult {
+            flex-direction:column;
+    
+            .rankedInfo {
+                width:350px;
+                margin-left:3vw;
+                margin-top:50px;
+            }
+    
+            .matchHistory {
+                margin-top: 50px;
+                margin-left:3vw;
+    
+                .game {
+                    width:900px;
+                }
+            }
+        }
+    }
+
+}
+
+@media (max-width: 970px) {
+    .flexContainer {
+        .searchResult {
+            flex-direction:column;
+    
+            .rankedInfo {
+                width:350px;
+                margin-left:3vw;
+                margin-top:50px;
+            }
+    
+            .matchHistory {
+                margin-top: 50px;
+                margin-left:3vw;
+                .match {
+                .game {
+                    width:900px;
+
+                    .gameInfo{
+
+                        .otherPlayerInfo{
+                            color:red;
+                        }
+                    }
+
+                }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .flexContainer {
+        .searchResult {
+            flex-direction:column;
+    
+            .rankedInfo {
+                width:350px;
+                margin-left:3vw;
+                margin-top:50px;
+            }
+    
+            .matchHistory {
+                margin-top: 50px;
+                margin-left:3vw;
+                .match {
+                .game {
+                    width:900px;
+
+                    .gameInfo{
+
+                        .otherPlayerInfo{
+                            display:none;
+                        }
+                    }
+
+                }
+                }
+            }
+        }
+    }
+}

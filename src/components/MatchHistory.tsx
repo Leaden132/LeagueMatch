@@ -1,4 +1,4 @@
-import convertChampions from "./covertChampions";
+import convertChampions from "./convertChampions";
 import convertSummoners from "./convertSummoners";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -8,18 +8,20 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
 
-const MatchHistory = (champObj:any) => {
+const MatchHistory = ({champObj}:{champObj:any}) => {
   const apiKey = process.env.REACT_APP_apiKey;
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [rankedInfo, setRankedInfo] = useState<object>({});
   const [matchInfo, setMatchInfo] = useState<Array<object>>([]);
   const [matchLoading, setMatchLoading] = useState<boolean>(false);
-  const [mainChamp, setMainChamp] = useState<string>('Gwen');
+  const [proficiencyArray, setProficiencyArray] = useState<any>([1,2,3]);
+  // const [mainChamp, setMainChamp] = useState<string>('Gwen');
   const [error, setError] = useState<boolean>(false);
   const matchDetailArray: Array<object>= [];
   const {userName} = useParams<{userName: string}>();
   const history = useHistory();
   let sumName = '';
+  const [headerStyle, setHeaderStyle] = useState<any>({});
 
   console.log(champObj);
   
@@ -37,9 +39,8 @@ const MatchHistory = (champObj:any) => {
   useEffect(() => {
     setMatchLoading(true);
 
-
 // eslint-disable-next-line react-hooks/exhaustive-deps
-    sumName = userName.replace(/\s+/g, '');
+    sumName = encodeURI(userName);
 
     console.log(sumName);
     // setUserName(name.userName.replace(/\s+/g, ''));
@@ -74,7 +75,21 @@ const MatchHistory = (champObj:any) => {
             reqUrl: `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
           },
         }).then((res) => {
-          setMainChamp(convertChampions(res.data[0].championId, champObj));
+          // setMainChamp(convertChampions(res.data[0].championId, champObj));
+          console.log(res.data);
+          // let newArray = [res.data[0], res.data[1], res.data[2], res.data[3], res.data[4], res.data[5], res.data[6], res.data[7], res.data[8], res.data[9]];
+          // console.log(newArray);
+          // console.log(newArray[0].championId);
+          let newArray = res.data.slice(0, 10);
+          setProficiencyArray(newArray);
+
+          setHeaderStyle({
+            background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(res.data[0].championId, champObj)}_1.jpg")`,
+            backgroundSize:'100% auto',
+            backgroundRepeat:'no-repeat',
+            backgroundPosition:'center, top'
+          })
+
         }).catch((error)=>{
           console.log(error);
         })
@@ -129,14 +144,6 @@ const MatchHistory = (champObj:any) => {
             let matchArray = res.data.matches;
 
             let initMatchArray: Array<any> = matchArray.slice(0, 10);
-
-            // interface matchProps {
-            //   match: {
-            //     gameId: number;
-            //   }
-              
-            // }
-
             initMatchArray.forEach((match:any) => {
               getMatchDetail(match.gameId);
             });
@@ -145,7 +152,7 @@ const MatchHistory = (champObj:any) => {
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
               setMatchLoading(false);
-            }, 3000);
+            }, 1000);
           });
         });
       }).catch(error => {
@@ -262,12 +269,7 @@ const MatchHistory = (champObj:any) => {
     return ((k + a) / d).toFixed(1);
   };
 
-  const headerStyle = {
-    background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${mainChamp}_1.jpg")`,
-    backgroundSize:'100% auto',
-    backgroundRepeat:'no-repeat',
-    backgroundPosition:'center, top'
-  }
+
 
 
 
@@ -294,7 +296,36 @@ const MatchHistory = (champObj:any) => {
           <div className="headerBackground" style={headerStyle}></div>
         </div>
         <div className="searchResult">
+          <div className="rankedResult">
       <RankedInfo accountInfo={accountInfo} rankedInfo={rankedInfo} />
+      <div className="proficiency">
+        <span className="mastery">Champion mastery</span>
+      {
+        proficiencyArray.map((champ:any)=>{
+          console.log(champ);
+          return (
+            <div className="eachProficiency">
+            <img
+            src={`http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+              champ.championId,
+              champObj
+            )}.png`}
+            className="profImage"
+            alt={convertChampions(champ.championId, champObj)}
+          ></img>
+            <div className="masteryInfo">
+            <span>Mastery level: {champ.championLevel}</span>
+            <span>Mastery point: {champ.championPoints}</span>
+            </div>
+            </div>
+
+          )
+        })
+      }
+      </div>
+
+
+      </div>
       <div className="matchHistory">
         {playerInfo.map((player, index) => {
           let champion = championInfo[index];
@@ -315,15 +346,14 @@ const MatchHistory = (champObj:any) => {
             <div className={`match ${win ? 'win' : 'loss'}`} key={`player${index}`}>
               <div className={`game`}>
                 <div className="metaInfo">
-                  <span>{metaConvert(metaDataArray[index].gameMode)}</span>
-                  <span className="matchOutcome">{`${win ? 'Victory' : 'Defeat'}`}</span>
-                  <span>{getDate(metaDataArray[index].date)}</span>
+                  <span title="match mode">{metaConvert(metaDataArray[index].gameMode)}</span>
+                  <span className="matchOutcome" title="match outcome">{`${win ? 'Victory' : 'Defeat'}`}</span>
+                  <span title="match played date">{getDate(metaDataArray[index].date)}</span>
                   <span className="gameDuration" title="match duration">{convertDuration(metaDataArray[index].duration)}</span>
                   </div>
                 {champion.map((champ:any, i:number) => {
                   let itemArray = [];
                   for (let i = 0; i < 7; i++) {
-                    // if (champ.stats.item!==0)
                     const imgSrc =
                       champ.stats[`item${i}`] !== 0
                         ? `http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${
@@ -401,8 +431,8 @@ const MatchHistory = (champObj:any) => {
                             </div>
                           </div>
                           <div className="kda">
-                            {champ.stats.kills} /{champ.stats.deaths} /
-                            {champ.stats.assists} -{" "}
+                            {champ.stats.kills} / {champ.stats.deaths} /
+                            {champ.stats.assists} - {" "}
                             {kdaCalc(
                               champ.stats.kills,
                               champ.stats.deaths,
@@ -431,7 +461,7 @@ const MatchHistory = (champObj:any) => {
                         <button
                           className="otherUsers"
                           onClick={() => {
-                            history.push(`/profile/${player[i].summonerName.replace(/\s+/g, '')}`);
+                            history.push(`/profile/${encodeURI(player[i].summonerName)}`);
                             
                             // setTimeout(() => {
                             //   setNewSearch(!newSearch);
