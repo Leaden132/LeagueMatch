@@ -363,7 +363,7 @@ input[type=text] {
           }
             .summonerSpell {
               margin-left: 15px;
-              margin-right:15px;
+              margin-right:10px;
 
               .spell1 {
                 img{
@@ -947,20 +947,39 @@ input[type=text] {
     }
   }
 
+
+  .rune{
+    margin-right:10px;
+    .runeImage{
+      width:50px;
+    }
+    .subRuneImage{
+      margin-left:9px;
+    }
+  }
+
+
   .rotations{
 
-    position:absolute;
-    left:400px;
-    width:50vw;
+    // position:absolute;
+    // left:400px;
+    // width:50vw;
     display:flex;
     flex-direction: column;
-    align-items:center;
+    // align-items:center;
     margin-top:50px;
+    .rotationContainer{
+      width:800px;
+      margin: 0 auto;
+      overflow:hidden;
+
     .rotation {
       display:flex;
-      flex-wrap:wrap;
+      // flex-wrap:wrap;
+      // transform: translate(-200px);
+      transition:ease;
       
-      width:75vw;
+      // width:75vw;
       
       .eachRotation{
         margin:10px;
@@ -971,6 +990,7 @@ input[type=text] {
       }
       
     }
+  }
 
     .rotationForNewPlayers{
       display:flex;
