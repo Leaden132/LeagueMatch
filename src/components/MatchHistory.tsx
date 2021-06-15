@@ -6,6 +6,7 @@ import { useHistory, useParams } from "react-router-dom";
 import RankedInfo from "./RankedInfo";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
+import convertRunes from './convertRunes';
 
 
 const MatchHistory = ({champArray}:{champArray:any}) => {
@@ -17,6 +18,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
   const [proficiencyArray, setProficiencyArray] = useState<any>([1,2,3]);
   const [champObj, setChampObj] = useState<any>({});
   const [itemObj, setItemObj] = useState<any>({});
+  const [runeArray, setRuneArray] = useState<Array<object>>([]);
   // const [mainChamp, setMainChamp] = useState<string>('Gwen');
   const [error, setError] = useState<boolean>(false);
   const matchDetailArray: Array<object>= [];
@@ -24,6 +26,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
   const history = useHistory();
   let sumName = '';
   const [headerStyle, setHeaderStyle] = useState<any>({});
+  const [loadCount, setloadCount] = useState<number>(10);
 
   console.log(champObj);
   
@@ -136,8 +139,27 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           console.log(error);
         })
 
-        
+        // axios({
+        //   method: "GET",
+        //   url: "https://proxy.hackeryou.com",
+        //   responseType: "json",
+        //   params: {
+        //     reqUrl: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/runesReforged.json`,
+        //   },
+        // }).then((res) => {
+        //   console.log(res);
+        //   setItemObj(res.data.data);
+        // })
 
+        axios({
+          method:'GET',
+          url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/runesReforged.json',
+          responseType: 'json',
+        })
+        .then((res)=> {
+          console.log("yay", res);
+          setRuneArray(res.data);
+        })
 
 
         axios({
@@ -185,7 +207,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             console.log(res);
             let matchArray = res.data.matches;
 
-            let initMatchArray: Array<any> = matchArray.slice(0, 10);
+            let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
             initMatchArray.forEach((match:any) => {
               getMatchDetail(match.gameId);
             });
@@ -205,7 +227,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
         setError(true);
       });
     }
-  }, [userName]);
+  }, [userName, loadCount]);
 
   const getMatchDetail = (gameId:number) => {
     axios({
@@ -315,6 +337,10 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     return ((k + a) / d).toFixed(1);
   };
 
+  const loadMore = ()=>{
+    setloadCount(loadCount+10);
+  }
+
 
   console.log(itemObj);
   // console.log(itemObj['1001'].plainText);
@@ -415,6 +441,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
                         </div>
                       );
                     }
+                    else {itemArray.push(<div className="item-upper" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
                     } else if (i >= 3 && i < 6) {
                       if (itemObj[itemNum]){
                       itemArray.push(
@@ -424,6 +451,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
                         </div>
                       );
                       }
+                      else {itemArray.push(<div className="item-lower" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
                     } else {
                       if (itemObj[itemNum]){
                       itemArray.push(
@@ -433,6 +461,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
                         </div>
                       );
                       }
+                      else {itemArray.push(<div className="trinket" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
                     }
                   }
                   return (
@@ -478,10 +507,10 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
                           </div>
                           <div className="runes">
                             <div className="rune">
-                              {/* <img
-                                src={`https://opgg-static.akamaized.net/images/lol/perk/8128.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
-                                alt="runes"
-                              ></img> */}
+                              <img src={`https://ddragon.canisback.com/img/${convertRunes(champ.stats.perk0, runeArray)}`} alt={`${convertRunes(champ.stats.perk0, runeArray)}`} className="runeImage" title="Main Rune"></img>
+                            </div>
+                            <div className="rune">
+                              <img src={`https://ddragon.canisback.com/img/${convertRunes(champ.stats.perkSubStyle, runeArray)}`} alt={`${champ.stats.perkSubStyle}`} className="subRuneImage" title="Sub Rune"></img>
                             </div>
                           </div>
                           <div className="kda">
@@ -538,6 +567,8 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           );
         }
         )}
+        <button onClick={loadMore}>Load More</button>
+        
       </div>
       </div>
       </section>
@@ -548,25 +579,3 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 };
 
 export default MatchHistory;
-
-// for (let i =0; i<10;i++){
-
-//     return(
-//         <div>
-//         <img src={`https://opgg-static.akamaized.net/images/lol/champion/${convertChampions(champion[0].championId, champObj)}.png?image=c_scale,q_auto,w_46&amp;v=1612855207`} alt={convertChampions(champion[i].championId, champObj)}></img>
-//           <a href="#" onClick={()=>{getAccountId(player[i].summonerName)}}>{player[i].summonerName} </a> - {convertChampions(champion[i].championId, champObj)}
-//         </div>
-//     )
-// }
-
-// 					<div class="Runes">
-// 															<div class="Rune">
-// 				<img src="//opgg-static.akamaized.net/images/lol/perk/8128.png?image=c_scale,q_auto,w_22&amp;v=1621997707" class="Image tip" title="<b style='color: #ffc659'>Dark Harvest</b><br><span>Damaging a Champion below 50% health deals <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>adaptive damage</lol-uikit-tooltipped-keyword> and harvests their soul, permanently increasing Dark Harvest's damage by 5.<br><br>Dark Harvest damage: 20-60 (based on level) (+5 damage per soul) (+0.25 bonus AD) (+0.15 AP)<br>Cooldown: 45s (resets to 1.5s on takedown)</span>" alt="Dark Harvest">
-// 			</div>
-// 																					<div class="Rune">
-// 				<img src="//opgg-static.akamaized.net/images/lol/perkStyle/8000.png?image=c_scale,q_auto,w_22&amp;v=1621997707" class="Image tip" title="<b style='color: #ffc659'>Precision</b><br><span>Improved attacks and sustained damage</span>" alt="Precision">
-// 			</div>
-// 							</div>
-// 				<div class="ChampionName">
-// 	<a href="/champion/velkoz/statistics" target="_blank">Vel'Koz</a>
-// </div>
