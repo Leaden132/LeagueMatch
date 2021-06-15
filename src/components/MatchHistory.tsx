@@ -43,13 +43,9 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 
   useEffect(() => {
     setMatchLoading(true);
-
 // eslint-disable-next-line react-hooks/exhaustive-deps
     sumName = encodeURI(userName);
-
     console.log(sumName);
-    // setUserName(name.userName.replace(/\s+/g, ''));
-
     if (sumName !== '') {
       axios({
         method: "GET",
@@ -84,18 +80,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           setError(error);
         })
 
-        // axios({
-        //   method:'GET',
-        //   url: 'https://http://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/item.json',
-        //   responseType: 'json',
-        // })
-        // .then((res)=> {
-        //   console.log(res);
-        //   setItemObj(res.data);
-        // }).catch((error)=>{
-        //   setError(error);
-        // })
-
         axios({
           method: "GET",
           url: "https://proxy.hackeryou.com",
@@ -116,24 +100,14 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             reqUrl: `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
           },
         }).then((res) => {
-          // setMainChamp(convertChampions(res.data[0].championId, champObj));
-          console.log(res.data);
-          // let newArray = [res.data[0], res.data[1], res.data[2], res.data[3], res.data[4], res.data[5], res.data[6], res.data[7], res.data[8], res.data[9]];
-          // console.log(newArray);
-          // console.log(newArray[0].championId);
           let newArray = res.data.slice(0, 10);
           setProficiencyArray(newArray);
-          console.log(champObj);
-          console.log(champArray);
           setHeaderStyle({
-            // background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(res.data[0].championId, champObj)}_1.jpg")`,
             background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(res.data[0].championId, champArray).toLowerCase()}.jpg")`,
             backgroundSize:'cover',
             backgroundRepeat:'no-repeat',
             backgroundPosition:'center, top'
           })
-          console.log(res.data[0].championId);
-          console.log(champObj);
 
         }).catch((error)=>{
           console.log(error);
@@ -157,7 +131,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           responseType: 'json',
         })
         .then((res)=> {
-          console.log("yay", res);
           setRuneArray(res.data);
         })
 
@@ -193,7 +166,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
               break;
           }
           rankedInfoObj.rank = rankNum;
-          console.log(rankedInfoObj);
           setRankedInfo(rankedInfoObj);
 
           axios({
@@ -341,10 +313,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     setloadCount(loadCount+10);
   }
 
-
-  console.log(itemObj);
-  // console.log(itemObj['1001'].plainText);
-  // console.log(itemObj[1001].gold.base)
 
   if (error) {
     return <div className="error">This username is not registered at League of Legends, Please check spelling</div>
