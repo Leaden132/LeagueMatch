@@ -23,6 +23,21 @@
     .flexContainer {
         .searchResult {
             flex-direction:column;
+
+            .rankedResult{
+                display:flex;
+                flex-wrap:wrap;
+            }
+
+            .proficiency {
+                flex-direction:row;
+                flex-wrap:wrap;
+                width:1000px;
+                margin-top:50px;
+            }
+            .mastery{
+                display:none;
+            }
     
             .rankedInfo {
                 width:350px;
