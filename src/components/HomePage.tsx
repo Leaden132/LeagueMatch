@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import convertChampions from "./convertChampions";
+// import convertChampions from "./convertChampions";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
@@ -12,10 +12,10 @@ const HomePage = () => {
   const [input, setInput] = useState('');
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />
-  const [rotation, setRotation] = useState([5,27,44,51,75,76,81,82,105,107,117,121,126,147,238]);
-  const [rotationForNewPlayers, setRotationForNewPlayers] = useState([18,81,92,141,37,238,19,45,25,64]);
+  // const [rotation, setRotation] = useState([5,27,44,51,75,76,81,82,105,107,117,121,126,147,238]);
+  // const [rotationForNewPlayers, setRotationForNewPlayers] = useState([18,81,92,141,37,238,19,45,25,64]);
   const [loading, setLoading] = useState(true);
-  const [champObj, setChampObj] = useState<any>({});
+  // const [champObj, setChampObj] = useState<any>({});
   const override = css`
   display: block;
   margin: 0 auto;
@@ -34,12 +34,12 @@ const HomePage = () => {
     })
     .then((res)=> {
       console.log(res);
-      setChampObj(res.data.data);
-      setRotation([5,27,44,51,75,76,81,82,105,107,117,121,126,147,238]);
-    setRotationForNewPlayers([18,81,92,141,37,238,19,45,25,64]);
+      // setChampObj(res.data.data);
+    //   setRotation([5,27,44,51,75,76,81,82,105,107,117,121,126,147,238]);
+    // setRotationForNewPlayers([18,81,92,141,37,238,19,45,25,64]);
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 300);
     })
     
   },[])
@@ -73,7 +73,6 @@ const HomePage = () => {
     console.log(e);
     e.preventDefault();
     history.push(`/profile/${encodeURI(input)}`);
-
   }
 
   
@@ -99,6 +98,13 @@ loading={loading}
           <div className="mainTitle">
             <h1>League Matches</h1>
           </div>
+          {/* <div className="suggestion">
+  <div className="suggestionContainer">
+    <span>You don't play league of legends and don't know any user names?</span>
+  <span>Try searching with "TFblade" first!</span>
+  </div>
+  
+</div> */}
 
 <div className="midContent">
 <form onSubmit={submitForm}>
@@ -109,16 +115,10 @@ loading={loading}
 </form>
 </div>
 
-<div className="suggestion">
-  <div className="suggestionContainer">
-    <span>You don't play league of legends and don't know any user names?</span>
-  <span>Try searching with "TFblade" first!</span>
-  </div>
-  
-</div>
 
 
 
+{/* 
 <div className="rotations">
   <div className="rotation">
       {
@@ -162,7 +162,7 @@ loading={loading}
         })
       }
   </div>
-</div>
+</div> */}
 
         </div>
         </div>

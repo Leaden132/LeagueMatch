@@ -8,13 +8,15 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 
 
-const MatchHistory = ({champObj}:{champObj:any}) => {
+const MatchHistory = ({champArray}:{champArray:any}) => {
   const apiKey = process.env.REACT_APP_apiKey;
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [rankedInfo, setRankedInfo] = useState<object>({});
   const [matchInfo, setMatchInfo] = useState<Array<object>>([]);
   const [matchLoading, setMatchLoading] = useState<boolean>(false);
   const [proficiencyArray, setProficiencyArray] = useState<any>([1,2,3]);
+  const [champObj, setChampObj] = useState<any>({});
+  const [itemObj, setItemObj] = useState<any>({});
   // const [mainChamp, setMainChamp] = useState<string>('Gwen');
   const [error, setError] = useState<boolean>(false);
   const matchDetailArray: Array<object>= [];
@@ -68,6 +70,42 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
         console.log(accountInfoObj.accountId);
 
         axios({
+          method:'GET',
+          url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json',
+          responseType: 'json',
+        })
+        .then((res)=> {
+          console.log(res);
+          setChampObj(res.data.data);
+        }).catch((error)=>{
+          setError(error);
+        })
+
+        // axios({
+        //   method:'GET',
+        //   url: 'https://http://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/item.json',
+        //   responseType: 'json',
+        // })
+        // .then((res)=> {
+        //   console.log(res);
+        //   setItemObj(res.data);
+        // }).catch((error)=>{
+        //   setError(error);
+        // })
+
+        axios({
+          method: "GET",
+          url: "https://proxy.hackeryou.com",
+          responseType: "json",
+          params: {
+            reqUrl: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/item.json`,
+          },
+        }).then((res) => {
+          console.log(res);
+          setItemObj(res.data.data);
+        })
+
+        axios({
           method: "GET",
           url: "https://proxy.hackeryou.com",
           responseType: "json",
@@ -82,13 +120,17 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
           // console.log(newArray[0].championId);
           let newArray = res.data.slice(0, 10);
           setProficiencyArray(newArray);
-
+          console.log(champObj);
+          console.log(champArray);
           setHeaderStyle({
-            background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(res.data[0].championId, champObj)}_1.jpg")`,
-            backgroundSize:'100% auto',
+            // background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(res.data[0].championId, champObj)}_1.jpg")`,
+            background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(res.data[0].championId, champArray).toLowerCase()}.jpg")`,
+            backgroundSize:'cover',
             backgroundRepeat:'no-repeat',
             backgroundPosition:'center, top'
           })
+          console.log(res.data[0].championId);
+          console.log(champObj);
 
         }).catch((error)=>{
           console.log(error);
@@ -152,9 +194,13 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
               setMatchLoading(false);
-            }, 1000);
+            }, 1500);
+          }).catch(error => {
+            setError(true);
           });
         });
+
+        
       }).catch(error => {
         setError(true);
       });
@@ -270,8 +316,9 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
   };
 
 
-
-
+  console.log(itemObj);
+  // console.log(itemObj['1001'].plainText);
+  // console.log(itemObj[1001].gold.base)
 
   if (error) {
     return <div className="error">This username is not registered at League of Legends, Please check spelling</div>
@@ -354,30 +401,38 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
                 {champion.map((champ:any, i:number) => {
                   let itemArray = [];
                   for (let i = 0; i < 7; i++) {
+                    let itemNum = champ.stats[`item${i}`];
                     const imgSrc =
                       champ.stats[`item${i}`] !== 0
-                        ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${
-                            champ.stats[`item${i}`]
-                          }.png`
+                        ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${itemNum}.png`
                         : "https://opgg-static.akamaized.net/images/pattern/opacity.1.png";
                     if (i < 3) {
+                      if (itemObj[itemNum]){
                       itemArray.push(
                         <div className="item-upper" key={`index-${i}`}>
                           <img src={imgSrc} alt="items" />
+                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
                         </div>
                       );
+                    }
                     } else if (i >= 3 && i < 6) {
+                      if (itemObj[itemNum]){
                       itemArray.push(
                         <div className="item-lower" key={`index${i}`}>
                           <img src={imgSrc} alt="items" />
+                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
                         </div>
                       );
+                      }
                     } else {
+                      if (itemObj[itemNum]){
                       itemArray.push(
                         <div className="trinket" key={`inde${i}`}>
                           <img src={imgSrc} alt="items" />
+                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
                         </div>
                       );
+                      }
                     }
                   }
                   return (
@@ -423,21 +478,24 @@ const MatchHistory = ({champObj}:{champObj:any}) => {
                           </div>
                           <div className="runes">
                             <div className="rune">
-                              {" "}
-                              <img
+                              {/* <img
                                 src={`https://opgg-static.akamaized.net/images/lol/perk/8128.png?image=c_scale,q_auto,w_22&amp;v=1621997707`}
                                 alt="runes"
-                              ></img>
+                              ></img> */}
                             </div>
                           </div>
                           <div className="kda">
-                            {champ.stats.kills} / {champ.stats.deaths} /
-                            {champ.stats.assists} - {" "}
-                            {kdaCalc(
+                            <span className="kdaTitle" title="Kills / Deaths / Assists">K/D/A</span>
+                            <span>{champ.stats.kills} / {champ.stats.deaths} / {champ.stats.assists}</span>
+                            <div className="kdaValue">
+                            <span>{kdaCalc(
                               champ.stats.kills,
                               champ.stats.deaths,
                               champ.stats.assists
                             )}
+                            </span>
+                            </div>
+                            
                           </div>
                           <ul className="levelDetail">
                             <li>level: {champ.stats.champLevel}</li>
