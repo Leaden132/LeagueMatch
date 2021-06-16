@@ -1,13 +1,13 @@
 import convertChampions from "./convertChampions";
-import convertSummoners from "./convertSummoners";
+// import convertSummoners from "./convertSummoners";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import RankedInfo from "./RankedInfo";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
-import convertRunes from './convertRunes';
-import { render } from "@testing-library/react";
+// import convertRunes from './convertRunes';
+// import { render } from "@testing-library/react";
 import MatchDetails from './MatchDetails';
 
 
@@ -25,7 +25,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
   const [error, setError] = useState<boolean>(false);
   const matchDetailArray: Array<object>= [];
   const {userName} = useParams<{userName: string}>();
-  const history = useHistory();
+  // const history = useHistory();
   let sumName = '';
   const [headerStyle, setHeaderStyle] = useState<any>({});
   const [loadCount, setloadCount] = useState<number>(10);
