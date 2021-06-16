@@ -330,7 +330,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
       <div className="matchHistoryContainer">
       <MatchDetails playerInfo={playerInfo} championInfo={championInfo} accountInfo={accountInfo} matchInfo={matchInfo} itemObj={itemObj} champObj={champObj} runeArray={runeArray}/>
       
-      <button className="loadButton" onClick={throttle(loadMore, 20000)}>Load More</button>
+      <button className="loadButton" onClick={throttle(loadMore, 30000)}>Load More</button>
       </div>
       </div>
       </section>
