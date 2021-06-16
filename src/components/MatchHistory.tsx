@@ -9,7 +9,7 @@ import { css } from "@emotion/react";
 // import convertRunes from './convertRunes';
 // import { render } from "@testing-library/react";
 import MatchDetails from './MatchDetails';
-
+// import { throttle } from lodash
 
 const MatchHistory = ({champArray}:{champArray:any}) => {
   const apiKey = process.env.REACT_APP_apiKey;
@@ -28,7 +28,9 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
   // const history = useHistory();
   let sumName = '';
   const [headerStyle, setHeaderStyle] = useState<any>({});
-  const [loadCount, setloadCount] = useState<number>(10);
+  const [loadCount, setLoadCount] = useState<number>(10);
+  const [timeWait, setTimeWait] = useState<any>(false);
+  // const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
 
   console.log(champObj);
   
@@ -243,9 +245,33 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     return championArray;
   });
 
+  const throttle = (callback:any, limit:any) => {
+    let timeoutId:ReturnType<typeof setTimeout>;
+    return function(){
+      if (!timeWait) {
+        callback();
+        setTimeWait(true);
+
+        timeoutId = setTimeout(()=>{
+          setTimeWait(false);
+        }, limit)
+
+      }
+      else{
+        alert(`you need to wait ${timeoutId ? timeoutId : limit} seconds before loading more match history`)
+      }
+    }
+  }
+
+
 
   const loadMore = () => {
-    setloadCount(loadCount + 10);
+
+    setLoadCount(loadCount + 10)
+
+    
+
+    // setloadCount(loadCount + 10);
   }
 
 
@@ -277,10 +303,10 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
       <div className="proficiency">
         <span className="mastery">Champion mastery</span>
       {
-        proficiencyArray.map((champ:any)=>{
+        proficiencyArray.map((champ:any, index:number)=>{
           console.log(champ);
           return (
-            <div className="eachProficiency">
+            <div className="eachProficiency" key={`prof-${index}`}>
             <img
             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
               champ.championId,
@@ -304,7 +330,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
       <div className="matchHistoryContainer">
       <MatchDetails playerInfo={playerInfo} championInfo={championInfo} accountInfo={accountInfo} matchInfo={matchInfo} itemObj={itemObj} champObj={champObj} runeArray={runeArray}/>
       
-      <button className="loadButton" onClick={loadMore}>Load More</button>
+      <button className="loadButton" onClick={throttle(loadMore, 20000)}>Load More</button>
       </div>
       </div>
       </section>

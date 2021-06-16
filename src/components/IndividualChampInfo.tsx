@@ -1,143 +1,229 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState} from "react";
-import axios from 'axios';
-import PulseLoader from 'react-spinners/PulseLoader';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import PulseLoader from "react-spinners/PulseLoader";
 import { css } from "@emotion/react";
 
 const InidividualChampInfo = () => {
-  const {champName} = useParams<{champName: string}>();
+  const { champName } = useParams<{ champName: string }>();
 
-    console.log(champName);
-    const override = css`
+  console.log(champName);
+  const override = css`
     display: block;
     margin: 0 auto;
-    margin-top:300px;
+    margin-top: 300px;
     border-color: red;
-    `
+  `;
 
-    const champInfoStyle = {
-        background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
-        backgroundSize:'100% auto',
-        backgroundRepeat:'no-repeat',
-        backgroundPosition:'center, top'
-      }
+  const champInfoStyle = {
+    background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
+    backgroundSize: "100% auto",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center, top",
+  };
 
+  const [loading, setLoading] = useState(true);
+  const [champObj, setChampObj] = useState<any>({});
 
+  useEffect(() => {
+    setLoading(true);
 
-    const [loading, setLoading] = useState(true);
-    const [champObj, setChampObj] = useState<any>({});
+    axios({
+      method: "GET",
+      url: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/champion/${champName}.json`,
+      responseType: "json",
+    }).then((res) => {
+      console.log(res);
+      console.log(res.data.data);
+      console.log(res.data.data[champName]);
+      setChampObj(res.data.data[champName]);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
 
-    useEffect(()=>{
-        setLoading(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(champObj);
 
-      axios({
-        method:'GET',
-        url: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/champion/${champName}.json`,
-        responseType: 'json',
-      })
-      .then((res)=> {
-        console.log(res);
-        console.log(res.data.data)
-        console.log(res.data.data[champName]);
-        setChampObj(res.data.data[champName])
-        setTimeout(() => {
-            setLoading(false);
-          }, 500);
-      })
-      
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-        console.log(champObj);
-    
-        return (
-            <>
+  return (
+    <>
+      {loading ? (
+        <PulseLoader
+          css={override}
+          size={50}
+          color={"#160d33"}
+          loading={loading}
+        />
+      ) : (
+        <div className="eachInfo">
+          <div className="champImageContainer">
+            <div className="champBackground" style={champInfoStyle}></div>
+          </div>
+          <div className="wrapper">
+            <div className="champInfoBoxContainer">
+              <div className="champInfoBox">
+                <div>
+                  <div className="champEachInfoContainer">
+                    <img
+                      src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj.id}.png`}
+                      alt={champObj.id}
+                      className="championEach"
+                    ></img>
+                  </div>
+                  <div className="classContainer">
+                    <h2>{champName}</h2>
+                    <div>
+                      {champObj.tags.map(
+                        (tag: string, i: number, arr: Array<string>) => {
+                          if (arr.length - 1 === i) {
+                            return <span>{tag}</span>;
+                          } else {
+                            return <span>{tag} / </span>;
+                          }
+                        }
+                      )}
+                    </div>
+                    <span>
+                      {champObj.tags.map((tag: string) => {
+                        return (
+                          <img
+                            className="classes"
+                            src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`}
+                            alt={`${tag} icon`}
+                          ></img>
+                          // <p>{tag}</p>
+                        );
+                      })}
+                    </span>
+                  </div>
+                </div>
 
-{loading ? 
-
-<PulseLoader
-css={override}
-size={50}
-color={"#160d33"}
-loading={loading}
-/> 
-
-:
-            <div className="eachInfo">
-              
-
-            <div className="champImageContainer">
-          <div className="champBackground" style={champInfoStyle}></div>
-        </div>
-        <div className="wrapper">
-                <div className="champInfoBox">
-                <div className="champEachInfoContainer">
-                <img
-                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${champObj.id}.png`}
-                alt={champObj.id}
-                className="championEach"
-              ></img>
-                              
-              </div>
-              <div className="classContainer">
-              <h2>{champName}</h2>
-              <div>
-              {
-                champObj.tags.map((tag:string, i:number, arr:Array<string>)=>{
-                  if (arr.length - 1 === i) {
-                    return <span>{tag}</span>
-                } else {
-                  return <span>{tag} / </span>
-                }
-                })
-              }
-</div>
-              <span>{champObj.tags.map((tag:string)=>{
-                  return (
-
-                    <img className="classes" src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`} alt={`${tag} icon`}></img>
-                    // <p>{tag}</p>
+                <div className="skillContainer">
+                  <div className="skills">
+                  <img
+                    src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/passive/${champObj.passive.image.full}`}
+                    alt={champObj.passive.image.full}
                     
-                    )
-              })}</span>
+                  ></img>
+                  <div className="keyboard"><span>P</span></div>
+                  <span className="toolTip">
+                    {champObj.passive.description}
+                  </span>
+                  </div>
+                  {champObj.spells.map((spell: any, index: number) => {
+                    if (index === 0) {
+                      return (
+                        <div className="skills">
+                          <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
+                            alt={spell.name}
+                          ></img>
+
+                          <div className="keyboard"><span>Q</span></div>
+                          <span className="toolTip">
+                            {spell.name}
+                            <br></br>
+                            {spell.description}
+                            <br></br>Cooldown: {spell.cooldownBurn}
+                          </span>
+                        </div>
+                      );
+                    } else if (index === 1) {
+                      return (
+                        <div className="skills">
+                          <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
+                            alt={spell.name}
+                          ></img>
+                          <div className="keyboard"><span>W</span></div>
+                          <span className="toolTip">
+                            {spell.name}
+                            <br></br>
+                            {spell.description}
+                            <br></br>Cooldown: {spell.cooldownBurn}
+                          </span>
+                        </div>
+                      );
+                    } else if (index === 2) {
+                      return (
+                        <div className="skills">
+                          <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
+                            alt={spell.name}
+                          ></img>
+                          <div className="keyboard"><span>E</span></div>
+                          <span className="toolTip">
+                            {spell.name}
+                            <br></br>
+                            {spell.description}
+                            <br></br>Cooldown: {spell.cooldownBurn}
+                          </span>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="skills">
+                          <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
+                            alt={spell.name}
+                          ></img>
+                          <div className="keyboard"><span>R</span></div>
+                          <span className="toolTip">
+                            {spell.name}
+                            <br></br>
+                            {spell.description}
+                            <br></br>Cooldown: {spell.cooldownBurn}
+                          </span>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
               </div>
-                <p>{champObj.lore}</p>
-
-
-                </div>
-                
-
-
-                <div className="champStatContainer" >
-    <h2>Champion Stats</h2>
-
-<div className="statContainer">
-    <p>Attack</p>
-    <div className="stat attack" style={{width:`${champObj.info.attack}0%`}}></div>
-  </div>
-
-  <div className="statContainer">
-    <p>Defense</p>
-    <div className="stat defense" style={{width:`${champObj.info.defense}0%`}}></div>
-  </div>
-
-  <div className="statContainer">
-    <p>Magic</p>
-    <div className="stat magic" style={{width:`${champObj.info.magic}0%`}}></div>
-  </div>
-
-  <div className="statContainer">
-    <p>Difficulty</p>
-    <div className="stat difficulty" style={{width:`${champObj.info.difficulty}0%`}}></div>
-  </div>
-
-                </div>
+              <p className="lore">{champObj.lore}</p>
             </div>
+
+            <div className="champStatContainer">
+              <h2>Champion Stats</h2>
+
+              <div className="statContainer">
+                <p>Attack</p>
+                <div
+                  className="stat attack"
+                  style={{ width: `${champObj.info.attack}0%` }}
+                ></div>
+              </div>
+
+              <div className="statContainer">
+                <p>Defense</p>
+                <div
+                  className="stat defense"
+                  style={{ width: `${champObj.info.defense}0%` }}
+                ></div>
+              </div>
+
+              <div className="statContainer">
+                <p>Magic</p>
+                <div
+                  className="stat magic"
+                  style={{ width: `${champObj.info.magic}0%` }}
+                ></div>
+              </div>
+
+              <div className="statContainer">
+                <p>Difficulty</p>
+                <div
+                  className="stat difficulty"
+                  style={{ width: `${champObj.info.difficulty}0%` }}
+                ></div>
+              </div>
             </div>
-}
-            </>
-        )
-    }
-
-
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default InidividualChampInfo;
