@@ -7,6 +7,8 @@ import RankedInfo from "./RankedInfo";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 import convertRunes from './convertRunes';
+import { render } from "@testing-library/react";
+import MatchDetails from './MatchDetails';
 
 
 const MatchHistory = ({champArray}:{champArray:any}) => {
@@ -113,18 +115,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           console.log(error);
         })
 
-        // axios({
-        //   method: "GET",
-        //   url: "https://proxy.hackeryou.com",
-        //   responseType: "json",
-        //   params: {
-        //     reqUrl: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/runesReforged.json`,
-        //   },
-        // }).then((res) => {
-        //   console.log(res);
-        //   setItemObj(res.data.data);
-        // })
-
         axios({
           method:'GET',
           url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/runesReforged.json',
@@ -178,7 +168,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           }).then((res) => {
             console.log(res);
             let matchArray = res.data.matches;
-
             let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
             initMatchArray.forEach((match:any) => {
               getMatchDetail(match.gameId);
@@ -216,62 +205,14 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     });
   };
 
-  const getDate = (playedTime:number) => {
-    let date = new Date();
-    let nowDate = date.getTime();
-    let playedTimeStamp = nowDate - playedTime;
-    let playedDate = 0;
-    if (playedTimeStamp <60000) {
-        playedDate = 1;
-        return "2 minutes ago";
-    }
-    else if (playedTimeStamp < 3600000) {
-        playedDate = playedTimeStamp / 60000;
-        return `${Math.floor(playedDate)} minutes ago`;
-    }
-    else if (playedTimeStamp < 86400000) {
-        playedDate = playedTimeStamp / 3600000;
-        return `${Math.floor(playedDate)} hours ago`;
-    }
-    else {
-        playedDate = playedTimeStamp /86400000;
-        return `${Math.floor(playedDate)} days ago`;
-    }
-}
 
-  const metaConvert = (info:string) => {
-    if (info === "CLASSIC"){
-      return "Ranked Solo";
-    }
-    else {
-      return info;
-    }
-
-    
-  }
-
-  const convertDuration = (info: number) => {
-    const durationRemainder = info%60
-    return `${Math.floor(info/60)} : ${durationRemainder}`
-  }
 
 
   console.log(matchInfo);
   // console.log(matchDetailArray);
 
   matchInfo.sort((a:any, b:any) => b.gameCreation - a.gameCreation);
-  const metaDataArray = matchInfo.map((game:any)=>{
-    return {
-      date: game.gameCreation,
-      duration: game.gameDuration,
-      gameMode: game.gameMode,
-      gameType: game.gameType,
-      mapId: game.mapId,
-      platform: game.platformId,
-      seasonId: game.seasonId
-    
-    };
-  })
+
 
   console.log(matchInfo);
 
@@ -302,15 +243,9 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     return championArray;
   });
 
-  const kdaCalc = (k:number, d:number, a:number) => {
-    if ((k + a) / d === Infinity) {
-      return "perfect KDA";
-    }
-    return ((k + a) / d).toFixed(1);
-  };
 
-  const loadMore = ()=>{
-    setloadCount(loadCount+10);
+  const loadMore = () => {
+    setloadCount(loadCount + 10);
   }
 
 
@@ -359,7 +294,6 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             <span>Mastery point: {champ.championPoints}</span>
             </div>
             </div>
-
           )
         })
       }
@@ -367,176 +301,10 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 
 
       </div>
-      <div className="matchHistory">
-        {playerInfo.map((player, index) => {
-          let champion = championInfo[index];
-          let win=false;
-          console.log(champion);
-          for(let i=0; i<10 ; i++){
-            if (player[i].accountId === accountInfo.accountId) {
-              if (champion[i].stats.win) {
-                win=true;
-              }
-              else {
-                win=false;
-              }
-            }
-          }
-
-          return (
-            <div className={`match ${win ? 'win' : 'loss'}`} key={`player${index}`}>
-              <div className={`game`}>
-                <div className="metaInfo">
-                  <span title="match mode">{metaConvert(metaDataArray[index].gameMode)}</span>
-                  <span className="matchOutcome" title="match outcome">{`${win ? 'Victory' : 'Defeat'}`}</span>
-                  <span title="match played date">{getDate(metaDataArray[index].date)}</span>
-                  <span className="gameDuration" title="match duration">{convertDuration(metaDataArray[index].duration)}</span>
-                  </div>
-                {champion.map((champ:any, i:number) => {
-                  let itemArray = [];
-                  for (let i = 0; i < 7; i++) {
-                    let itemNum = champ.stats[`item${i}`];
-                    const imgSrc =
-                      champ.stats[`item${i}`] !== 0
-                        ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${itemNum}.png`
-                        : "https://opgg-static.akamaized.net/images/pattern/opacity.1.png";
-                    if (i < 3) {
-                      if (itemObj[itemNum]){
-                      itemArray.push(
-                        <div className="item-upper" key={`index-${i}`}>
-                          <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
-                        </div>
-                      );
-                    }
-                    else {itemArray.push(<div className="item-upper" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
-                    } else if (i >= 3 && i < 6) {
-                      if (itemObj[itemNum]){
-                      itemArray.push(
-                        <div className="item-lower" key={`index${i}`}>
-                          <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
-                        </div>
-                      );
-                      }
-                      else {itemArray.push(<div className="item-lower" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
-                    } else {
-                      if (itemObj[itemNum]){
-                      itemArray.push(
-                        <div className="trinket" key={`inde${i}`}>
-                          <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
-                        </div>
-                      );
-                      }
-                      else {itemArray.push(<div className="trinket" key={`index-${i}`}><img src={imgSrc} alt="items"></img></div>)}
-                    }
-                  }
-                  return (
-                    <div key={`blue${i}`} className="gameInfo">
-                      {player[i].accountId === accountInfo.accountId && (
-
-                        
-                        <div className={`userPlayInfo`}>
-                          <div className="champNameContainer">
-                          <div className="champContainer">
-                          <img
-                            
-                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
-                              champ.championId,
-                              champObj
-                            )}.png`}
-                            className="championImage"
-                            alt={convertChampions(champ.championId, champObj)}
-                          ></img>
-
-                          </div>
-                          <p>{convertChampions(champ.championId, champObj)}</p>
-                          </div>
-                          <div className="summonerSpell">
-                            <div className="spell spell1">
-                              <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
-                                  champ.spell1Id
-                                )}.png`}
-                                alt="summoner spells"
-                              ></img>
-                              <span className="toolTip">This is SPELL!</span>
-                            </div>
-                            <div className="spell spell2">
-                              <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
-                                  champ.spell2Id
-                                )}.png`}
-                                alt="summoner spells"
-                              ></img>
-                              <span className="toolTip">This is SPELL!</span>
-                            </div>
-                          </div>
-                          <div className="runes">
-                            <div className="rune">
-                              <img src={`https://ddragon.canisback.com/img/${convertRunes(champ.stats.perk0, runeArray)}`} alt={`${convertRunes(champ.stats.perk0, runeArray)}`} className="runeImage" title="Main Rune"></img>
-                            </div>
-                            <div className="rune">
-                              <img src={`https://ddragon.canisback.com/img/${convertRunes(champ.stats.perkSubStyle, runeArray)}`} alt={`${champ.stats.perkSubStyle}`} className="subRuneImage" title="Sub Rune"></img>
-                            </div>
-                          </div>
-                          <div className="kda">
-                            <span className="kdaTitle" title="Kills / Deaths / Assists">K/D/A</span>
-                            <span>{champ.stats.kills} / {champ.stats.deaths} / {champ.stats.assists}</span>
-                            <div className="kdaValue">
-                            <span>{kdaCalc(
-                              champ.stats.kills,
-                              champ.stats.deaths,
-                              champ.stats.assists
-                            )}
-                            </span>
-                            </div>
-                            
-                          </div>
-                          <ul className="levelDetail">
-                            <li>level: {champ.stats.champLevel}</li>
-                            <li>{champ.stats.totalMinionsKilled} CS</li>
-                            <li></li>
-                          </ul>
-
-                          <div className="items">{itemArray}</div>
-                        </div>
-                      )}
-
-                      <li className="otherPlayerInfo">
-                        <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
-                            champ.championId,
-                            champObj
-                          )}.png`}
-                          alt={convertChampions(champ.championId, champObj)}
-                        ></img>
-                        {/* <Link to={`/profile/${player[i].summonerName}`}> */}
-                        <button
-                          className="otherUsers"
-                          onClick={() => {
-                            history.push(`/profile/${encodeURI(player[i].summonerName)}`);
-                            
-                            // setTimeout(() => {
-                            //   setNewSearch(!newSearch);
-                            // }, 1000);
-                          }}
-                        >
-                          {player[i].summonerName}
-                        </button>
-                        {/* </Link> */}
-                      </li>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        }
-        )}
-        <button onClick={loadMore}>Load More</button>
-        
+      <div className="matchHistoryContainer">
+      <MatchDetails playerInfo={playerInfo} championInfo={championInfo} accountInfo={accountInfo} matchInfo={matchInfo} itemObj={itemObj} champObj={champObj} runeArray={runeArray}/>
+      
+      <button className="loadButton" onClick={loadMore}>Load More</button>
       </div>
       </div>
       </section>
