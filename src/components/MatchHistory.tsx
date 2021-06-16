@@ -258,7 +258,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 
       }
       else{
-        alert(`you need to wait ${timeoutId ? timeoutId : limit} seconds before loading more match history`)
+        alert(`you need to wait ${timeoutId ? timeoutId : (limit/1000)} seconds before loading more match history`)
       }
     }
   }
