@@ -9,6 +9,9 @@ const convertChampions = (championId:number, champObj:any):string => {
                     championName = championArray[i];
                 }
             }
+
+            console.log('convertChamp', championName, championId, champObj );
+            
             return championName;
 }
 
