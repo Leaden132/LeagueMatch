@@ -84,17 +84,21 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           setError(error);
         })
 
+
+
         axios({
-          method: "GET",
-          url: "https://proxy.hackeryou.com",
-          responseType: "json",
+          method:'GET',
+          url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+          responseType: 'json',
           params: {
-            reqUrl: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/item.json`,
+            apiName:'item'
           },
-        }).then((res) => {
-          console.log(res);
-          setItemObj(res.data.data);
         })
+        .then((res)=> {
+          console.log(res.data.message);
+          setItemObj(res.data.message);
+        })
+
 
         axios({
           method: "GET",
