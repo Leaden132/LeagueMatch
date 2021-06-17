@@ -43,7 +43,7 @@ const App = () => {
         <div className="flexContainer">
       <Suspense fallback={<Fallback/>}>
       <Route path='/' render={ () => <SearchBar /> } />
-      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory champArray={champObj}/> } />
+      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory/> } />
       <Route exact path='/' render={()=> <HomePage/>}/>
       <Route exact path='/about' render={()=><About/>}/>
 
