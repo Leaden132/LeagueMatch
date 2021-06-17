@@ -13,7 +13,7 @@ const convertChampions = (championId:number, champObj:any):string => {
 
             console.log('convertChamp', championName, championId, champObj );
             
-            return 'riven';
+            return 'Riven';
 }
 
 export default convertChampions;
