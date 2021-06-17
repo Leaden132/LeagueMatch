@@ -9,10 +9,9 @@ import { css } from "@emotion/react";
 // import convertRunes from './convertRunes';
 // import { render } from "@testing-library/react";
 import MatchDetails from './MatchDetails';
-// import { throttle } from lodash
 
 const MatchHistory = ({champArray}:{champArray:any}) => {
-  const apiKey = process.env.REACT_APP_apiKey;
+  // const apiKey = process.env.REACT_APP_apiKey;
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [rankedInfo, setRankedInfo] = useState<object>({});
   const [matchInfo, setMatchInfo] = useState<Array<object>>([]);
@@ -181,7 +180,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
               setMatchLoading(false);
-            }, 1500);
+            }, 1000);
     }
   }
 
@@ -193,7 +192,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
     setAPIError(true);
     setTimeout(() => {
       setMatchLoading(false);
-    }, 1500);
+    }, 1000);
 
   });
   }, [userName, loadCount]);
