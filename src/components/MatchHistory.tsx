@@ -106,11 +106,12 @@ const MatchHistory = () => {
             apiParam:accountInfoObj.id
           }
         })
+
         console.log(championMasteryAxios);
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
         setHeaderStyle({
-          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, itemAxios.data.message).toLowerCase()}.jpg")`,
+          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data).toLowerCase()}.jpg")`,
           backgroundSize:'cover',
           backgroundRepeat:'no-repeat',
           backgroundPosition:'center, top'
