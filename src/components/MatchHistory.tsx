@@ -10,7 +10,7 @@ import { css } from "@emotion/react";
 // import { render } from "@testing-library/react";
 import MatchDetails from './MatchDetails';
 
-const MatchHistory = ({champArray}:{champArray:any}) => {
+const MatchHistory = () => {
   // const apiKey = process.env.REACT_APP_apiKey;
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [rankedInfo, setRankedInfo] = useState<object>({});
@@ -53,6 +53,8 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 
     const loadData = async () => {
     if (sumName !== '') {
+
+
 
 
       const summonersByNameAxios = await axios({
@@ -108,7 +110,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
         setHeaderStyle({
-          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, champArray).toLowerCase()}.jpg")`,
+          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, champObj).toLowerCase()}.jpg")`,
           backgroundSize:'cover',
           backgroundRepeat:'no-repeat',
           backgroundPosition:'center, top'
