@@ -135,7 +135,7 @@ const MatchHistory = () => {
             apiParam: accountInfoObj.id
           }
         })
-        console.log(entriesBySummonerAxios)
+
         let rankedInfoObj = entriesBySummonerAxios.data.message;
           if (rankedInfoObj === undefined){
             rankedInfoObj = {rank:4};
@@ -161,7 +161,6 @@ const MatchHistory = () => {
           setRankedInfo(rankedInfoObj);
 
 
-          console.log(accountInfoObj.id)
           const matchByAccountsAxios = await axios({
             method:'GET',
             url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
@@ -171,14 +170,14 @@ const MatchHistory = () => {
               apiParam: accountInfoObj.accountId
             }
           })
-          console.log(matchByAccountsAxios);
           let matchArray = matchByAccountsAxios.data.message;
             let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
             initMatchArray.forEach((match:any) => {
               getMatchDetail(match.gameId);
             });
 
-            console.log(matchDetailArray);
+
+            
             setMatchInfo(matchDetailArray);
             setTimeout(() => {
               setMatchLoading(false);
@@ -211,7 +210,6 @@ const MatchHistory = () => {
               apiParam: gameId
             }
           })
-          console.log(matchDetailAxios);
 
           matchDetailArray.push(matchDetailAxios.data.message)
 
@@ -235,12 +233,10 @@ const MatchHistory = () => {
   let participantChampions = matchInfo.map((match:any) => {
     return match.participants;
   });
-  console.log(participants);
-  console.log(participantChampions);
+
 
   let championInfo = participantChampions.map((participant, index) => {
     let championArray = participant.map((champion:object) => {
-      // console.log(champion);
       return champion;
     });
     return championArray;
@@ -305,7 +301,6 @@ const MatchHistory = () => {
         <span className="mastery">Champion mastery</span>
       {
         proficiencyArray.map((champ:any, index:number)=>{
-          console.log(champ);
           return (
             <div className="eachProficiency" key={`prof-${index}`}>
             <img
