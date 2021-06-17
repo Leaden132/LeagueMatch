@@ -30,6 +30,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
   const [headerStyle, setHeaderStyle] = useState<any>({});
   const [loadCount, setLoadCount] = useState<number>(10);
   const [timeWait, setTimeWait] = useState<any>(false);
+  const [APIError, setAPIError] = useState<boolean>(false);
   // const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
 
   console.log(champObj);
@@ -50,43 +51,42 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
     sumName = encodeURI(userName);
     console.log(sumName);
+
+    const loadData = async () => {
     if (sumName !== '') {
-      axios({
-        method: "GET",
-        url: "https://proxy.hackeryou.com",
-        responseType: "json",
+
+
+      const summonersByNameAxios = await axios({
+        method:'GET',
+        url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+        responseType: 'json',
         params: {
-          reqUrl: `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${apiKey}&method=GET&dataType=json`,
+          apiName:'summonersByName',
+          apiParam: sumName
         },
-      }).then( (res) => {
-        console.log(res);
-        let accountInfoObj = {
-          accountId: res.data.accountId,
-          id: res.data.id,
-          name: res.data.name,
-          profileIconId: res.data.profileIconId,
-          puuid: res.data.puuid,
-          summonerLevel: res.data.summonerLevel,
-        };
+      })
 
-        setAccountInfo(accountInfoObj);
-        console.log(accountInfoObj.accountId);
+      console.log(summonersByNameAxios);
 
-        axios({
+      let accountInfoObj = {
+        accountId: summonersByNameAxios.data.message.accountId,
+        id: summonersByNameAxios.data.message.id,
+        name: summonersByNameAxios.data.message.name,
+        profileIconId: summonersByNameAxios.data.message.profileIconId,
+        puuid: summonersByNameAxios.data.message.puuid,
+        summonerLevel: summonersByNameAxios.data.message.summonerLevel,
+      };
+      setAccountInfo(accountInfoObj);
+
+        const championAxios = await axios({
           method:'GET',
           url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json',
           responseType: 'json',
         })
-        .then((res)=> {
-          console.log(res);
-          setChampObj(res.data.data);
-        }).catch((error)=>{
-          setError(error);
-        })
+        setChampObj(championAxios.data.data)
 
 
-
-        axios({
+        const itemAxios = await axios({
           method:'GET',
           url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
           responseType: 'json',
@@ -94,53 +94,48 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             apiName:'item'
           },
         })
-        .then((res)=> {
-          console.log(res.data.message);
-          setItemObj(res.data.message);
-        })
+        setItemObj(itemAxios.data.message);
 
-
-        axios({
-          method: "GET",
-          url: "https://proxy.hackeryou.com",
-          responseType: "json",
+        const championMasteryAxios = await axios({
+          method:'GET',
+          url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+          responseType: 'json',
           params: {
-            reqUrl: `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
-          },
-        }).then((res) => {
-          let newArray = res.data.slice(0, 10);
-          setProficiencyArray(newArray);
-          setHeaderStyle({
-            background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(res.data[0].championId, champArray).toLowerCase()}.jpg")`,
-            backgroundSize:'cover',
-            backgroundRepeat:'no-repeat',
-            backgroundPosition:'center, top'
-          })
-
-        }).catch((error)=>{
-          console.log(error);
+            apiName:'championMastery',
+            apiParam:accountInfoObj.id
+          }
+        })
+        console.log(championMasteryAxios);
+        let newArray = championMasteryAxios.data.message.slice(0, 10);
+        setProficiencyArray(newArray);
+        setHeaderStyle({
+          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, champArray).toLowerCase()}.jpg")`,
+          backgroundSize:'cover',
+          backgroundRepeat:'no-repeat',
+          backgroundPosition:'center, top'
         })
 
-        axios({
+
+
+        const runeAxios = await axios({
           method:'GET',
           url: 'https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/runesReforged.json',
           responseType: 'json',
         })
-        .then((res)=> {
-          setRuneArray(res.data);
-        })
+        setRuneArray(runeAxios.data)
 
 
-        axios({
-          method: "GET",
-          url: "https://proxy.hackeryou.com",
-          responseType: "json",
+        const entriesBySummonerAxios = await axios({
+          method:'GET',
+          url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+          responseType: 'json',
           params: {
-            reqUrl: `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${accountInfoObj.id}?api_key=${apiKey}&method=GET&dataType=json`,
-          },
-        }).then((res) => {
-          console.log(res);
-          let rankedInfoObj = res.data[0];
+            apiName:'entriesBySummoner',
+            apiParam: accountInfoObj.id
+          }
+        })
+        console.log(entriesBySummonerAxios)
+        let rankedInfoObj = entriesBySummonerAxios.data.message;
           if (rankedInfoObj === undefined){
             rankedInfoObj = {rank:4};
           }
@@ -164,16 +159,19 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
           rankedInfoObj.rank = rankNum;
           setRankedInfo(rankedInfoObj);
 
-          axios({
-            method: "GET",
-            url: "https://proxy.hackeryou.com",
-            responseType: "json",
+
+          console.log(accountInfoObj.id)
+          const matchByAccountsAxios = await axios({
+            method:'GET',
+            url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+            responseType: 'json',
             params: {
-              reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountInfoObj.accountId}?api_key=${apiKey}&method=GET&dataType=json`,
-            },
-          }).then((res) => {
-            console.log(res);
-            let matchArray = res.data.matches;
+              apiName:'matchByAccounts',
+              apiParam: accountInfoObj.accountId
+            }
+          })
+          console.log(matchByAccountsAxios);
+          let matchArray = matchByAccountsAxios.data.message;
             let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
             initMatchArray.forEach((match:any) => {
               getMatchDetail(match.gameId);
@@ -184,43 +182,41 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
             setTimeout(() => {
               setMatchLoading(false);
             }, 1500);
-          }).catch(error => {
-            setError(true);
-          });
-        });
-
-        
-      }).catch(error => {
-        setError(true);
-      });
     }
+  }
+
+
+  loadData().catch(e => {
+    console.log('There has been a problem with API call: ' + e.message);
+
+    setError(true);
+    setAPIError(true);
+    setTimeout(() => {
+      setMatchLoading(false);
+    }, 1500);
+
+  });
   }, [userName, loadCount]);
 
-  const getMatchDetail = (gameId:number) => {
-    axios({
-      method: "GET",
-      url: "https://proxy.hackeryou.com",
-      responseType: "json",
-      params: {
-        reqUrl: `https://na1.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${apiKey}&method=GET&dataType=json`,
-      },
-    }).then((res) => {
-      matchDetailArray.push(res.data);
-    }).catch((error)=>{
-      setError(true);
-    });
+  const getMatchDetail = async (gameId:number) => {
+
+
+          const matchDetailAxios = await axios({
+            method:'GET',
+            url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
+            responseType: 'json',
+            params: {
+              apiName:'matches',
+              apiParam: gameId
+            }
+          })
+          console.log(matchDetailAxios);
+
+          matchDetailArray.push(matchDetailAxios.data.message)
+
   };
 
-
-
-
-  console.log(matchInfo);
-  // console.log(matchDetailArray);
-
   matchInfo.sort((a:any, b:any) => b.gameCreation - a.gameCreation);
-
-
-  console.log(matchInfo);
 
   let participants = matchInfo.map((match:any) => {
     return match.participantIdentities;
@@ -280,7 +276,7 @@ const MatchHistory = ({champArray}:{champArray:any}) => {
 
 
   if (error) {
-    return <div className="error">This username is not registered at League of Legends, Please check spelling</div>
+    return APIError ? <div className='error'>There has been an error with API call, please try again with different name/parameters</div> :<div className="error">This username is not registered at League of Legends, Please check spelling</div>
   }
   else {
   return (
