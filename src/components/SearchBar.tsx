@@ -23,8 +23,9 @@ const SearchBar = () => {
 
 
     const submitForm = (e: React.FormEvent) => {
-      e.preventDefault()
+      e.preventDefault();
       history.push(`/profile/${encodeURI(input)}`);
+      setInput('');
     }
 
 
