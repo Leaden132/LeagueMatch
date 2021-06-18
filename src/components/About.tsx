@@ -17,20 +17,19 @@ const About = () => {
         <div className="aboutImageContainer">
             <div className="explanation">
                 <img src={champSelect} alt="explanation about league of legends"></img>
-                <span>Select a champion</span>
-                <p>There are currently over 150 playable champions and new ones are added every few months. Find the best one for you!</p>
+                <span>Select your champion</span>
+                <p>over 150 playable champions are waiting to be played by you and new champions are being added to the game every few months. Choose the best champion for you!</p>
             </div>
             
             <div className="explanation">
             <img src={roleSelect} alt="explanation about league of legends"></img>
                 <span>Choose your role</span>
-                <p>Each of the five players on a LoL team chooses a specific position on the map that offers its own experience and expectations.</p>
+                <p>Each players need to choose a specific position / role on the map which offers distinctive experiences and enjoyment.</p>
             </div>
-
             <div className="explanation">
             <img src={victory} alt="victory screen"></img>
-                <span>Destroy the base</span>
-                <p>Work together with your team to complete your ultimate goal — destroying the enemy Nexus, the heart of their base.</p>
+                <span>Destroy the Nexus</span>
+                <p>Collaborate with your teammate to destory enemy Nexus and achieve the grand victory! </p>
             </div>
 
         </div>
