@@ -56,6 +56,8 @@ const InidividualChampInfo = () => {
           loading={loading}
         />
       ) : (
+
+        
         <div className="eachInfo">
           <div className="champImageContainer">
             <div className="champBackground" style={champInfoStyle}></div>
@@ -77,22 +79,22 @@ const InidividualChampInfo = () => {
                       {champObj.tags.map(
                         (tag: string, i: number, arr: Array<string>) => {
                           if (arr.length - 1 === i) {
-                            return <span>{tag}</span>;
+                            return <span key={`tag-${i}`}>{tag}</span>;
                           } else {
-                            return <span>{tag} / </span>;
+                            return <span key={`tag-${i}`}>{tag} / </span>;
                           }
                         }
                       )}
                     </div>
                     <span>
-                      {champObj.tags.map((tag: string) => {
+                      {champObj.tags.map((tag: string, index:number) => {
                         return (
                           <img
                             className="classes"
                             src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`}
                             alt={`${tag} icon`}
+                            key={`role-${index}`}
                           ></img>
-                          // <p>{tag}</p>
                         );
                       })}
                     </span>
@@ -106,27 +108,28 @@ const InidividualChampInfo = () => {
                     alt={champObj.passive.image.full}
                     
                   ></img>
-                  <div className="keyboard"><span>P</span></div>
-                  <span className="toolTip">
-                    {champObj.passive.description}
+                    <span className="toolTip">
+                    {champObj.passive.description.replace(/(<([^>]+)>)/ig,'')}
                   </span>
+                  <div className="keyboard"><span>P</span></div>
                   </div>
                   {champObj.spells.map((spell: any, index: number) => {
                     if (index === 0) {
                       return (
-                        <div className="skills">
+                        <div className="skills" key={`spell-${index}`}>
                           <img
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
 
-                          <div className="keyboard"><span>Q</span></div>
+                          
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
+                          <div className="keyboard"><span>Q</span></div>
                         </div>
                       );
                     } else if (index === 1) {
@@ -136,13 +139,14 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          <div className="keyboard"><span>W</span></div>
+                          
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
+                          <div className="keyboard"><span>W</span></div>
                         </div>
                       );
                     } else if (index === 2) {
@@ -152,13 +156,14 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          <div className="keyboard"><span>E</span></div>
+                          
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
+                          <div className="keyboard"><span>E</span></div>
                         </div>
                       );
                     } else {
@@ -168,13 +173,14 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          <div className="keyboard"><span>R</span></div>
+                          
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
+                          <div className="keyboard"><span>R</span></div>
                         </div>
                       );
                     }

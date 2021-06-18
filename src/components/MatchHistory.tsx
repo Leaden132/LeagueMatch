@@ -7,11 +7,10 @@ import RankedInfo from "./RankedInfo";
 import PulseLoader from 'react-spinners/PulseLoader';
 import { css } from "@emotion/react";
 // import convertRunes from './convertRunes';
-// import { render } from "@testing-library/react";
 import MatchDetails from './MatchDetails';
 
 const MatchHistory = () => {
-  // const apiKey = process.env.REACT_APP_apiKey;
+  // const apiKey = process.env.REACT_APP_apiKey; -> moved API key to back-end.
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [rankedInfo, setRankedInfo] = useState<object>({});
   const [matchInfo, setMatchInfo] = useState<Array<object>>([]);
@@ -42,9 +41,6 @@ const MatchHistory = () => {
     `
   
 
-
-  console.log(process.env);
-
   useEffect(() => {
     setMatchLoading(true);
 // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,10 +49,6 @@ const MatchHistory = () => {
 
     const loadData = async () => {
     if (sumName !== '') {
-
-
-
-
       const summonersByNameAxios = await axios({
         method:'GET',
         url: 'https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev',
@@ -111,12 +103,18 @@ const MatchHistory = () => {
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
         setHeaderStyle({
-          background:`linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data).toLowerCase()}.jpg")`,
+          backgroundImage:`url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data)}_0.jpg")`,
+          backgroundAttachment: 'fixed',
+          // background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+          // backgroundAttachment: 'fixed',
+          // background:linear-gradient(rgba(0, 9, 61, 0.2), rgba(3, 0, 43, 0.5)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg);
+          // http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg
+          // background:`url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data).toLowerCase()}.jpg")`,
           backgroundSize:'cover',
           backgroundRepeat:'no-repeat',
-          backgroundPosition:'center, top'
+          backgroundPosition:'0 200px'
         })
-
+        // linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.6)),
 
 
         const runeAxios = await axios({
@@ -291,7 +289,17 @@ const MatchHistory = () => {
       /> 
       
       :
+      
       <section className="result">
+
+        <div className="matchHistoryTitle"><h2>Match History</h2></div>
+
+        {/* <div className="item">
+      <div className="img-wrap">
+            <img src="https://i.imgur.com/crOw6MT.jpg"></img>
+      </div>
+</div> */}
+        
         <div className="headerImageContainer">
           <div className="headerBackground" style={headerStyle}></div>
         </div>
@@ -303,6 +311,7 @@ const MatchHistory = () => {
       {
         proficiencyArray.map((champ:any, index:number)=>{
           return (
+            
             <div className="eachProficiency" key={`prof-${index}`}>
             <img
             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
@@ -324,7 +333,9 @@ const MatchHistory = () => {
 
 
       </div>
+      
       <div className="matchHistoryContainer">
+        
       <MatchDetails playerInfo={playerInfo} championInfo={championInfo} accountInfo={accountInfo} matchInfo={matchInfo} itemObj={itemObj} champObj={champObj} runeArray={runeArray}/>
       
       <button className="loadButton" onClick={throttle(loadMore, 30000)}>Load More</button>
