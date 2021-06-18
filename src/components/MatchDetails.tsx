@@ -2,6 +2,7 @@ import convertChampions from "./convertChampions";
 import convertRunes from "./convertRunes";
 import convertSummoners from "./convertSummoners";
 import { useHistory } from "react-router-dom";
+import opacity from '../assets/opacity.png';
 
 const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj, champObj, runeArray}:{playerInfo:any, championInfo:any, accountInfo:any, matchInfo:any, itemObj:any, champObj:any, runeArray:any}) => {
 
@@ -19,7 +20,7 @@ const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj
         };
       })
 
-
+      console.log(itemObj);
     const getDate = (playedTime:number) => {
         let date = new Date();
         let nowDate = date.getTime();
@@ -69,7 +70,7 @@ const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj
 
 
     return(
-
+        
         <div className="matchHistory">
 
 
@@ -103,13 +104,13 @@ const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj
                     const imgSrc =
                       champ.stats[`item${i}`] !== 0
                         ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${itemNum}.png`
-                        : "https://opgg-static.akamaized.net/images/pattern/opacity.1.png";
+                        : opacity;
                     if (i < 3) {
                       if (itemObj[itemNum]){
                       itemArray.push(
                         <div className="item-upper" key={`index-${i}`}>
                           <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
+                          <span className="toolTip">price: {itemObj[itemNum].gold.total}G <br></br> {itemObj[itemNum].plaintext}</span>
                         </div>
                       );
                     }
@@ -119,7 +120,7 @@ const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj
                       itemArray.push(
                         <div className="item-lower" key={`index${i}`}>
                           <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
+                          <span className="toolTip">price: {itemObj[itemNum].gold.total}G <br></br> {itemObj[itemNum].plaintext}</span>
                         </div>
                       );
                       }
@@ -129,7 +130,7 @@ const MatchDetails = ({playerInfo, championInfo, accountInfo, matchInfo, itemObj
                       itemArray.push(
                         <div className="trinket" key={`inde${i}`}>
                           <img src={imgSrc} alt="items" />
-                          <span className="toolTip">price: {itemObj[itemNum].gold.base}G <br></br> {itemObj[itemNum].plaintext}</span>
+                          <span className="toolTip">{itemObj[itemNum].plaintext}</span>
                         </div>
                       );
                       }

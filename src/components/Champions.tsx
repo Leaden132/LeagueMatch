@@ -8,7 +8,14 @@ const Champions = ({champObj}:any) => {
 
   return (
     <div className="championSection">
+              <div className="championSectionTitle"> 
+            <h2>Champions</h2>
+        </div>
       <div className="wrapper">
+
+
+
+
       {champArray.map((champ, index) => (
         <Link to={`/champions/${champObj[champ].id}`} key={`link-${index}`}>
         <div key={`champ-${index}`} className="champEachBox">
