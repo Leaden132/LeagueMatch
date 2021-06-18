@@ -51,7 +51,6 @@ const App = () => {
       <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
       </Suspense>
 
-
         </div>
 
 

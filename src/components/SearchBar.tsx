@@ -2,12 +2,25 @@ import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from "react-router-dom";
 
 const SearchBar = () => {
 
   const [input, setInput] = useState('');
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />
+  // const [path, setPath] = useState<boolean>(false);
+  let path = false;
+  const location = useLocation<any>();
+  console.log(location.pathname);
+  if (location.pathname === '/'){
+    path = false;
+  }
+  else{
+    path = true;
+  }
+
+
 
     const submitForm = (e: React.FormEvent) => {
       e.preventDefault()
@@ -26,6 +39,10 @@ const SearchBar = () => {
         </ul>
       </nav>
 
+
+
+{path ?
+
 <form onSubmit={submitForm}>
   <label htmlFor="searchInput">
     <input type="text" name="summonerName" placeholder="Summoner Name" className="searchInput" value={input} required onChange={(e)=> setInput(e.target.value)}/>
@@ -33,6 +50,10 @@ const SearchBar = () => {
   <button type="submit" className="searchButton">{element}</button>
 </form>
 
+:
+
+null
+}
 
         </section>
     )

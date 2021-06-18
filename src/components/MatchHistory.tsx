@@ -103,7 +103,7 @@ const MatchHistory = () => {
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
         setHeaderStyle({
-          backgroundImage:`url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data)}_0.jpg")`,
+          backgroundImage:`linear-gradient(rgba(0, 9, 61, 0.2), rgba(3, 0, 43, 0.5)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data)}_0.jpg")`,
           backgroundAttachment: 'fixed',
           // background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
           // backgroundAttachment: 'fixed',
@@ -112,7 +112,7 @@ const MatchHistory = () => {
           // background:`url("https://fastcdn.mobalytics.gg/assets/lol/images/champions-backgrounds/landscape/${convertChampions(championMasteryAxios.data.message[0].championId, championAxios.data.data).toLowerCase()}.jpg")`,
           backgroundSize:'cover',
           backgroundRepeat:'no-repeat',
-          backgroundPosition:'0 200px'
+          // backgroundPosition:'0 200px'
         })
         // linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.6)),
 
@@ -290,20 +290,21 @@ const MatchHistory = () => {
       
       :
       
-      <section className="result">
+      <section className="result" style={headerStyle}>
 
-        <div className="matchHistoryTitle"><h2>Match History</h2></div>
+        
 
         {/* <div className="item">
       <div className="img-wrap">
             <img src="https://i.imgur.com/crOw6MT.jpg"></img>
       </div>
 </div> */}
-        
-        <div className="headerImageContainer">
+        <div className="matchHistoryTitle"><h2>Match History</h2></div>
+        {/* <div className="headerImageContainer">
           <div className="headerBackground" style={headerStyle}></div>
-        </div>
+        </div> */}
         <div className="searchResult">
+        
           <div className="rankedResult">
       <RankedInfo accountInfo={accountInfo} rankedInfo={rankedInfo} />
       <div className="proficiency">
