@@ -54,6 +54,7 @@ const HomePage = () => {
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
     history.push(`/profile/${encodeURI(input)}`);
+    setInput('');
   }
 
   
