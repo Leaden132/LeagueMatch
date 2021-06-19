@@ -8,10 +8,13 @@ const Champions = ({champObj}:any) => {
 
   return (
     <div className="championSection">
-              <div className="championSectionTitle"> 
+            <div className="wrapper">
+            <div className="championSectionTitle"> 
             <h2>Champions</h2>
         </div>
-      <div className="wrapper">
+              <div className="championSectionContainer">
+
+
 
 
 
@@ -44,6 +47,7 @@ const Champions = ({champObj}:any) => {
         </Link>
       ))}
       </div>
+    </div>
     </div>
   );
 };

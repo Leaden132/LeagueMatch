@@ -36,7 +36,6 @@ const MatchHistory = () => {
     setMatchLoading(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     sumName = encodeURI(userName);
-    console.log(sumName);
 
     const loadData = async () => {
       if (sumName !== "") {
@@ -262,17 +261,9 @@ const MatchHistory = () => {
           />
         ) : (
           <section className="result" style={headerStyle}>
-            {/* <div className="item">
-      <div className="img-wrap">
-            <img src="https://i.imgur.com/crOw6MT.jpg"></img>
-      </div>
-</div> */}
             <div className="matchHistoryTitle">
               <h2>Match History</h2>
             </div>
-            {/* <div className="headerImageContainer">
-          <div className="headerBackground" style={headerStyle}></div>
-        </div> */}
             <div className="searchResult">
               <div className="rankedResult">
                 <RankedInfo accountInfo={accountInfo} rankedInfo={rankedInfo} />

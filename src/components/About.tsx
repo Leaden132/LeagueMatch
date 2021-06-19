@@ -8,17 +8,19 @@ const About = () => {
 
 <section className="about">
     <div className="wrapper">
+        <div className="aboutTitleContainer">
         <p className="aboutTitle">What is <span>League of Legends?</span></p>
         <p className="aboutSubTitle">League of Legends</p>
         <p>League of Legends is Riot Games' multiplayer online battle arena - <span className="userBase">MOBA.</span></p>
         <p>Two teams of five players can pick from pool of over <span className="userBase">150 champions</span> with unique abilities and fight to destroy enemy base.</p>
         <p>Over <span className="userBase">120 million</span> user base.</p>
+        </div>
 
         <div className="aboutImageContainer">
             <div className="explanation">
                 <img src={champSelect} alt="explanation about league of legends"></img>
                 <span>Select your champion</span>
-                <p>over 150 playable champions are waiting to be played by you and new champions are being added to the game every few months. Choose the best champion for you!</p>
+                <p>Over 150 playable champions are waiting to be played by you and new champions are being added to the game every few months. Choose the best champion for you!</p>
             </div>
             
             <div className="explanation">
