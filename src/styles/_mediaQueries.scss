@@ -3,7 +3,7 @@
 @media (max-width: 1700px) {
 
 .searchResult {
-    font-size:1.6rem !important;
+    font-size:1.6rem;
 
     .game {
         font-size:1.6rem;
@@ -54,6 +54,39 @@
 
 }
 
+@media(max-width:1375px) {
+
+    .wrapper {
+        width:1300px;
+    }
+
+    .about{
+        .aboutTitleContainer{
+            width:100vw;
+        }
+        p{
+            text-align:center;
+            margin-left:20px;
+            margin-right:20px;
+        }
+        span{
+            text-align:center;
+        }
+        .aboutImageContainer {
+            width:100vw;
+            flex-direction:column;
+            align-items:center;
+            img{
+                margin: 10px auto;
+            }
+            .explanation{
+                width:100%;
+            }
+        }
+    }
+
+}
+
 @media (max-width: 970px) {
     .flexContainer {
         .searchResult {
@@ -87,6 +120,16 @@
 }
 
 @media (max-width: 560px) {
+
+    .about {
+        .aboutImageContainer{
+            img {
+                width:350px;
+            }
+        }
+
+    }
+
     .flexContainer {
         .searchResult {
             flex-direction:column;

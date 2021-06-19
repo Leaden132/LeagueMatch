@@ -1,16 +1,19 @@
 import {useHistory} from 'react-router-dom'
 import {useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 // import axios from 'axios'
 // import PulseLoader from 'react-spinners/PulseLoader';
 // import { css } from "@emotion/react";
+
 
 
 const HomePage = () => {
   const [input, setInput] = useState('');
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />
+  const infoElement = <FontAwesomeIcon icon={faInfoCircle} />
+  const [newToGame, setNewToGame] = useState(false);
   // const [rotation, setRotation] = useState([5,27,44,51,75,76,81,82,105,107,117,121,126,147,238]);
   // const [rotationForNewPlayers, setRotationForNewPlayers] = useState([18,81,92,141,37,238,19,45,25,64]);
   // const [loading, setLoading] = useState(true);
@@ -46,15 +49,15 @@ const HomePage = () => {
 
 
 
-
-  // const arrowLeft = (e:any) => {
-  //   setRotationStyle({transform: 'translate(-200px)'})
-  // }
-
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
     history.push(`/profile/${encodeURI(input)}`);
     setInput('');
+  }
+
+  const infoButtonClick = () => {
+    
+    setNewToGame(!newToGame);
   }
 
   
@@ -62,16 +65,7 @@ const HomePage = () => {
 
     return (
       <>
-      {/* {loading ? 
 
-<PulseLoader
-css={override}
-size={50}
-color={"#160d33"}
-loading={loading}
-/> 
-
-: */}
 <div className="main">
         <div className="background">
         </div>
@@ -80,6 +74,9 @@ loading={loading}
           <div className="mainTitle">
             <h1>League Matches</h1>
           </div>
+
+          
+
           {/* <div className="suggestion">
   <div className="suggestionContainer">
     <span>You don't play league of legends and don't know any user names?</span>
@@ -96,7 +93,20 @@ loading={loading}
 </form>
 </div>
 
+<div className="infoBox">
+  <button className="infoButton" onClick={infoButtonClick}>New to League of Legends?</button>
 
+  {newToGame ?
+  <div className="info">
+    <p className="infoTitle">{infoElement} Here are some summoner names to get you familiar with our search function:</p>
+    <p>TFblade, Doublelift, Trick2G</p>
+  </div>
+
+  :
+
+  null
+}
+  </div>
 
 
 {/* 
