@@ -3,6 +3,7 @@ import convertRunes from "./convertRunes";
 import convertSummoners from "./convertSummoners";
 import { useHistory } from "react-router-dom";
 import opacity from "../assets/opacity.png";
+import convertItemStat from './convertItemStat';
 
 const MatchDetails = ({
   playerInfo,
@@ -70,7 +71,12 @@ const MatchDetails = ({
 
   const kdaCalc = (k: number, d: number, a: number) => {
     if ((k + a) / d === Infinity) {
-      return "perfect KDA";
+      return (
+        <>
+        <p>Perfect</p>
+        <p className="kdaAlign">KDA</p>
+      </>
+      );
     }
     return ((k + a) / d).toFixed(1);
   };
@@ -123,8 +129,25 @@ const MatchDetails = ({
                         <div className="item-upper" key={`index-${i}`}>
                           <img src={imgSrc} alt="items" />
                           <span className="toolTip">
-                            price: {itemObj[itemNum].gold.total}G <br></br>{" "}
+                            <span className="itemName">
+                              {itemObj[itemNum].name}
+                            </span>
+                            {/* <span>{itemObj[itemNum].stats.FlatHPPoolMod}</span> */}
+                            {Object.keys(itemObj[itemNum].stats).map(
+                              (stat, i) => (
+                                <li className="itemStats" key={i}>
+                                  <span>
+                                    {convertItemStat(stat)} :{" "} {itemObj[itemNum].stats[stat]}
+                                  </span>
+                                </li>
+                              )
+                            )}
+                            <br></br>
                             {itemObj[itemNum].plaintext}
+                            <br></br>
+                            <span className="itemCost">
+                              Cost: {itemObj[itemNum].gold.total}
+                            </span>{" "}
                           </span>
                         </div>
                       );
@@ -141,8 +164,25 @@ const MatchDetails = ({
                         <div className="item-lower" key={`index${i}`}>
                           <img src={imgSrc} alt="items" />
                           <span className="toolTip">
-                            price: {itemObj[itemNum].gold.total}G <br></br>{" "}
+                            <span className="itemName">
+                              {itemObj[itemNum].name}
+                            </span>
+                            {/* <span>{itemObj[itemNum].stats.FlatHPPoolMod}</span> */}
+                            {Object.keys(itemObj[itemNum].stats).map(
+                              (stat, i) => (
+                                <li className="itemStats" key={i}>
+                                  <span>
+                                    {convertItemStat(stat)} :{" "} {itemObj[itemNum].stats[stat]}
+                                  </span>
+                                </li>
+                              )
+                            )}
+                            <br></br>
                             {itemObj[itemNum].plaintext}
+                            <br></br>
+                            <span className="itemCost">
+                              Cost: {itemObj[itemNum].gold.total}
+                            </span>{" "}
                           </span>
                         </div>
                       );
@@ -159,6 +199,8 @@ const MatchDetails = ({
                         <div className="trinket" key={`inde${i}`}>
                           <img src={imgSrc} alt="items" />
                           <span className="toolTip">
+                            {itemObj[itemNum].name}
+                            <br></br>
                             {itemObj[itemNum].plaintext}
                           </span>
                         </div>
@@ -258,8 +300,8 @@ const MatchDetails = ({
                           </div>
                         </div>
                         <ul className="levelDetail">
-                          <li>level: {champ.stats.champLevel}</li>
-                          <li>{champ.stats.totalMinionsKilled} CS</li>
+                          <li>level {champ.stats.champLevel}</li>
+                          <li className="kdaAlign">{champ.stats.totalMinionsKilled} CS</li>
                           <li></li>
                         </ul>
 
@@ -285,7 +327,6 @@ const MatchDetails = ({
                       >
                         {player[i].summonerName}
                       </button>
-                      {/* </Link> */}
                     </li>
                   </div>
                 );

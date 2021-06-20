@@ -66,15 +66,26 @@ const MatchHistory = () => {
         });
         setChampObj(championAxios.data.data);
 
+
+        
+
         const itemAxios = await axios({
           method: "GET",
-          url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+          url: "https://ddragon.bangingheads.net/cdn/10.23.1/data/en_US/item.json",
           responseType: "json",
-          params: {
-            apiName: "item",
-          },
         });
-        setItemObj(itemAxios.data.message);
+        setItemObj(itemAxios.data.data);
+        console.log(itemAxios);
+
+        // const itemAxios = await axios({
+        //   method: "GET",
+        //   url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+        //   responseType: "json",
+        //   params: {
+        //     apiName: "item",
+        //   },
+        // });
+        // setItemObj(itemAxios.data.message);
 
         const championMasteryAxios = await axios({
           method: "GET",
@@ -97,6 +108,7 @@ const MatchHistory = () => {
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
+          backgroundPosition:"center"
         });
 
         const runeAxios = await axios({
@@ -181,7 +193,6 @@ const MatchHistory = () => {
         apiParam: gameId,
       },
     });
-
     matchDetailArray.push(matchDetailAxios.data.message);
   };
 
@@ -231,8 +242,6 @@ const MatchHistory = () => {
 
   const loadMore = () => {
     setLoadCount(loadCount + 10);
-
-    // setloadCount(loadCount + 10);
   };
 
   if (error) {
@@ -243,8 +252,7 @@ const MatchHistory = () => {
       </div>
     ) : (
       <div className="error">
-        This username is not registered at League of Legends, Please check
-        spelling
+        This username is not registered at League of Legends, Please try other username.
       </div>
     );
   } else {

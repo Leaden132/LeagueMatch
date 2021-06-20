@@ -9,6 +9,10 @@
         font-size:1.6rem;
         min-width:1010px;
     }
+
+    .loadButton{
+        min-width:1010px;
+    }
 }
 
 
@@ -43,6 +47,10 @@
 
             .proficiency{
                 margin-left:1.5vw;
+            }
+
+            .loadButton{
+                margin-left:3vw;
             }
     
             .matchHistory {
@@ -93,7 +101,20 @@
 
 
 @media (max-width: 1070px) {
+    
+    .searchBar{
+        form{
+
+            input[type="text"]{
+                width:250px;
+                margin-left:0;
+            }
+        }
+    }
+    
     .flexContainer {
+
+        
         .searchResult {
             flex-direction:column;
     
@@ -103,20 +124,34 @@
                 margin-top:50px;
             }
     
+
+            .loadButton{
+                width:850px;
+                min-width:unset;
+            }
+
             .matchHistory {
                 margin-top: 50px;
-                margin-left:3vw;
+                // margin-left:3vw;
+                // margin: 0 auto;
+                margin: 0 auto;
+                width: 850px;
+
+
                 .match {
                     min-width:unset;
-                    width:90vw;
+                    width:850px;
                 .game {
                     min-width:unset;
-                    width:90vw;
+                    width:850px;
 
                     .gameInfo{
-
+                        width:150px;
+                        
                         .otherPlayerInfo{
                             left:550px;
+                            width:130px;
+                            height:36.5px;
                         }
                     }
 
@@ -125,7 +160,161 @@
             }
         }
     }
+
+    .filterContainer{
+        flex-direction:column;
+        align-items:center;
+
+        input[type=text]{
+            width:270px;
+            margin-left:17px;
+        }
+    }
 }
+
+@media (max-width:900px) {
+.flexContainer{
+    .searchResult{
+        .loadButton{
+            width:600px;
+            display:block;
+            margin: 0 auto;
+        }
+        .matchHistory{
+            width:600px;
+
+
+            .match{
+                width:600px;
+                margin: 0 auto;
+                .game{
+                    width:600px;
+                    .metaInfo{
+                        width:170px;
+                        height:45px;
+                        flex-wrap:wrap;
+                    }
+                    .gameInfo{
+                        .userPlayInfo{
+                            flex-wrap:wrap;
+                            width:300px;
+                            height:200px;
+                            top:20%;
+                        }
+        
+                        .otherPlayerInfo{
+                            left:300px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+}
+
+@media (max-width: 720px) {
+    
+    .searchBar{
+        form{
+
+            input[type="text"]{
+                width:35vw;
+                margin-left:0;
+            }
+        }
+
+        .home{
+            margin-left:20px;
+        }
+    }
+}
+
+@media(max-width:630px) {
+
+    .searchBar{
+        text-align:center;
+        nav{
+            width:360px;
+            ul{
+                width:360px;
+                // justify-content:space-around;
+                
+
+                .home{
+                    margin-left:20px;
+                }
+                li{
+                    margin:0 20px;
+
+                }
+            }
+        }
+
+        form{
+
+            input[type="text"]{
+                width:30vw;
+                margin-left:0;
+            }
+        }
+    }
+
+
+
+
+.flexContainer{
+    h2{
+        text-align:center;
+    }
+    .searchResult{
+
+        .proficiency{
+            margin:0 auto;
+            width:460px;
+
+            .eachProficiency{
+                width:60vw;
+                margin: 10px auto;
+            }
+        }
+        .rankedInfo {
+            margin: 20px auto;
+            margin-top:100px;
+        }
+        .matchHistory{
+            margin-top:50px;
+            width:550px;
+            .match{
+                width:550px;
+                margin: 0 auto;
+                .game{
+                    width:550px;
+                    .metaInfo{
+                        width:340px;
+                        height:45px;
+                        flex-wrap:wrap;
+                    }
+                    .gameInfo{
+                        .userPlayInfo{
+                            
+                            width:550px;
+                            height:200px;
+                            top:10%;
+                        }
+        
+                        .otherPlayerInfo{
+                            display:none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+}
+
 
 @media (max-width: 560px) {
 
@@ -138,33 +327,103 @@
 
     }
 
+    .searchBar{
+        text-align:center;
+        flex-wrap:wrap;
+        nav{
+            width:360px;
+            margin: 0 auto;
+            ul{
+                width:360px;
+                // justify-content:space-around;
+
+                .home{
+                    margin-left:25px;
+                }
+                li{
+                    margin:0 20px;
+
+                }
+            }
+        }
+
+        form{
+            margin:0 auto;
+            input[type="text"]{
+                width:80vw;
+            }
+        }
+    }
+
     .flexContainer {
         .searchResult {
             flex-direction:column;
+            .proficiency{
+                width:320px;
     
+                .eachProficiency{
+                    width:320px;
+
+                    .profImage{
+                        margin-right:30px;
+                    }
+                }
+            }
             .rankedInfo {
-                width:350px;
-                margin-left:3vw;
+                width:320px;
+                height:150px;
+                margin: 0 auto;
                 margin-top:50px;
+
+                .rank{
+                    width:100px;
+                    height:100px;
+                    margin-right:10px;
+                    margin-left:20px;
+                }
+            }
+
+            .loadButton{
+                width:320px;
             }
     
             .matchHistory {
                 margin-top: 50px;
-                margin-left:3vw;
+                width:320px;
+
                 .match {
+                    width:320px;
                 .game {
-                    width:900px;
-
+                    width:320px;
+                    margin:0;
+                    margin: 10px auto;
+                    .metaInfo{
+                        width:170px;
+                        height:45px;
+                        flex-wrap:wrap;
+                        margin-left:40px;
+                    }
                     .gameInfo{
+                        .userPlayInfo{
+                            flex-wrap:wrap;
+                            width:300px;
+                            height:200px;
+                            top:20%;
+                            margin-left:22px;
 
+                            ul {
+                                margin-left:23px;
+                            }
+                        }
+        
                         .otherPlayerInfo{
-                            display:none;
+                            left:0px;
                         }
                     }
-
-                }
                 }
             }
         }
     }
 }
+}
+
