@@ -695,9 +695,65 @@ h1{
     }
   }
   
+.filterContainer{
+  display:flex;
+  margin-bottom:30px;
+  justify-content:center;
 
+  input[type=text] {
+    border-radius:10px;
+    width:25vw;
+    height:52px;
+    padding:20px;
+    outline:none;
+    border: 2px solid #d2d2d7;
+  // border: 2px solid gold;
+  // border:none;
+  color:white;
+  background:#10172b;
+  &:focus{
+    box-shadow:  0px 4px 4px #74b1bf;
+  }
+}
 
+  .classChoiceContainer {
+    display:flex;
+    margin-left:20px;
 
+    .startChoice{
+      border-radius:10px 0 0 10px;
+    }
+
+    .endChoice{
+      border-radius:0 10px 10px 0;
+    }
+    
+    .classChoice{
+      width:52px;
+      height:52px;
+      background-color:#10172b;
+      transition-duration: 0.4s;
+      border: 2px solid #d2d2d7;
+      &:hover,
+      &:focus{
+        border: 2px solid violet;
+        box-shadow:  0px 4px 4px #74b1bf;
+        cursor:pointer;
+      }
+
+      img {
+        width:52px;
+        height:52px;
+        display:block;
+        margin:auto;
+        padding-left:10px;
+        padding-top:10px;
+        padding-bottom:12px;
+        padding-right:12px;
+      }
+    }
+  }
+}
 
   .championSection{
     margin-top:100px;

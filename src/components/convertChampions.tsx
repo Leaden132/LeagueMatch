@@ -10,8 +10,6 @@ const convertChampions = (championId:number, champObj:any):string => {
                     return championName;
                 }
             }
-
-            console.log('convertChamp', championName, championId, champObj );
             
             return 'Riven';
 }
