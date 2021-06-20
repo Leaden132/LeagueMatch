@@ -163,8 +163,6 @@ const MatchHistory = () => {
     };
 
     loadData().catch((e) => {
-      console.log("There has been a problem with API call: " + e.message);
-
       setError(true);
       setAPIError(true);
       setTimeout(() => {

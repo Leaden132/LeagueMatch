@@ -7,7 +7,6 @@ import { css } from "@emotion/react";
 const InidividualChampInfo = () => {
   const { champName } = useParams<{ champName: string }>();
 
-  console.log(champName);
   const override = css`
     display: block;
     margin: 0 auto;
@@ -33,18 +32,13 @@ const InidividualChampInfo = () => {
       url: `https://ddragon.leagueoflegends.com/cdn/11.12.1/data/en_US/champion/${champName}.json`,
       responseType: "json",
     }).then((res) => {
-      console.log(res);
-      console.log(res.data.data);
-      console.log(res.data.data[champName]);
       setChampObj(res.data.data[champName]);
       setTimeout(() => {
         setLoading(false);
       }, 500);
     });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(champObj);
 
   return (
     <>
@@ -56,8 +50,6 @@ const InidividualChampInfo = () => {
           loading={loading}
         />
       ) : (
-
-        
         <div className="eachInfo">
           <div className="champImageContainer">
             <div className="champBackground" style={champInfoStyle}></div>
@@ -87,7 +79,7 @@ const InidividualChampInfo = () => {
                       )}
                     </div>
                     <span>
-                      {champObj.tags.map((tag: string, index:number) => {
+                      {champObj.tags.map((tag: string, index: number) => {
                         return (
                           <img
                             className="classes"
@@ -103,15 +95,19 @@ const InidividualChampInfo = () => {
 
                 <div className="skillContainer">
                   <div className="skills">
-                  <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/passive/${champObj.passive.image.full}`}
-                    alt={champObj.passive.image.full}
-                    
-                  ></img>
+                    <img
+                      src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/passive/${champObj.passive.image.full}`}
+                      alt={champObj.passive.image.full}
+                    ></img>
                     <span className="toolTip">
-                    {champObj.passive.description.replace(/(<([^>]+)>)/ig,'')}
-                  </span>
-                  <div className="keyboard"><span>P</span></div>
+                      {champObj.passive.description.replace(
+                        /(<([^>]+)>)/gi,
+                        ""
+                      )}
+                    </span>
+                    <div className="keyboard">
+                      <span>P</span>
+                    </div>
                   </div>
                   {champObj.spells.map((spell: any, index: number) => {
                     if (index === 0) {
@@ -122,14 +118,15 @@ const InidividualChampInfo = () => {
                             alt={spell.name}
                           ></img>
 
-                          
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
-                          <div className="keyboard"><span>Q</span></div>
+                          <div className="keyboard">
+                            <span>Q</span>
+                          </div>
                         </div>
                       );
                     } else if (index === 1) {
@@ -139,14 +136,16 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          
+
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
-                          <div className="keyboard"><span>W</span></div>
+                          <div className="keyboard">
+                            <span>W</span>
+                          </div>
                         </div>
                       );
                     } else if (index === 2) {
@@ -156,14 +155,16 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          
+
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
-                          <div className="keyboard"><span>E</span></div>
+                          <div className="keyboard">
+                            <span>E</span>
+                          </div>
                         </div>
                       );
                     } else {
@@ -173,14 +174,16 @@ const InidividualChampInfo = () => {
                             src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
                             alt={spell.name}
                           ></img>
-                          
+
                           <span className="toolTip">
                             {spell.name}
                             <br></br>
                             {spell.description}
                             <br></br>Cooldown: {spell.cooldownBurn}
                           </span>
-                          <div className="keyboard"><span>R</span></div>
+                          <div className="keyboard">
+                            <span>R</span>
+                          </div>
                         </div>
                       );
                     }

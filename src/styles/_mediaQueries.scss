@@ -40,6 +40,10 @@
                 margin-left:3vw;
                 margin-top:50px;
             }
+
+            .proficiency{
+                margin-left:1.5vw;
+            }
     
             .matchHistory {
                 margin-top: 50px;
@@ -87,7 +91,8 @@
 
 }
 
-@media (max-width: 970px) {
+
+@media (max-width: 1070px) {
     .flexContainer {
         .searchResult {
             flex-direction:column;
@@ -102,13 +107,16 @@
                 margin-top: 50px;
                 margin-left:3vw;
                 .match {
+                    min-width:unset;
+                    width:90vw;
                 .game {
-                    width:900px;
+                    min-width:unset;
+                    width:90vw;
 
                     .gameInfo{
 
                         .otherPlayerInfo{
-                            color:red;
+                            left:550px;
                         }
                     }
 
