@@ -15,10 +15,10 @@ const InidividualChampInfo = () => {
   `;
 
   const champInfoStyle = {
-    background: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
-    backgroundSize: "100% auto",
+    backgroundImage: `linear-gradient(rgba(33, 26, 56, 0.5), rgba(18, 11, 39, 0.8)), url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_1.jpg")`,
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "center, top",
+    backgroundPosition: "center",
   };
 
   const [loading, setLoading] = useState(true);
@@ -33,6 +33,7 @@ const InidividualChampInfo = () => {
       responseType: "json",
     }).then((res) => {
       setChampObj(res.data.data[champName]);
+      console.log(res.data.data);
       setTimeout(() => {
         setLoading(false);
       }, 500);
@@ -50,7 +51,7 @@ const InidividualChampInfo = () => {
           loading={loading}
         />
       ) : (
-        <div className="eachInfo">
+        <div className="eachInfo" >
           <div className="champImageContainer">
             <div className="champBackground" style={champInfoStyle}></div>
           </div>
@@ -100,17 +101,21 @@ const InidividualChampInfo = () => {
                       alt={champObj.passive.image.full}
                     ></img>
                     <span className="toolTip">
+                    <span className="spellName">{champObj.passive.name}</span>
+                    <br></br>
                       {champObj.passive.description.replace(
                         /(<([^>]+)>)/gi,
                         ""
                       )}
+                      <br></br>
+                      {/* {champObj.passive.cooldownBurn && <span>Cooldown: {champObj.passive.cooldownBurn}</span>} */}
                     </span>
                     <div className="keyboard">
                       <span>P</span>
                     </div>
                   </div>
                   {champObj.spells.map((spell: any, index: number) => {
-                    if (index === 0) {
+
                       return (
                         <div className="skills" key={`spell-${index}`}>
                           <img
@@ -119,74 +124,21 @@ const InidividualChampInfo = () => {
                           ></img>
 
                           <span className="toolTip">
-                            {spell.name}
+                          <span className="spellName">{spell.name}</span>
                             <br></br>
                             {spell.description}
-                            <br></br>Cooldown: {spell.cooldownBurn}
+                            <br></br>
+                            <span className="spellCD">Cooldown: {spell.cooldownBurn}</span>
                           </span>
                           <div className="keyboard">
-                            <span>Q</span>
+                          {index===0 && <span>Q</span>}
+                          {index===1 && <span>W</span>}
+                          {index===2 && <span>E</span>}
+                          {index===3 && <span>R</span>}
                           </div>
                         </div>
                       );
-                    } else if (index === 1) {
-                      return (
-                        <div className="skills">
-                          <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
-                            alt={spell.name}
-                          ></img>
-
-                          <span className="toolTip">
-                            {spell.name}
-                            <br></br>
-                            {spell.description}
-                            <br></br>Cooldown: {spell.cooldownBurn}
-                          </span>
-                          <div className="keyboard">
-                            <span>W</span>
-                          </div>
-                        </div>
-                      );
-                    } else if (index === 2) {
-                      return (
-                        <div className="skills">
-                          <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
-                            alt={spell.name}
-                          ></img>
-
-                          <span className="toolTip">
-                            {spell.name}
-                            <br></br>
-                            {spell.description}
-                            <br></br>Cooldown: {spell.cooldownBurn}
-                          </span>
-                          <div className="keyboard">
-                            <span>E</span>
-                          </div>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div className="skills">
-                          <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${spell.image.full}`}
-                            alt={spell.name}
-                          ></img>
-
-                          <span className="toolTip">
-                            {spell.name}
-                            <br></br>
-                            {spell.description}
-                            <br></br>Cooldown: {spell.cooldownBurn}
-                          </span>
-                          <div className="keyboard">
-                            <span>R</span>
-                          </div>
-                        </div>
-                      );
-                    }
+                   
                   })}
                 </div>
               </div>

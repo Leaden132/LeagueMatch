@@ -75,7 +75,6 @@ const MatchHistory = () => {
           responseType: "json",
         });
         setItemObj(itemAxios.data.data);
-        console.log(itemAxios);
 
         // const itemAxios = await axios({
         //   method: "GET",
