@@ -8,12 +8,40 @@ const SearchBar = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />;
+
   let path = false;
   const location = useLocation<any>();
   if (location.pathname === "/") {
     path = false;
   } else {
     path = true;
+  }
+
+  let currentHome= ""
+  let currentAbout=""
+  let currentChampions=""
+  if (location.pathname.includes("/champions")){
+    currentHome=""
+    currentAbout=""
+    currentChampions="current"
+  }
+
+  else if (location.pathname.includes("/about")){
+    currentHome=""
+    currentAbout="current"
+    currentChampions=""
+  }
+
+  else if (location.pathname==="/"){
+    currentHome="current"
+    currentAbout=""
+    currentChampions=""
+  }
+
+  else {
+    currentHome="current"
+    currentAbout=""
+    currentChampions=""
   }
 
   const submitForm = (e: React.FormEvent) => {
@@ -26,14 +54,14 @@ const SearchBar = () => {
     <section className="searchBar">
       <nav>
         <ul>
-          <Link to="/">
-            <li className="home">home</li>
+          <Link to="/" aria-label="Move to home page">
+            <li className={`home ${currentHome}`}>home</li>
           </Link>
-          <Link to="/about">
-            <li>about</li>
+          <Link to="/about" aria-label="Move to about page">
+            <li className={`${currentAbout}`}>about</li>
           </Link>
-          <Link to="/champions">
-            <li>champions</li>
+          <Link to="/champions" aria-label="Move to champions page">
+            <li className={`${currentChampions}`}>champions</li>
           </Link>
         </ul>
       </nav>

@@ -28,7 +28,7 @@ html {
   background:linear-gradient(rgba(0, 9, 61, 0.2), rgba(3, 0, 43, 0.5)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg);
   background-size:cover;
   background-position: 0 50px;
-  background-position:center;
+  background-position:(center);
   // background-attachment:fixed;
 
 
@@ -213,6 +213,11 @@ h1{
       
 
         a{
+
+          .current{
+            color:white;
+          }
+
           li{
             height:35px;
             // width:100px;
@@ -229,12 +234,22 @@ h1{
             font-size:2.1rem;
             transition-duration: 0.4s;
           }
-          &:hover li,
-          &:focus li {
+          &:hover li {
             background-color:#74b1bf;
             border-radius:5px;
             color:white;
           }
+
+          &:focus li{
+            border-bottom:1px solid #74b1bf;
+            border-radius:2px;
+            // box-shadow:  -1px 4px 4px #74b1bf;
+          }
+
+          // &:not(.active):hover li {
+          //   background-color:none;
+            
+          // }
         }
     
     ul {
@@ -408,15 +423,12 @@ h1{
     .explanation{
       display:flex;
       flex-direction: column;
-      justify-content:space-around;
       margin: 15px;
-      // text-align:center;
       width:30%;
 
       span {
         color:$color2;
         font-size:2.5rem;
-        // margin: 0 auto;
         margin-top:10px;
         margin-bottom:10px;
         text-transform:uppercase;
@@ -428,7 +440,7 @@ h1{
       width: 420px;
       margin:20px 0;
       margin-top:50px;
-      border-radius:10px;
+      border-radius:5px;
       // border: 3px solid $mainColor;
 
 
@@ -674,6 +686,8 @@ h1{
 
   }
 
+
+
   .item-upper,
   .item-lower,
   .trinket{
@@ -908,7 +922,7 @@ h1{
   width: 60%;
   padding:20px;
   border-radius:10px;
-  background-color:#10172b;
+  background-color:rgba(16, 23, 43, 0.8);
   .statDescription{
     p{
       margin:15px 0;
@@ -923,11 +937,11 @@ h1{
 }
 
 .eachInfo {
-  margin-top:51px;
+  margin-top:50px;
   width:100%;
 .champInfoBoxContainer{
-  // background-color:rgba(36, 31, 90, 0.8);
-  background-color:#10172b;
+  background-color:rgba(16, 23, 43, 0.8);
+  // background-color:#10172b;
   margin-bottom:20px;
   border-radius:10px;
 
@@ -941,7 +955,16 @@ h1{
     padding:20px;
     display:flex;
 
-
+    .toolTip{
+      .spellName{
+        color:violet;
+      }
+      .spellCD{
+        color: gold;
+      }
+  
+  
+    }
 
 
     .skillContainer{
@@ -1011,19 +1034,19 @@ h1{
       margin:7px 12px;
     }
   }
+}
+}
 
 .champBackground {
   position:absolute;
   z-index:-1;
   width:100%;
-  height:calc(100vh - 51px);
-  border-bottom: 2px solid grey;
-  box-shadow: grey 0 0 10px inset;
-  
-}
-
-
-}
+  height:calc(100vh - 50px);
+  min-height:900px;
+  border:none;
+  // border-bottom: 2px solid grey;
+  // box-shadow: grey 0 0 10px inset;
+  background-color:none;
 }
 
 .statContainer p {

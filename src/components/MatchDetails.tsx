@@ -132,7 +132,6 @@ const MatchDetails = ({
                             <span className="itemName">
                               {itemObj[itemNum].name}
                             </span>
-                            {/* <span>{itemObj[itemNum].stats.FlatHPPoolMod}</span> */}
                             {Object.keys(itemObj[itemNum].stats).map(
                               (stat, i) => (
                                 <li className="itemStats" key={i}>
@@ -167,7 +166,6 @@ const MatchDetails = ({
                             <span className="itemName">
                               {itemObj[itemNum].name}
                             </span>
-                            {/* <span>{itemObj[itemNum].stats.FlatHPPoolMod}</span> */}
                             {Object.keys(itemObj[itemNum].stats).map(
                               (stat, i) => (
                                 <li className="itemStats" key={i}>

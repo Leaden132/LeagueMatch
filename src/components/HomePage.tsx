@@ -7,7 +7,7 @@ const HomePage = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
   const element = <FontAwesomeIcon icon={faSearch} />;
-  const infoElement = <FontAwesomeIcon icon={faInfoCircle} />;
+  const infoElement = <FontAwesomeIcon icon={faInfoCircle} aria-hidden="true"/>;
   const [newToGame, setNewToGame] = useState(false);
 
   const submitForm = (e: React.FormEvent) => {
@@ -22,9 +22,8 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="main">
+      <section className="main">
         <div className="background"></div>
-
         <div className="homePage">
           <div className="mainTitle">
             <h1>League Matches</h1>
@@ -64,7 +63,7 @@ const HomePage = () => {
             ) : null}
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

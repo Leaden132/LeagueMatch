@@ -25,26 +25,20 @@ const App = () => {
     .then((res)=> {
       setChampObj(res.data.data);
     })
-    
   },[])
-
-
 
   return (
     <div className="App">
-
-
         <div className="flexContainer">
-      <Suspense fallback={<Fallback/>}>
-      <Route path='/' render={ () => <SearchBar /> } />
-      <Route exact path={`/profile/:userName`} render={()=> <MatchHistory/> } />
-      <Route exact path='/' render={()=> <HomePage/>}/>
-      <Route exact path='/about' render={()=><About/>}/>
-      <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
-      <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
-      </Suspense>
+          <Suspense fallback={<Fallback/>}>
+            <Route path='/' render={ () => <SearchBar /> } />
+            <Route exact path={`/profile/:userName`} render={()=> <MatchHistory/> } />
+            <Route exact path='/' render={()=> <HomePage/>}/>
+            <Route exact path='/about' render={()=><About/>}/>
+            <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
+            <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
+          </Suspense>
         </div>
-
     </div>
   );
 }
