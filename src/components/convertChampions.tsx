@@ -7,9 +7,11 @@ const convertChampions = (championId:number, champObj:any):string => {
             for(let i = 0 ; i <championArray.length ; i++){
                 if (parseInt(champObj[championArray[i]].key, 10) === championId){
                     championName = championArray[i];
+                    return championName;
                 }
             }
-            return championName;
+            
+            return 'Riven';
 }
 
 export default convertChampions;
