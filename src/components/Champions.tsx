@@ -54,7 +54,7 @@ const Champions = ({champObj}:any) => {
           </div>
 
           <div className="classChoiceContainer">
-            <div className="AllClasses classChoice startChoice" onClick={handleClick}> <img src={allClass} alt="Any class icon"></img></div>
+            <div className="AllClasses classChoice startChoice" onClick={handleClick}><img src={allClass} alt="Any class icon"></img></div>
             <div className="Fighter classChoice" onClick={handleClick}><img src="https://universe.leagueoflegends.com/images/role_icon_fighter.png" alt="Fighter class icon"></img></div>
             <div className="Mage classChoice" onClick={handleClick}><img src="https://universe.leagueoflegends.com/images/role_icon_mage.png" alt="Mage class icon"></img></div>
             <div className="Assassin classChoice" onClick={handleClick}><img src="https://universe.leagueoflegends.com/images/role_icon_assassin.png" alt="Assassin class icon"></img></div>
@@ -64,12 +64,9 @@ const Champions = ({champObj}:any) => {
           </div>
           </div>
               <div className="championSectionContainer">
-
-
-
-
+        
        {champArray.filter((champName, index)=>(champName.toLowerCase().includes(champFilter.toLowerCase()))).filter((champName)=>filterByClass(classFilter, champName)).map((champ, index) => {
-
+         //Filtering via champion names and classes
          return(
         
         <Link to={`/champions/${champObj[champ].id}`} key={`link-${index}`}>
