@@ -3,7 +3,7 @@ import convertRunes from "./convertRunes";
 import convertSummoners from "./convertSummoners";
 import { useHistory } from "react-router-dom";
 import opacity from "../assets/opacity.png";
-import convertItemStat from './convertItemStat';
+import convertItemStat from "./convertItemStat";
 
 const MatchDetails = ({
   playerInfo,
@@ -73,9 +73,9 @@ const MatchDetails = ({
     if ((k + a) / d === Infinity) {
       return (
         <>
-        <p>Perfect</p>
-        <p className="kdaAlign">KDA</p>
-      </>
+          <p>Perfect</p>
+          <p className="kdaAlign">KDA</p>
+        </>
       );
     }
     return ((k + a) / d).toFixed(1);
@@ -121,13 +121,21 @@ const MatchDetails = ({
                   let itemNum = champ.stats[`item${i}`];
                   const imgSrc =
                     champ.stats[`item${i}`] !== 0
-                      ? `https://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/${itemNum}.png`
+                      ? `https://ddragon.bangingheads.net/cdn/11.10.1/img/item/${itemNum}.png`
                       : opacity;
                   if (i < 3) {
                     if (itemObj[itemNum]) {
                       itemArray.push(
                         <div className="item-upper" key={`index-${i}`}>
-                          <img src={imgSrc} alt="items" />
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                           <span className="toolTip">
                             <span className="itemName">
                               {itemObj[itemNum].name}
@@ -136,7 +144,8 @@ const MatchDetails = ({
                               (stat, i) => (
                                 <li className="itemStats" key={i}>
                                   <span>
-                                    {convertItemStat(stat)} :{" "} {itemObj[itemNum].stats[stat]}
+                                    {convertItemStat(stat)} :{" "}
+                                    {itemObj[itemNum].stats[stat]}
                                   </span>
                                 </li>
                               )
@@ -153,7 +162,15 @@ const MatchDetails = ({
                     } else {
                       itemArray.push(
                         <div className="item-upper" key={`index-${i}`}>
-                          <img src={imgSrc} alt="items"></img>
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                         </div>
                       );
                     }
@@ -161,7 +178,15 @@ const MatchDetails = ({
                     if (itemObj[itemNum]) {
                       itemArray.push(
                         <div className="item-lower" key={`index${i}`}>
-                          <img src={imgSrc} alt="items" />
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                           <span className="toolTip">
                             <span className="itemName">
                               {itemObj[itemNum].name}
@@ -170,7 +195,8 @@ const MatchDetails = ({
                               (stat, i) => (
                                 <li className="itemStats" key={i}>
                                   <span>
-                                    {convertItemStat(stat)} :{" "} {itemObj[itemNum].stats[stat]}
+                                    {convertItemStat(stat)} :{" "}
+                                    {itemObj[itemNum].stats[stat]}
                                   </span>
                                 </li>
                               )
@@ -187,7 +213,15 @@ const MatchDetails = ({
                     } else {
                       itemArray.push(
                         <div className="item-lower" key={`index-${i}`}>
-                          <img src={imgSrc} alt="items"></img>
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                         </div>
                       );
                     }
@@ -195,7 +229,15 @@ const MatchDetails = ({
                     if (itemObj[itemNum]) {
                       itemArray.push(
                         <div className="trinket" key={`inde${i}`}>
-                          <img src={imgSrc} alt="items" />
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                           <span className="toolTip">
                             {itemObj[itemNum].name}
                             <br></br>
@@ -206,7 +248,15 @@ const MatchDetails = ({
                     } else {
                       itemArray.push(
                         <div className="trinket" key={`index-${i}`}>
-                          <img src={imgSrc} alt="items"></img>
+                          <img
+                            src={imgSrc}
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                            }}
+                            alt="items"
+                          />
                         </div>
                       );
                     }
@@ -299,7 +349,9 @@ const MatchDetails = ({
                         </div>
                         <ul className="levelDetail">
                           <li>level {champ.stats.champLevel}</li>
-                          <li className="kdaAlign">{champ.stats.totalMinionsKilled} CS</li>
+                          <li className="kdaAlign">
+                            {champ.stats.totalMinionsKilled} CS
+                          </li>
                           <li></li>
                         </ul>
 
