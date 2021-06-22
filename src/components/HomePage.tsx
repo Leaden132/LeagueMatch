@@ -6,7 +6,7 @@ import { faSearch, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 const HomePage = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
-  const element = <FontAwesomeIcon icon={faSearch} />;
+  const element = <FontAwesomeIcon icon={faSearch} aria-hidden="true"/>;
   const infoElement = <FontAwesomeIcon icon={faInfoCircle} aria-hidden="true"/>;
   const [newToGame, setNewToGame] = useState(false);
 
@@ -41,7 +41,7 @@ const HomePage = () => {
                   onChange={(e) => setInput(e.target.value)}
                 />
               </label>
-              <button type="submit" className="searchButton">
+              <button type="submit" className="searchButton" aria-hidden="true">
                 {element}
               </button>
             </form>
