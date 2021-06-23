@@ -66,25 +66,12 @@ const MatchHistory = () => {
         });
         setChampObj(championAxios.data.data);
 
-
-        
-
         const itemAxios = await axios({
           method: "GET",
           url: "https://ddragon.bangingheads.net/cdn/10.23.1/data/en_US/item.json",
           responseType: "json",
         });
         setItemObj(itemAxios.data.data);
-
-        // const itemAxios = await axios({
-        //   method: "GET",
-        //   url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
-        //   responseType: "json",
-        //   params: {
-        //     apiName: "item",
-        //   },
-        // });
-        // setItemObj(itemAxios.data.message);
 
         const championMasteryAxios = await axios({
           method: "GET",
