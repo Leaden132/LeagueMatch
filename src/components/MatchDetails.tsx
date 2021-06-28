@@ -371,7 +371,7 @@ const MatchDetails = ({
                         className="otherUsers"
                         onClick={() => {
                           history.push(
-                            `/profile/${encodeURI(player[i].summonerName)}`
+                            `/match/${encodeURI(player[i].summonerName)}`
                           );
                         }}
                       >

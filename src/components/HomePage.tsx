@@ -12,7 +12,7 @@ const HomePage = () => {
 
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
-    history.push(`/profile/${encodeURI(input)}`);
+    history.push(`/match/${encodeURI(input)}`);
     setInput("");
   };
 
