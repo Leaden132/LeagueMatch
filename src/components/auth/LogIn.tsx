@@ -36,19 +36,19 @@ export default function SignIn() {
             console.log(err);
             setError('failed to create an acount')
         }
-
         setLoading(false)
-
     }
     }
 
     return (
         <div>
             <section className="authentication">
-
+                <div className="loginContainer">
+                    TEST
+                </div>
 
             </section>
-
+        
 
             <Container className="d-flex align-items-center justify-content-center"
             style={{minHeight:"100vh"}}>
