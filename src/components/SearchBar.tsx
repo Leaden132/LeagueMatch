@@ -3,28 +3,28 @@ import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
-// import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 const SearchBar = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
-  // const { logout } = useAuth();
-  // const [error, setError] = useState("");
+  const { logout, currentUser } = useAuth();
+  const [error, setError] = useState("");
   const element = <FontAwesomeIcon icon={faSearch} />;
 
-  // async function handleLogout() {
-  //   setError("")
+  async function handleLogout() {
+    setError("")
 
-  //   try {
-  //     await logout()
-  //     history.push("/login")
-  //   } catch {
-  //     setError("Failed to log out")
-  //   }
-  // }
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
 
   let path = false;
-  // let loginPath = false;
+  let loginPath = false;
 
   const location = useLocation<any>();
   if (location.pathname === "/") {
@@ -33,12 +33,12 @@ const SearchBar = () => {
     path = true;
   }
 
-  // if (location.pathname=== ("/login" || "/signup" )){
-  //   loginPath = true;
-  // }
-  // else {
-  //   loginPath = false;
-  // }
+  if (location.pathname=== ("/login" || "/signup" )){
+    loginPath = true;
+  }
+  else {
+    loginPath = false;
+  }
 
   let currentHome= ""
   let currentAbout=""
@@ -100,17 +100,17 @@ const SearchBar = () => {
             <li className={`${currentChampions}`}>champions</li>
           </Link>
 
-          {/* { currentUser ? 
+          { currentUser ? 
           <Link to="/">
           <li className={`${currentLogin}`} onClick={handleLogout}>LogOut</li>
           </Link>
-           : <Link to="/signin" aria-label="Move to login page">
+           : <Link to="/login" aria-label="Move to login page">
            <li className={`${currentLogin}`}>LogIn</li>
          </Link>
         }
 
         {currentUser ? (<Link to="/profile" aria-label="Move to profile page">
-          <li className={`${currentLogin}`}>profile</li></Link>) : null} */}
+          <li className={`${currentLogin}`}>profile</li></Link>) : null}
           
 
 
