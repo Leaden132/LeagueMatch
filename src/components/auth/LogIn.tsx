@@ -28,13 +28,14 @@ export default function SignIn() {
             let email = emailRef.current.value.toString();
             let password = passwordRef.current.value;
 
+            console.log(email);
+
             await login({email: email, password: password})
             history.push('/');
 
-            console.log()
         } catch(err) {
             console.log(err);
-            setError('failed to create an acount')
+            setError('failed to login')
         }
         setLoading(false)
     }
@@ -43,39 +44,26 @@ export default function SignIn() {
     return (
         <div>
             <section className="authentication">
+                <div className="spacer"></div>
                 <div className="loginContainer">
-                    TEST
+                    
+                    <form onSubmit={handleSubmit}>
+                        <h3>Log In</h3>
+                        <label htmlFor="email">Email</label>
+                        <input className="emailInput" id="email" name="email" type="email" ref={emailRef} required></input>
+
+                        <label htmlFor="password">Password</label>
+                        <input className="passwordInput" id="password" name="password" type="password" ref={passwordRef} required></input>
+
+                        <p>Don't have account yet? <Link to="/signup"><span>Sign Up!</span></Link></p>
+
+                        <button type="submit">Log In</button>
+                    </form>
+                    
                 </div>
 
             </section>
-        
-
-            <Container className="d-flex align-items-center justify-content-center"
-            style={{minHeight:"100vh"}}>
-            <div className="w-100" style={{maxWidth: '400px'}}>
-            <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {currentUser && currentUser.email}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" ref={emailRef} required/>
-                        </Form.Group>
-                        <Form.Group id="password">
-                            <Form.Label>password</Form.Label>
-                            <Form.Control type="password" ref={passwordRef} required/>
-                        </Form.Group>
-                        <Button disabled={loading} className="w-100" type="Submit">Sign In</Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-            <div className="w-100 text-center mt-2">
-                Create an account - <Link to='/signin'>Sign Up!</Link>
-            </div>
-            </div>
-            </Container>
+    
         </div>
     )
 

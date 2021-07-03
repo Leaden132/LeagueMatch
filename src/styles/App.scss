@@ -8,7 +8,7 @@ html {
     // background-color: #00072D;
     color: white;
     // background-color:white;
-    // background-color:#c3cbd1;
+    // background-color:$color5;
   }
   
   body{
@@ -21,6 +21,80 @@ html {
     flex-wrap: wrap;
   }
   
+
+
+  .spacer {
+    height:50px;
+  }
+
+  .authentication {
+    color:black;
+    background-color:#fafafa;
+    height:100vh;
+    width:99vw;
+
+
+    .loginContainer{
+      margin-top:50px;
+      
+
+      form{
+        display:flex;
+        flex-direction:column;
+        width:400px;
+        margin: 0 auto;
+        border: 2px solid $color5;
+        padding:30px;
+
+        h3 {
+          margin-bottom:20px;
+          text-align:center;
+        }
+
+        label {
+          font-family: $spectral;
+          font-size:2rem;
+        }
+
+        input {
+          margin: 20px 0;
+          padding: 5px;
+          box-shadow: 1px 1px 1px 1px $color5;
+        }
+
+        a {
+          color:$color2;
+
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+
+        button {
+          cursor:pointer;
+          background-color:$mainColor;
+          color:$color5;
+          transition: 0.4s ease;
+          padding:10px;
+          width:100px;
+          margin: 0 auto;
+          margin-top:20px;
+          &:hover,
+          &:focus{
+            background-color:$color2;
+            color:white;
+          }
+        }
+      }
+
+    }
+
+  }
+
+  .profile {
+    margin-top:50px;
+    color:black;
+  }
 
 .main{
   width:100vw;
@@ -130,8 +204,8 @@ html {
       padding: 5px 20px;
       border-radius:5px;
       margin-bottom: 10px;
-      background:#10172b;
-      color:#c3cbd1;
+      background:$mainColor;
+      color:$color5;
       outline:none;
       border:none;
       transition-duration: 0.4s;
@@ -195,12 +269,12 @@ h1{
     justify-content: space-between;
     text-align:end;
     position:fixed;
-    box-shadow: 2px 0 10px 1px #10172b;
-    // border-bottom: 1px solid #10172b;
+    box-shadow: 2px 0 10px 1px $mainColor;
+    // border-bottom: 1px solid $mainColor;
     // border:3px solid #232f46;
     z-index:5;
     font-size:1.8rem;
-    background-color:#10172b;
+    background-color:$mainColor;
     .home{
       margin-left:80px;
     }
@@ -230,7 +304,7 @@ h1{
             padding-right:5px;
             border-radius:5px;
             // margin:auto;
-            color:#c3cbd1;
+            color:$color5;
             font-family:$Fjalla;
             text-transform: uppercase;
             font-size:2.1rem;
@@ -337,19 +411,21 @@ h1{
 .about {
   display:flex;
   flex-direction: column;
-  margin-top:100px;
+  margin-top:50px;
   width:100%;
   line-height:23px;
-  background-color:white;
-  color:#10172b;
+  background-color:#fafafa;
+  color:$mainColor;
   // p {
   //   text-align:center;
   // }
+
 
   .wrapper{
     width:1800px;
   }
   .aboutSubTitle{
+    
     font-size:3.5rem;
     margin-bottom:20px;
     color:$color2;
@@ -358,9 +434,9 @@ h1{
 
   .aboutTitle{
     font-size:4rem;
+    margin-top:100px;
     margin-bottom:50px;
     text-align:center;
-    margin-top:50px;
     line-height:40px;
     text-transform:uppercase;
 
@@ -402,7 +478,6 @@ h1{
       margin:20px 0;
       margin-top:50px;
       border-radius:5px;
-      // border: 3px solid $mainColor;
 
 
     }
@@ -595,7 +670,7 @@ h1{
       //   background-image: linear-gradient(to left, rgba(34, 12, 12, 0.315), rgba(185, 10, 10, 0.918));
       // }
       .game{
-        // background-image: linear-gradient(to left, #c3cbd146, #c3cbd1ab);
+        // background-image: linear-gradient(to left, $color546, $color5ab);
         background-color:rgba(143, 32, 29, 0.9);
         color:white;
       }
@@ -669,14 +744,14 @@ h1{
     height:52px;
     padding:20px;
     outline:none;
-    border: 2px solid #d2d2d7;
+    border: 2px solid $color5;
     &::placeholder{
       text-align:center;
     }
   // border: 2px solid gold;
   // border:none;
   color:white;
-  background:#10172b;
+  background:$mainColor;
   &:focus{
     box-shadow:  0px 4px 4px #74b1bf;
   }
@@ -697,9 +772,9 @@ h1{
     .classChoice{
       width:52px;
       height:52px;
-      background-color:#10172b;
+      background-color:$mainColor;
       transition-duration: 0.4s;
-      border: 2px solid #d2d2d7;
+      border: 2px solid $color5;
       &:hover,
       &:focus{
         border: 2px solid violet;
@@ -722,8 +797,9 @@ h1{
 }
 
   .championSection{
-    margin-top:100px;
+    margin-top:50px;
     width:100%;
+    background-color:#fafafa;
     .wrapper{
       max-width:90vw;
     }
@@ -743,7 +819,7 @@ h1{
     .championSectionTitle{
       display:flex;
       justify-content:center;
-      margin-top:50px;
+      margin-top:100px;
       margin-bottom:50px;
     
       color:black;
@@ -753,9 +829,9 @@ h1{
     width:250px;
     height:290px;
     // background-color:rgb(36, 31, 90);
-    // background-color:#10172b;
-    // background-color:#c3cbd1;
-    // border-bottom: 1px solid #d2d2d7;
+    // background-color:$mainColor;
+    // background-color:$color5;
+    // border-bottom: 1px solid $color5;
     
     margin: 0 10px;
     padding-top:20px;
@@ -772,7 +848,7 @@ h1{
       left:15%;
       height:15px;
       width:180px;
-      border-bottom: 1px solid #d2d2d7;
+      border-bottom: 1px solid $color5;
   }
 
 
@@ -786,7 +862,7 @@ h1{
       transform:scale(1.08);
       transition:all 0.2s ease-out 0s;
       // border: 2px solid $color2;
-      background-color:#c3cbd1;
+      background-color:$color5;
       border-radius:15px;
     }
 
@@ -834,7 +910,7 @@ h1{
       .champName{
         // color:rgb(30, 211, 157);
         // color:white;
-        color:#10172b;
+        color:$mainColor;
         font-size:2.2rem;
         margin-top:10px;
         margin-bottom:10px;
@@ -902,7 +978,7 @@ h1{
   width:100%;
 .champInfoBoxContainer{
   background-color:rgba(16, 23, 43, 0.8);
-  // background-color:#10172b;
+  // background-color:$mainColor;
   margin-bottom:20px;
   border-radius:10px;
 
@@ -1309,7 +1385,7 @@ h1{
       margin-left:20px;
       margin-bottom:10px;
       width:21vw;
-      // background:#10172b;
+      // background:$mainColor;
       background:rgba(16, 23, 43, 0.85);
       border-radius:10px;
       // opacity:0.5;
@@ -1358,8 +1434,8 @@ h1{
     text-transform:uppercase;
     // border: 2px solid white;
     // background: linear-gradient(to left, rgba(34, 12, 12, 0.692), rgba(3, 21, 126, 0.918));
-    background:#10172b;
-    color:#c3cbd1;
+    background:$mainColor;
+    color:$color5;
     outline:none;
     border:none;
     transition-duration: 0.4s;

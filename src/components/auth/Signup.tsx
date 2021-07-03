@@ -36,7 +36,7 @@ export default function Signup() {
             history.push('/');
         } catch(err) {
             console.log(err);
-            setError('failed to Sign In')
+            setError('failed to create account')
         }
 
         setLoading(false)
@@ -46,36 +46,32 @@ export default function Signup() {
 
     return (
         <div>
-            <Container className="d-flex align-items-center justify-content-center"
-            style={{minHeight:"100vh"}}>
-            <div className="w-100" style={{maxWidth: '400px'}}>
-            <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" ref={emailRef} required/>
-                        </Form.Group>
-                        <Form.Group id="password">
-                            <Form.Label>password</Form.Label>
-                            <Form.Control type="password" ref={passwordRef} required/>
-                        </Form.Group>
-                        <Form.Group id="passwordConfirm">
-                            <Form.Label>password confirmation</Form.Label>
-                            <Form.Control type="password" ref={passwordConfirmRef} required/>
-                        </Form.Group>
-                        <Button disabled={loading} className="w-100" type="Submit">Sign Up</Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-            <div className="w-100 text-center mt-2">
-                Already have an account? <Link to='/login'>Log In!</Link>
-            </div>
-            </div>
-            </Container>
+            <section className="authentication">
+                <div className="spacer"></div>
+                <div className="loginContainer">
+                    
+                    <form onSubmit={handleSubmit}>
+                        <h3>Log In</h3>
+                        <label htmlFor="email">Email</label>
+                        <input className="emailInput" id="email" name="email" type="email" ref={emailRef} required></input>
+
+                        <label htmlFor="password">Password</label>
+                        <input className="passwordInput" id="password" name="password" type="password" ref={passwordRef} required></input>
+
+                        <label htmlFor="passwordConfirm">Password Confirmation</label>
+                        <input className="passwordConfirmInput" id="passwordConfirm" name="passwordConfirm" type="password" ref={passwordConfirmRef} required></input>
+
+                        <p>Already have an account? <Link to="/login"><span>Log In!</span></Link></p>
+
+                        <button type="submit">Log In</button>
+                    </form>
+                    
+                </div>
+
+            </section>
+    
         </div>
+
     )
 
 
