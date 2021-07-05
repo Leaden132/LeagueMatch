@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import { css } from "@emotion/react";
+import firebase from "../config/firebase";
+import {useAuth} from '../contexts/AuthContext';
 
 const InidividualChampInfo = () => {
   const { champName } = useParams<{ champName: string }>();
+  const {currentUser} = useAuth();
 
   const override = css`
     display: block;
@@ -41,6 +44,23 @@ const InidividualChampInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+  const handleAddList = () => {
+
+    const userInfoRef = firebase.database().ref(currentUser.uid);
+    // const userInfo = userInfoRef;
+
+    userInfoRef.push({
+      
+      champName: champName,
+      champId:champObj.key
+
+    })
+
+
+  }
+
+
   return (
     <>
       {loading ? (
@@ -58,6 +78,7 @@ const InidividualChampInfo = () => {
           <div className="wrapper">
             <div className="champInfoBoxContainer">
               <div className="champInfoBox">
+              <button className="addListButton" onClick={handleAddList}>Add {champName} to your list</button>
                 <div>
                   <div className="champEachInfoContainer">
                     <img
@@ -66,6 +87,7 @@ const InidividualChampInfo = () => {
                       className="championEach"
                     ></img>
                   </div>
+                  
                   <div className="classContainer">
                     <h2>{champName}</h2>
                     <div>
@@ -107,8 +129,6 @@ const InidividualChampInfo = () => {
                         /(<([^>]+)>)/gi,
                         ""
                       )}
-                      <br></br>
-                      {/* {champObj.passive.cooldownBurn && <span>Cooldown: {champObj.passive.cooldownBurn}</span>} */}
                     </span>
                     <div className="keyboard">
                       <span>P</span>

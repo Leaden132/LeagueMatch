@@ -90,27 +90,27 @@ const SearchBar = () => {
     <section className="searchBar">
       <nav>
         <ul>
-          <Link to="/" aria-label="Move to home page">
-            <li className={`home ${currentHome}`}>home</li>
-          </Link>
-          <Link to="/about" aria-label="Move to about page">
-            <li className={`${currentAbout}`}>about</li>
-          </Link>
-          <Link to="/champions" aria-label="Move to champions page">
-            <li className={`${currentChampions}`}>champions</li>
-          </Link>
+          
+            <li className={`home ${currentHome}`}><Link to="/" aria-label="Move to home page">home</Link></li>
+          
+          
+            <li className={`${currentAbout}`}><Link to="/about" aria-label="Move to about page">about</Link></li>
+          
+          
+            <li className={`${currentChampions}`}><Link to="/champions" aria-label="Move to champions page">champions</Link></li>
+          
 
           { currentUser ? 
-          <Link to="/">
-          <li className={`${currentLogin}`} onClick={handleLogout}>LogOut</li>
-          </Link>
-           : <Link to="/login" aria-label="Move to login page">
-           <li className={`${currentLogin}`}>LogIn</li>
-         </Link>
+          
+          <li className={`${currentLogin}`} onClick={handleLogout}><Link to="/">LogOut</Link></li>
+          
+           : 
+           <li className={`${currentLogin}`}><Link to="/login" aria-label="Move to login page">LogIn</Link></li>
+         
         }
 
-        {currentUser ? (<Link to="/profile" aria-label="Move to profile page">
-          <li className={`${currentLogin}`}>profile</li></Link>) : null}
+        {currentUser ? (
+          <li className={`${currentLogin}`}><Link to="/profile" aria-label="Move to profile page">profile</Link></li>) : null}
           
 
 
