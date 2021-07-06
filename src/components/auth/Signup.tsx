@@ -1,11 +1,9 @@
 import React from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
 import {useRef, useState} from 'react';
-import {Container} from 'react-bootstrap';
 import {useAuth} from '../../contexts/AuthContext';
 import {useHistory, Link} from 'react-router-dom'
 import firebase from "../../config/firebase";
-import { useEffect } from 'react';
+
 
 
 export default function Signup() {
@@ -13,11 +11,10 @@ export default function Signup() {
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
     const displayNameRef = useRef<HTMLInputElement | null>(null);
-    const {signup, updateDisplayName, currentUser} = useAuth();
+    const {signup} = useAuth();
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState<boolean>();
+    // const [loading, setLoading] = useState<boolean>();
     const history = useHistory();
-    const userInfoRef:any = firebase.database().ref();
 
     const handleSubmit = async (e:any) => {
         e.preventDefault();
@@ -30,7 +27,6 @@ export default function Signup() {
 
         try {
             setError('');
-            setLoading(true);
             console.log(emailRef.current.value);
             let email = emailRef.current.value.toString();
             let password = passwordRef.current.value;
@@ -44,42 +40,35 @@ export default function Signup() {
                     if (cred.additionalUserInfo.isNewUser) {
                       try {
                         const userInfoRef = firebase.database().ref(userId);
-                        userInfoRef.set({id:userId});
+                        userInfoRef.set({id:userId, searches: {id:userId}, championList: {id:userId}});
 
                         console.log(userInfoRef);
                       } catch (err) {
                         setError('Could not set initial articles');
-                        console.log(err);
+                        console.log(error);
                       }
                     }
-       
 
-                // return userInfoRef.collection('users').doc(cred.user.uid)
+                    cred.user.updateProfile({
+                        displayName: displayName
+                    }).then(()=>{
+                        history.push('/');
+                    })
             })
 
 
 
-            // await updateDisplayName(displayName)
-            history.push('/');
+            
+            
         } catch(err) {
             console.log(err);
             setError('failed to create account')
         }
 
-        // setLoading(false)
 
     }
     }
 
-    // useEffect(()=>{
-
-
-    //     const userInfo = userInfoRef;
-        
-    //     userInfo.push({
-    //       displayName: currentUser.displayName
-    //     })
-    // })
 
     return (
         <div>
@@ -88,7 +77,7 @@ export default function Signup() {
                 <div className="loginContainer">
                     
                     <form onSubmit={handleSubmit}>
-                        <h3>Log In</h3>
+                        <h3>Sign Up</h3>
                         <label htmlFor="email">Email</label>
                         <input className="emailInput" id="email" name="email" type="email" ref={emailRef} required></input>
 
@@ -103,7 +92,7 @@ export default function Signup() {
 
                         <p>Already have an account? <Link to="/login"><span>Log In!</span></Link></p>
 
-                        <button type="submit">Log In</button>
+                        <button type="submit">Sign Up</button>
                     </form>
                     
                 </div>
