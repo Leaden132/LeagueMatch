@@ -15,6 +15,7 @@ export function AuthProvider({ children }:any) {
 
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState<any>()
+    const [searchError, setSearchError] = useState(false);
 
     function signup({email, password}:any) {
         return auth.createUserWithEmailAndPassword(email, password)
@@ -22,6 +23,10 @@ export function AuthProvider({ children }:any) {
 
       function login({email, password}:any) {
         return auth.signInWithEmailAndPassword(email, password)
+      }
+
+      function searchErrorSet(boo:boolean) {
+        setSearchError(boo);
       }
     
       function logout() {
@@ -57,6 +62,8 @@ export function AuthProvider({ children }:any) {
     
       const value:any = {
         currentUser,
+        searchError,
+        searchErrorSet,
         login,
         signup,
         logout,
@@ -65,8 +72,6 @@ export function AuthProvider({ children }:any) {
         updatePassword,
         updateDisplayName
       }
-
-    console.log(children);
 
     return (
         <AuthContext.Provider value={value}>

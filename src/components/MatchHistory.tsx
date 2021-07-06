@@ -6,6 +6,7 @@ import RankedInfo from "./RankedInfo";
 import PulseLoader from "react-spinners/PulseLoader";
 import { css } from "@emotion/react";
 import MatchDetails from "./MatchDetails";
+import {useAuth} from '../contexts/AuthContext';
 
 const MatchHistory = () => {
   // const apiKey = process.env.REACT_APP_apiKey; -> moved API key to back-end.
@@ -17,13 +18,12 @@ const MatchHistory = () => {
   const [champObj, setChampObj] = useState<any>({});
   const [itemObj, setItemObj] = useState<any>({});
   const [runeArray, setRuneArray] = useState<Array<object>>([]);
-  const [error, setError] = useState<boolean>(false);
   const matchDetailArray: Array<object> = [];
   const { userName } = useParams<{ userName: string }>();
   const [headerStyle, setHeaderStyle] = useState<any>({});
   const [loadCount, setLoadCount] = useState<number>(10);
   const [timeWait, setTimeWait] = useState<any>(false);
-  const [APIError, setAPIError] = useState<boolean>(false);
+  const { searchError, searchErrorSet } = useAuth();
   const override = css`
     display: block;
     margin: 0 auto;
@@ -39,25 +39,29 @@ const MatchHistory = () => {
 
     const loadData = async () => {
       if (sumName !== "") {
-        const summonersByNameAxios = await axios({
-          method: "GET",
-          url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
-          responseType: "json",
-          params: {
-            apiName: "summonersByName",
-            apiParam: sumName,
-          },
-        });
 
-        let accountInfoObj = {
-          accountId: summonersByNameAxios.data.message.accountId,
-          id: summonersByNameAxios.data.message.id,
-          name: summonersByNameAxios.data.message.name,
-          profileIconId: summonersByNameAxios.data.message.profileIconId,
-          puuid: summonersByNameAxios.data.message.puuid,
-          summonerLevel: summonersByNameAxios.data.message.summonerLevel,
-        };
-        setAccountInfo(accountInfoObj);
+
+          const summonersByNameAxios = await axios({
+            method: "GET",
+            url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+            responseType: "json",
+            params: {
+              apiName: "summonersByName",
+              apiParam: sumName,
+            },
+          })
+          
+          let accountInfoObj = {
+            accountId: summonersByNameAxios.data.message.accountId,
+            id: summonersByNameAxios.data.message.id,
+            name: summonersByNameAxios.data.message.name,
+            profileIconId: summonersByNameAxios.data.message.profileIconId,
+            puuid: summonersByNameAxios.data.message.puuid,
+            summonerLevel: summonersByNameAxios.data.message.summonerLevel,
+          };
+          setAccountInfo(accountInfoObj);
+
+
 
         const championAxios = await axios({
           method: "GET",
@@ -161,8 +165,7 @@ const MatchHistory = () => {
     };
 
     loadData().catch((e) => {
-      setError(true);
-      setAPIError(true);
+      searchErrorSet(true);
       setTimeout(() => {
         setMatchLoading(false);
       }, 1000);
@@ -230,17 +233,12 @@ const MatchHistory = () => {
     setLoadCount(loadCount + 10);
   };
 
-  if (error) {
-    return APIError ? (
+  if (searchError) {
+    return (
       <div className="error">
-        There has been an error with API call, please try again with different
-        name/parameters
+        <h4>This username is not registered at League of Legends, Please try other username.</h4>
       </div>
-    ) : (
-      <div className="error">
-        This username is not registered at League of Legends, Please try other username.
-      </div>
-    );
+    )
   } else {
     return (
       <>
@@ -283,6 +281,7 @@ const MatchHistory = () => {
               </div>
 
               <div className="matchHistoryContainer">
+                {searchError ? null :
                 <MatchDetails
                   playerInfo={playerInfo}
                   championInfo={championInfo}
@@ -292,7 +291,7 @@ const MatchHistory = () => {
                   champObj={champObj}
                   runeArray={runeArray}
                 />
-
+}
                 <button
                   className="loadButton"
                   onClick={throttle(loadMore, 20000)}

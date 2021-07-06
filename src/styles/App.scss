@@ -559,6 +559,15 @@ h1{
             top:10px;
             left:600px;
             overflow:ellipsis;
+
+            a{
+              width:35px;
+              height:35px;
+            }
+            button{
+              margin-left:10px;
+              padding:5px;
+            }
             img {
               width:35px;
               margin-right:10px;
@@ -566,6 +575,7 @@ h1{
             .otherUsers{
               overflow:hidden;
               text-overflow:ellipsis;
+              white-space: nowrap;
             }
           }
 
@@ -1174,6 +1184,17 @@ h1{
   perspective: 1000px;
 }
 
+.addCompleteTrigger{
+  animation: color-change 1s;
+}
+
+
+@keyframes color-change {
+  0% { color: $color2; }
+  50% { color: $color3; }
+  100% { color: $color2; }
+}
+
 @keyframes shake {
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
@@ -1227,6 +1248,10 @@ h1{
       p{
         margin-top:10px;
         color:red;
+      }
+
+      .addComplete{
+        color:$color2;
       }
 
       .addListButton {
@@ -1615,8 +1640,11 @@ h1{
   }
 
   .error {
-    margin-top:100px;
+    margin-top:70px;
     font-size:2rem;
+    color:black;
+    
+    
   }
 
   .proficiency {

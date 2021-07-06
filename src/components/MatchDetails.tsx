@@ -1,7 +1,7 @@
 import convertChampions from "./convertChampions";
 import convertRunes from "./convertRunes";
 import convertSummoners from "./convertSummoners";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import opacity from "../assets/opacity.png";
 import convertItemStat from "./convertItemStat";
 
@@ -268,6 +268,7 @@ const MatchDetails = ({
                       <div className={`userPlayInfo`}>
                         <div className="champNameContainer">
                           <div className="champContainer">
+                            <Link to={`/champions/${convertChampions(champ.championId, champObj)}`}>
                             <img
                               src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                                 champ.championId,
@@ -276,6 +277,7 @@ const MatchDetails = ({
                               className="championImage"
                               alt={convertChampions(champ.championId, champObj)}
                             ></img>
+                            </Link>
                           </div>
                           <p>{convertChampions(champ.championId, champObj)}</p>
                         </div>
@@ -360,6 +362,10 @@ const MatchDetails = ({
                     )}
 
                     <li className="otherPlayerInfo">
+                      <Link to={`/champions/${convertChampions(
+                          champ.championId,
+                          champObj
+                        )}`}>
                       <img
                         src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
                           champ.championId,
@@ -367,6 +373,7 @@ const MatchDetails = ({
                         )}.png`}
                         alt={convertChampions(champ.championId, champObj)}
                       ></img>
+                      </Link>
                       <button
                         className="otherUsers"
                         onClick={() => {

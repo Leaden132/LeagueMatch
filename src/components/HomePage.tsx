@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../contexts/AuthContext"
 import firebase from "../config/firebase";
+import { useEffect } from "react";
 
 
 const HomePage = () => {
@@ -15,46 +16,56 @@ const HomePage = () => {
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const { currentUser } = useAuth();
 
-  const submitForm = (e: React.FormEvent) => {
-    e.preventDefault();
 
+  useEffect(()=>{
     if(currentUser) {
-    const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
-    console.log(Date.now());
-
-    userInfoRef.on("value", (response)=>{
-      const userInfoRes = response.val();
-
-
-      const userInfoArray = [];
-
-      for (let key in userInfoRes) {
-        userInfoArray.unshift({
-          key: key,
-          details: userInfoRes[key],
-        });
-      }
-
-      for (let i=0; i < userInfoArray.length; i++) {
-        if (userInfoArray[i].details.summonerName === input.toString().trim()){
-          setDuplicateCheck(true);
+      const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
+        userInfoRef.on("value", (response)=>{
+        const userInfoRes = response.val();
+  
+  
+        const userInfoArray = [];
+  
+        for (let key in userInfoRes) {
+          userInfoArray.unshift({
+            key: key,
+            details: userInfoRes[key],
+          });
         }
-      }
-    })
-
-
-    if (!duplicateCheck) {
-      userInfoRef.push({
-        
-        summonerName:input,
-        timeStamp: Date.now()
-      
+  
+        for (let i=0; i < userInfoArray.length; i++) {
+          if (userInfoArray[i].details.summonerName === input.toString().trim()){
+            setDuplicateCheck(true);
+          }
+        }
       })
     }
-  }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
+  const submitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(currentUser){
+      const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
+
+
+      if (!duplicateCheck) {
+        userInfoRef.push({
+          
+          summonerName:input,
+          timeStamp: Date.now()
+        
+        })
+  
+        
+      }
+    }
+
+    
+    
+  
+    
     history.push(`/match/${encodeURI(input)}`);
-    setInput("");
   };
 
   const infoButtonClick = () => {
