@@ -1,7 +1,5 @@
 import React from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
 import {useRef, useState} from 'react';
-import {Container} from 'react-bootstrap';
 import {useAuth} from '../../contexts/AuthContext';
 import {useHistory, Link} from 'react-router-dom'
 
@@ -10,10 +8,12 @@ export default function SignIn() {
     const emailRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
     // const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
-    const {login, currentUser} = useAuth();
+    const {login} = useAuth();
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState<boolean>();
+    const [displayError, setDisplayError] = useState(false);
+    // const [loading, setLoading] = useState<boolean>();
     const history = useHistory();
+    const [shakeTrigger, setShakeTrigger] = useState('');
 
     const handleSubmit = async (e:any) => {
         e.preventDefault();
@@ -22,22 +22,32 @@ export default function SignIn() {
 
         try {
             setError('');
-            setLoading(true);
+            // setLoading(true);
 
             console.log(emailRef.current.value);
             let email = emailRef.current.value.toString();
             let password = passwordRef.current.value;
 
-            console.log(email);
-
             await login({email: email, password: password})
             history.push('/');
 
         } catch(err) {
-            console.log(err);
-            setError('failed to login')
+            console.log(error);
+
+                // alert('this champion is already in your list!')
+                setDisplayError(true);
+                setShakeTrigger('loginError');
+          
+                setTimeout(()=>{
+                  setShakeTrigger('');
+                },1000)
+
+          
+
+            setError('failed to login');
+            setDisplayError(true);
         }
-        setLoading(false)
+        // setLoading(false)
     }
     }
 
@@ -58,6 +68,7 @@ export default function SignIn() {
                         <p>Don't have account yet? <Link to="/signup"><span>Sign Up!</span></Link></p>
 
                         <button type="submit">Log In</button>
+                        {displayError ? <p className={`${shakeTrigger} loginFail`}>There is no matching Email / Password for your input</p> : null}
                     </form>
                     
                 </div>
