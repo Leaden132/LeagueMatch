@@ -9,11 +9,11 @@ import firebase from "../config/firebase";
 const SearchBar = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
-  const { logout, currentUser } = useAuth();
+  const { logout, currentUser, searchErrorSet } = useAuth();
   const [error, setError] = useState("");
   const element = <FontAwesomeIcon icon={faSearch} />;
   const [duplicateCheck, setDuplicateCheck] = useState(false);
-
+  
 
   
   async function handleLogout() {
@@ -140,6 +140,9 @@ const SearchBar = () => {
       })
     }
   }
+
+  searchErrorSet(false);
+
     history.push(`/match/${encodeURI(input)}`);
     setInput("");
   };

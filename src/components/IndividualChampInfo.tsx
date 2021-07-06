@@ -30,10 +30,13 @@ const InidividualChampInfo = () => {
   const [displayComplete, setDisplayComplete] = useState(false);
   const [displayError, setDisplayError] = useState(false);
   const [duplicateCheck, setDuplicateCheck] = useState(false);
-  const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
+  
 
   useEffect(() => {
     setLoading(true);
+
+
+    
 
     axios({
       method: "GET",
@@ -42,6 +45,8 @@ const InidividualChampInfo = () => {
     }).then((res) => {
       setChampObj(res.data.data[champName]);
 
+      if(currentUser){
+        const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
     userInfoRef.on("value", (response)=>{
       const userInfoRes = response.val();
 
@@ -63,6 +68,8 @@ const InidividualChampInfo = () => {
     })
 
 
+  }
+
 
 
       setTimeout(() => {
@@ -70,6 +77,12 @@ const InidividualChampInfo = () => {
       }, 500);
     });
 
+    return function cleanup(){
+      if (currentUser){
+        const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
+        userInfoRef.off();
+      }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -85,16 +98,26 @@ const InidividualChampInfo = () => {
       setTimeout(()=>{
         setShakeTrigger('');
       },1000)
+
+      setTimeout(()=>{
+        setDisplayError(false);
+      },4000)
+
     }
 
     else {
+      const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
       userInfoRef.push({
         champName: champName,
         champId:champObj.key
       })
 
       setDisplayComplete(true);
+      setShakeTrigger('addCompleteTrigger');
 
+      setTimeout(()=>{
+        setDisplayComplete(false);
+      },4000)
     }
   }
 
@@ -116,9 +139,9 @@ const InidividualChampInfo = () => {
             <div className="champInfoBoxContainer">
               <div className="champInfoBox">
                 <div className="addListButtonContainer">
-              <button className="addListButton" onClick={handleAddList}>Add {champName} to your list</button>
+              {currentUser ? <button className="addListButton" onClick={handleAddList}>Add {champName} to your list</button> : null}
               {displayError ? <p className={shakeTrigger}>{champName} is already in your list!</p> : null}
-              {displayComplete ? <p className={shakeTrigger}>{champName} is already in your list!</p> : null}
+              {displayComplete ? <p className={`${shakeTrigger} addComplete`}>{champName} is added to your list!</p> : null}
               </div>
                 <div>
                   <div className="champEachInfoContainer">

@@ -55,9 +55,6 @@ export default function Signup() {
                         history.push('/');
                     })
             })
-
-
-
             
             
         } catch(err) {

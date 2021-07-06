@@ -14,6 +14,8 @@ const Profile = () => {
   const [userSearchInfo, setUserSearchInfo] = useState<Array<object>>();
 
   useEffect(() => {
+
+    if (currentUser){
     const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
 
     userInfoRef.on("value", (response) => {
@@ -37,7 +39,7 @@ const Profile = () => {
 
     const userSearchRef = firebase.database().ref(`${currentUser.uid}/searches`);
 
-    userSearchRef.on("value", (response) => {
+     userSearchRef.on("value", (response) => {
       const searchInfo = response.val();
       const allSearchInfo = [];
 
@@ -55,6 +57,14 @@ const Profile = () => {
       }
     });
 
+
+    return function cleanup(){
+      userInfoRef.off();
+      userSearchRef.off();
+    }
+
+
+  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
