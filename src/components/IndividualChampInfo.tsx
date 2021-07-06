@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import { css } from "@emotion/react";
+import firebase from "../config/firebase";
+import {useAuth} from '../contexts/AuthContext';
 
 const InidividualChampInfo = () => {
   const { champName } = useParams<{ champName: string }>();
+  const {currentUser} = useAuth();
 
   const override = css`
     display: block;
@@ -23,6 +26,11 @@ const InidividualChampInfo = () => {
 
   const [loading, setLoading] = useState(true);
   const [champObj, setChampObj] = useState<any>({});
+  const [shakeTrigger, setShakeTrigger] = useState('');
+  const [displayComplete, setDisplayComplete] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
+  const [duplicateCheck, setDuplicateCheck] = useState(false);
+  const userInfoRef = firebase.database().ref(`${currentUser.uid}/championList`);
 
   useEffect(() => {
     setLoading(true);
@@ -33,13 +41,62 @@ const InidividualChampInfo = () => {
       responseType: "json",
     }).then((res) => {
       setChampObj(res.data.data[champName]);
-      console.log(res.data.data);
+
+    userInfoRef.on("value", (response)=>{
+      const userInfoRes = response.val();
+
+
+      const userInfoArray = [];
+
+      for (let key in userInfoRes) {
+        userInfoArray.unshift({
+          key: key,
+          name: userInfoRes[key],
+        });
+      }
+
+      for (let i=0; i < userInfoArray.length; i++) {
+        if (userInfoArray[i].name.champName === res.data.data[champName].id){
+          setDuplicateCheck(true);
+        }
+      }
+    })
+
+
+
+
       setTimeout(() => {
         setLoading(false);
       }, 500);
     });
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+  const handleAddList = () => {
+    if (duplicateCheck) {
+      // alert('this champion is already in your list!')
+      setDisplayError(true);
+      setShakeTrigger('duplicateError');
+      setDisplayComplete(false);
+
+      setTimeout(()=>{
+        setShakeTrigger('');
+      },1000)
+    }
+
+    else {
+      userInfoRef.push({
+        champName: champName,
+        champId:champObj.key
+      })
+
+      setDisplayComplete(true);
+
+    }
+  }
 
   return (
     <>
@@ -58,6 +115,11 @@ const InidividualChampInfo = () => {
           <div className="wrapper">
             <div className="champInfoBoxContainer">
               <div className="champInfoBox">
+                <div className="addListButtonContainer">
+              <button className="addListButton" onClick={handleAddList}>Add {champName} to your list</button>
+              {displayError ? <p className={shakeTrigger}>{champName} is already in your list!</p> : null}
+              {displayComplete ? <p className={shakeTrigger}>{champName} is already in your list!</p> : null}
+              </div>
                 <div>
                   <div className="champEachInfoContainer">
                     <img
@@ -66,8 +128,9 @@ const InidividualChampInfo = () => {
                       className="championEach"
                     ></img>
                   </div>
+                  
                   <div className="classContainer">
-                    <h2>{champName}</h2>
+                    <h3>{champName}</h3>
                     <div>
                       {champObj.tags.map(
                         (tag: string, i: number, arr: Array<string>) => {
@@ -107,8 +170,6 @@ const InidividualChampInfo = () => {
                         /(<([^>]+)>)/gi,
                         ""
                       )}
-                      <br></br>
-                      {/* {champObj.passive.cooldownBurn && <span>Cooldown: {champObj.passive.cooldownBurn}</span>} */}
                     </span>
                     <div className="keyboard">
                       <span>P</span>
@@ -146,7 +207,7 @@ const InidividualChampInfo = () => {
             </div>
 
             <div className="champStatContainer">
-              <h2>Champion Stats</h2>
+              <h3>Champion Stats</h3>
 
               <div className="statContainer">
                 <p>Attack</p>

@@ -3,28 +3,32 @@ import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
-// import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
+import firebase from "../config/firebase";
 
 const SearchBar = () => {
   const [input, setInput] = useState("");
   const history = useHistory();
-  // const { logout } = useAuth();
-  // const [error, setError] = useState("");
+  const { logout, currentUser } = useAuth();
+  const [error, setError] = useState("");
   const element = <FontAwesomeIcon icon={faSearch} />;
+  const [duplicateCheck, setDuplicateCheck] = useState(false);
 
-  // async function handleLogout() {
-  //   setError("")
 
-  //   try {
-  //     await logout()
-  //     history.push("/login")
-  //   } catch {
-  //     setError("Failed to log out")
-  //   }
-  // }
+  
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+      console.log(error)
+    }
+  }
 
   let path = false;
-  // let loginPath = false;
 
   const location = useLocation<any>();
   if (location.pathname === "/") {
@@ -33,29 +37,36 @@ const SearchBar = () => {
     path = true;
   }
 
-  // if (location.pathname=== ("/login" || "/signup" )){
-  //   loginPath = true;
-  // }
-  // else {
-  //   loginPath = false;
-  // }
 
   let currentHome= ""
   let currentAbout=""
   let currentChampions=""
   let currentLogin=""
+  let currentProfile=""
+
   if (location.pathname.includes("/champions")){
     currentHome=""
     currentAbout=""
     currentChampions="current"
     currentLogin=""
+    currentProfile=""
   }
 
-  else if (location.pathname.includes("/login" || "/signup")){
+  else if (location.pathname==="/login"){
     currentLogin="current"
     currentHome=""
     currentAbout=""
     currentChampions=""
+    currentProfile=""
+
+  }
+
+  else if (location.pathname==="/signup"){
+    currentLogin="current"
+    currentHome=""
+    currentAbout=""
+    currentChampions=""
+    currentProfile=""
   }
 
   else if (location.pathname.includes("/about")){
@@ -63,6 +74,7 @@ const SearchBar = () => {
     currentAbout="current"
     currentChampions=""
     currentLogin=""
+    currentProfile=""
   }
 
   else if (location.pathname==="/"){
@@ -70,6 +82,15 @@ const SearchBar = () => {
     currentAbout=""
     currentChampions=""
     currentLogin=""
+    currentProfile=""
+  }
+  
+  else if (location.pathname==="/profile"){
+    currentHome=""
+    currentAbout=""
+    currentChampions=""
+    currentLogin=""
+    currentProfile="current"
   }
 
   else {
@@ -77,40 +98,81 @@ const SearchBar = () => {
     currentAbout=""
     currentChampions=""
     currentLogin=""
+    currentProfile=""
   }
+
+
 
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if(currentUser){
+    const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
+    console.log(Date.now());
+
+    userInfoRef.on("value", (response)=>{
+      const userInfoRes = response.val();
+
+
+      const userInfoArray = [];
+
+      for (let key in userInfoRes) {
+        userInfoArray.unshift({
+          key: key,
+          details: userInfoRes[key],
+        });
+      }
+
+      for (let i=0; i < userInfoArray.length; i++) {
+        if (userInfoArray[i].details.summonerName === input.toString().trim()){
+          setDuplicateCheck(true);
+        }
+      }
+    })
+
+
+    if (!duplicateCheck) {
+      userInfoRef.push({
+        
+        summonerName:input,
+        timeStamp: Date.now()
+      
+      })
+    }
+  }
     history.push(`/match/${encodeURI(input)}`);
     setInput("");
   };
-  console.log(currentLogin);
+
 
   return (
     <section className="searchBar">
       <nav>
         <ul>
-          <Link to="/" aria-label="Move to home page">
-            <li className={`home ${currentHome}`}>home</li>
-          </Link>
-          <Link to="/about" aria-label="Move to about page">
-            <li className={`${currentAbout}`}>about</li>
-          </Link>
-          <Link to="/champions" aria-label="Move to champions page">
-            <li className={`${currentChampions}`}>champions</li>
-          </Link>
+          
+            <li className={`home ${currentHome}`}><Link to="/" aria-label="Move to home page">home</Link></li>
+          
+          
+            <li className={`${currentAbout}`}><Link to="/about" aria-label="Move to about page">about</Link></li>
+          
+          
+            <li className={`${currentChampions}`}><Link to="/champions" aria-label="Move to champions page">champions</Link></li>
+          
 
-          {/* { currentUser ? 
-          <Link to="/">
-          <li className={`${currentLogin}`} onClick={handleLogout}>LogOut</li>
-          </Link>
-           : <Link to="/signin" aria-label="Move to login page">
-           <li className={`${currentLogin}`}>LogIn</li>
-         </Link>
+          { currentUser ? 
+          
+            null
+          
+           : 
+           <li className={`${currentLogin}`}><Link to="/login" aria-label="Move to login page">LogIn</Link></li>
+         
         }
 
-        {currentUser ? (<Link to="/profile" aria-label="Move to profile page">
-          <li className={`${currentLogin}`}>profile</li></Link>) : null} */}
+        {currentUser ? (
+          <>
+          <li className={`${currentProfile}`}><Link to="/profile" aria-label="Move to profile page">profile</Link></li>
+          <li className={`${currentLogin}`} onClick={handleLogout}><Link to="/">LogOut</Link></li>
+          </>) : null}
           
 
 

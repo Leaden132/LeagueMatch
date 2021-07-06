@@ -43,11 +43,12 @@ const App = () => {
             <Route exact path='/about' render={()=><About/>}/>
             <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
             <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
-          </Suspense>
+          
           
           <Route path='/signup' render={()=><Signup/>}/>
           <Route path='/login' render={()=><LogIn/>}/>
           <Route path='/profile' render={()=><Profile/>}/>
+          </Suspense>
           </AuthProvider>
         </div>
     </div>

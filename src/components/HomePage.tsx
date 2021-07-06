@@ -2,6 +2,9 @@ import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../contexts/AuthContext"
+import firebase from "../config/firebase";
+
 
 const HomePage = () => {
   const [input, setInput] = useState("");
@@ -9,9 +12,47 @@ const HomePage = () => {
   const element = <FontAwesomeIcon icon={faSearch} aria-hidden="true"/>;
   const infoElement = <FontAwesomeIcon icon={faInfoCircle} aria-hidden="true"/>;
   const [newToGame, setNewToGame] = useState(false);
+  const [duplicateCheck, setDuplicateCheck] = useState(false);
+  const { currentUser } = useAuth();
 
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if(currentUser) {
+    const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
+    console.log(Date.now());
+
+    userInfoRef.on("value", (response)=>{
+      const userInfoRes = response.val();
+
+
+      const userInfoArray = [];
+
+      for (let key in userInfoRes) {
+        userInfoArray.unshift({
+          key: key,
+          details: userInfoRes[key],
+        });
+      }
+
+      for (let i=0; i < userInfoArray.length; i++) {
+        if (userInfoArray[i].details.summonerName === input.toString().trim()){
+          setDuplicateCheck(true);
+        }
+      }
+    })
+
+
+    if (!duplicateCheck) {
+      userInfoRef.push({
+        
+        summonerName:input,
+        timeStamp: Date.now()
+      
+      })
+    }
+  }
+
     history.push(`/match/${encodeURI(input)}`);
     setInput("");
   };
