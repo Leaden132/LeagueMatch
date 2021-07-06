@@ -84,7 +84,6 @@ const Champions = ({champObj}:any) => {
               <span className="champTitle">{champObj[champ].title}</span>
               <span>{champObj[champ].tags.map((tag:string, i:number)=>{
                   return (
-
                     <img key={`champImage-${i}`} className="classes" src={`https://universe.leagueoflegends.com/images/role_icon_${tag.toLowerCase()}.png`} alt={`${tag} icon`}></img>
                     )
               })}</span>
