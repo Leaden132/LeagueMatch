@@ -422,9 +422,8 @@ h1{
   line-height:23px;
   background-color:#fafafa;
   color:$mainColor;
-  // p {
-  //   text-align:center;
-  // }
+  height:calc(100vh - 50px);
+
 
 
   .wrapper{
