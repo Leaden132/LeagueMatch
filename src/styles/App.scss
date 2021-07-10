@@ -974,7 +974,7 @@ h1{
       border:2px solid $color2;
       width:80vw;
       margin:0 auto;
-      height:100px;
+      min-height:100px;
       
       ul{
         display:flex;
