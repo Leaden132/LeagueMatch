@@ -1,7 +1,7 @@
 
 import "../styles/App.scss";
 import { useEffect, useState, Suspense, lazy } from "react";
-import { Route} from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import axios from "axios";
 import Fallback from './Fallback';
 import Champions from "./Champions";
@@ -35,20 +35,20 @@ const App = () => {
 
     <div className="App">
         <div className="flexContainer">
-        <AuthProvider>
-          <Suspense fallback={<Fallback/>}>
-            <Route path='/' render={ () => <SearchBar /> } />
-            <Route exact path={`/match/:userName`} render={()=> <MatchHistory/> } />
-            <Route exact path='/' render={()=> <HomePage/>}/>
-            <Route exact path='/about' render={()=><About/>}/>
-            <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
-            <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
-          
-          
-          <Route path='/signup' render={()=><Signup/>}/>
-          <Route path='/login' render={()=><LogIn/>}/>
-          <Route path='/profile' render={()=><Profile/>}/>
-          </Suspense>
+          <AuthProvider>
+            <Suspense fallback={<Fallback/>}>
+              <SearchBar/>
+              <Switch>
+                <Route exact path={`/match/:userName`} render={()=> <MatchHistory/> } />
+                <Route exact path='/' render={()=> <HomePage/>}/>
+                <Route exact path='/about' render={()=><About/>}/>
+                <Route exact path='/champions' render={()=><Champions champObj={champObj}/>}/>
+                <Route path='/champions/:champName' render={()=><InidividualChampInfo/>}/>
+                <Route path='/signup' render={()=><Signup/>}/>
+                <Route path='/login' render={()=><LogIn/>}/>
+                <Route path='/profile' render={()=><Profile/>}/>
+              </Switch>
+            </Suspense>
           </AuthProvider>
         </div>
     </div>
