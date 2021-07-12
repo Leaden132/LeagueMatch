@@ -7,11 +7,9 @@ import {useHistory, Link} from 'react-router-dom'
 export default function SignIn() {
     const emailRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
-    // const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
     const {login} = useAuth();
     const [error, setError] = useState('');
     const [displayError, setDisplayError] = useState(false);
-    // const [loading, setLoading] = useState<boolean>();
     const history = useHistory();
     const [shakeTrigger, setShakeTrigger] = useState('');
 
@@ -28,7 +26,7 @@ export default function SignIn() {
             let email = emailRef.current.value.toString();
             let password = passwordRef.current.value;
 
-            await login({email: email, password: password})
+            await login(email, password)
             history.push('/');
 
         } catch(err) {
