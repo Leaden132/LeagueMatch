@@ -32,7 +32,7 @@ export default function Signup() {
             let password = passwordRef.current.value;
             let displayName = displayNameRef.current.value;
 
-            await signup({email: email, password: password}).then((cred:any)=>{
+            await signup(email, password).then((cred:any)=>{
                     const userId = cred.user.uid;
 
                     console.log(userId);
