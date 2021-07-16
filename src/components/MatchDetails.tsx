@@ -287,6 +287,11 @@ const MatchDetails = ({
                               src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
                                 champ.spell1Id
                               )}.png`}
+                              onError={(e: any) => {
+                                e.target.onerror = null;
+                                e.target.src =
+                                  "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                              }}
                               alt="summoner spells"
                             ></img>
                             <span className="toolTip">This is SPELL!</span>
@@ -296,6 +301,11 @@ const MatchDetails = ({
                               src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
                                 champ.spell2Id
                               )}.png`}
+                              onError={(e: any) => {
+                                e.target.onerror = null;
+                                e.target.src =
+                                  "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                              }}
                               alt="summoner spells"
                             ></img>
                             <span className="toolTip">This is SPELL!</span>
