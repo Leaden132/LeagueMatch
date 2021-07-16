@@ -21,8 +21,9 @@ const convertSummoners = (spellId:number) => {
     if (parseInt(spell, 10) === spellId) {
       return spellIdObj[spell];
     }
-    return "SummonerSnowURFSnowball_Mark"
   }
+
+  return "SummonerSnowURFSnowball_Mark"
 };
 
 export default convertSummoners;
