@@ -61,8 +61,6 @@ const MatchHistory = () => {
           };
           setAccountInfo(accountInfoObj);
 
-
-
         const championAxios = await axios({
           method: "GET",
           url: "https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json",

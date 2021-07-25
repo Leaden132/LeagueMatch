@@ -37,70 +37,51 @@ const SearchBar = () => {
     path = true;
   }
 
+  const navObject = {
+    currentHome: '',
+    currentAbout: '',
+    currentChampions: '',
+    currentLogin: '',
+    currentProfile: '',
+  }
 
-  let currentHome= ""
-  let currentAbout=""
-  let currentChampions=""
-  let currentLogin=""
-  let currentProfile=""
+  const currentNavObject = {
+    currentHome: '',
+    currentAbout: '',
+    currentChampions: '',
+    currentLogin: '',
+    currentProfile: '',
+  }
+
+
 
   if (location.pathname.includes("/champions")){
-    currentHome=""
-    currentAbout=""
-    currentChampions="current"
-    currentLogin=""
-    currentProfile=""
+    Object.assign(currentNavObject, navObject, {currentChampions:"current"})
   }
 
   else if (location.pathname==="/login"){
-    currentLogin="current"
-    currentHome=""
-    currentAbout=""
-    currentChampions=""
-    currentProfile=""
-
+    Object.assign(currentNavObject, navObject, {currentLogin:"current"})
   }
 
   else if (location.pathname==="/signup"){
-    currentLogin="current"
-    currentHome=""
-    currentAbout=""
-    currentChampions=""
-    currentProfile=""
+    Object.assign(currentNavObject, navObject, {currentLogin:"current"})
   }
 
   else if (location.pathname.includes("/about")){
-    currentHome=""
-    currentAbout="current"
-    currentChampions=""
-    currentLogin=""
-    currentProfile=""
+    Object.assign(currentNavObject, navObject, {currentAbout:"current"})
   }
 
   else if (location.pathname==="/"){
-    currentHome="current"
-    currentAbout=""
-    currentChampions=""
-    currentLogin=""
-    currentProfile=""
+    Object.assign(currentNavObject, navObject, {currentHome:"current"})
   }
   
   else if (location.pathname==="/profile"){
-    currentHome=""
-    currentAbout=""
-    currentChampions=""
-    currentLogin=""
-    currentProfile="current"
+    Object.assign(currentNavObject, navObject, {currentProfile:"current"})
   }
 
   else {
-    currentHome="current"
-    currentAbout=""
-    currentChampions=""
-    currentLogin=""
-    currentProfile=""
+    Object.assign(currentNavObject, navObject, {currentHome:"current"})
   }
-
 
 
   const submitForm = (e: React.FormEvent) => {
@@ -112,8 +93,6 @@ const SearchBar = () => {
 
     userInfoRef.on("value", (response)=>{
       const userInfoRes = response.val();
-
-
       const userInfoArray = [];
 
       for (let key in userInfoRes) {
@@ -152,33 +131,21 @@ const SearchBar = () => {
     <section className="searchBar">
       <nav>
         <ul>
+            <li className={`home ${currentNavObject.currentHome}`}><Link to="/" aria-label="Move to home page">home</Link></li>
+            <li className={`${currentNavObject.currentAbout}`}><Link to="/about" aria-label="Move to about page">about</Link></li>
+            <li className={`${currentNavObject.currentChampions}`}><Link to="/champions" aria-label="Move to champions page">champions</Link></li>
           
-            <li className={`home ${currentHome}`}><Link to="/" aria-label="Move to home page">home</Link></li>
-          
-          
-            <li className={`${currentAbout}`}><Link to="/about" aria-label="Move to about page">about</Link></li>
-          
-          
-            <li className={`${currentChampions}`}><Link to="/champions" aria-label="Move to champions page">champions</Link></li>
-          
-
           { currentUser ? 
-          
             null
-          
            : 
-           <li className={`${currentLogin}`}><Link to="/login" aria-label="Move to login page">LogIn</Link></li>
-         
-        }
+           <li className={`${currentNavObject.currentLogin}`}><Link to="/login" aria-label="Move to login page">LogIn</Link></li>}
 
         {currentUser ? (
           <>
-          <li className={`${currentProfile}`}><Link to="/profile" aria-label="Move to profile page">profile</Link></li>
-          <li className={`${currentLogin}`} onClick={handleLogout}><Link to="/">LogOut</Link></li>
+          <li className={`${currentNavObject.currentProfile}`}><Link to="/profile" aria-label="Move to profile page">profile</Link></li>
+          <li className={`${currentNavObject.currentLogin}`} onClick={handleLogout}><Link to="/">LogOut</Link></li>
           </>) : null}
           
-
-
         </ul>
       </nav>
 
