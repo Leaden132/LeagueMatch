@@ -16,14 +16,11 @@ const HomePage = () => {
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const { currentUser } = useAuth();
 
-
   useEffect(()=>{
     if(currentUser) {
       const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
         userInfoRef.on("value", (response)=>{
         const userInfoRes = response.val();
-  
-  
         const userInfoArray = [];
   
         for (let key in userInfoRes) {
@@ -48,23 +45,14 @@ const HomePage = () => {
     if(currentUser){
       const userInfoRef = firebase.database().ref((`${currentUser.uid}/searches`));
 
-
       if (!duplicateCheck) {
         userInfoRef.push({
-          
           summonerName:input,
           timeStamp: Date.now()
-        
         })
-  
-        
       }
     }
 
-    
-    
-  
-    
     history.push(`/match/${encodeURI(input)}`);
   };
 
