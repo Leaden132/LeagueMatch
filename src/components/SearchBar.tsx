@@ -16,6 +16,7 @@ const SearchBar = () => {
   
 
   
+  
   async function handleLogout() {
     setError("")
 
@@ -52,8 +53,6 @@ const SearchBar = () => {
     currentLogin: '',
     currentProfile: '',
   }
-
-
 
   if (location.pathname.includes("/champions")){
     Object.assign(currentNavObject, navObject, {currentChampions:"current"})
