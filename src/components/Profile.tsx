@@ -3,10 +3,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import firebase from "../config/firebase";
 
-// interface FirebaseInfo {
-//   key: string;
-//   name: any;
-// }
 
 const Profile = () => {
   const { currentUser } = useAuth();
@@ -134,7 +130,6 @@ const Profile = () => {
                         <div key={`champ-${index}`} className="champEachBox">
                           <li className="championFlex">
                           
-                            {/* <div className="champEachContainer"> */}
                             <Link
                         to={`/champions/${user.name.champName}`}
                         key={`link-${index}`}
@@ -146,14 +141,12 @@ const Profile = () => {
                                 className="championEach"
                               ></img>
                               </Link>
-                            {/* </div> */}
                             
                             <div className="champEachInfo">
                               <span className="champName">
                                 {user.name.champName}
                               </span>
                               <div className="buttonContainer">
-                              {/* <button>Add</button> */}
                               <button onClick={()=>handleRemoveChamp(user.key)}>Remove</button>
                               </div>
                             </div>
