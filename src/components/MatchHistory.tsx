@@ -59,6 +59,8 @@ const MatchHistory = () => {
             puuid: summonersByNameAxios.data.message.puuid,
             summonerLevel: summonersByNameAxios.data.message.summonerLevel,
           };
+
+          console.log(summonersByNameAxios, accountInfoObj)
           setAccountInfo(accountInfoObj);
 
         const championAxios = await axios({
@@ -66,13 +68,16 @@ const MatchHistory = () => {
           url: "https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json",
           responseType: "json",
         });
+
+        console.log(championAxios)
         setChampObj(championAxios.data.data);
 
         const itemAxios = await axios({
           method: "GET",
-          url: "https://ddragon.bangingheads.net/cdn/10.23.1/data/en_US/item.json",
+          url: "https://ddragon.bangingheads.net/cdn/12.6.1/data/en_US/item.json",
           responseType: "json",
         });
+        console.log(itemAxios)
         setItemObj(itemAxios.data.data);
 
         const championMasteryAxios = await axios({
@@ -84,6 +89,7 @@ const MatchHistory = () => {
             apiParam: accountInfoObj.id,
           },
         });
+        console.log(championMasteryAxios, accountInfoObj.id)
 
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
@@ -146,14 +152,22 @@ const MatchHistory = () => {
           responseType: "json",
           params: {
             apiName: "matchByAccounts",
-            apiParam: accountInfoObj.accountId,
+            apiParam: accountInfoObj.puuid,
           },
         });
+
+        console.log(matchByAccountsAxios)
+
+
+
         let matchArray = matchByAccountsAxios.data.message;
         let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
-        initMatchArray.forEach((match: any) => {
-          getMatchDetail(match.gameId);
+        initMatchArray.forEach((match: string, idx:number) => {
+          console.log(match)
+          getMatchDetail(match, idx);
         });
+
+        console.log(matchDetailArray)
 
         setMatchInfo(matchDetailArray);
         setTimeout(() => {
@@ -170,7 +184,7 @@ const MatchHistory = () => {
     });
   }, [userName, loadCount]);
 
-  const getMatchDetail = async (gameId: number) => {
+  const getMatchDetail = async (gameId: string, idx: number) => {
     const matchDetailAxios = await axios({
       method: "GET",
       url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
@@ -180,13 +194,19 @@ const MatchHistory = () => {
         apiParam: gameId,
       },
     });
-    matchDetailArray.push(matchDetailAxios.data.message);
+    console.log(matchDetailAxios)
+    const matchResponse = matchDetailAxios.data.message.info
+
+    const matchDetailInfo = Object.assign(matchDetailAxios.data.message.info, matchDetailAxios.data.message.metadata);
+    matchDetailArray.push(matchDetailInfo);
   };
 
   matchInfo.sort((a: any, b: any) => b.gameCreation - a.gameCreation);
 
+  console.log(matchInfo)
+
   let participants = matchInfo.map((match: any) => {
-    return match.participantIdentities;
+    return match.participants;
   });
 
   let playerInfo = participants.map((participant, index) => {
