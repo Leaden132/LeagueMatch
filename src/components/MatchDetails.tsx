@@ -83,7 +83,7 @@ const MatchDetails = ({
 
   return (
     <div className="matchHistory">
-      {playerInfo.map((player: any, index: number) => {
+      {/* {playerInfo.map((player: any, index: number) => {
         let champion = championInfo[index];
         let win = false;
         for (let i = 0; i < 10; i++) {
@@ -401,7 +401,7 @@ const MatchDetails = ({
             </div>
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };
