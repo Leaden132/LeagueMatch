@@ -9,12 +9,12 @@ const RankedInfo: React.FC<Props> = ({accountInfo, rankedInfo}:any) => {
         return tier.charAt(0).toUpperCase() + tier.slice(1).toLowerCase();
     }
 
-    const imgURL = rankedInfo.tier && rankedInfo.rank ? `https://opgg-static.akamaized.net/images/medals/${rankedInfo.tier}_${rankedInfo.rank}.png?image=q_auto:best&amp;v=1` : undefined;
+    const imgURL = rankedInfo.tier ? `https://opgg-static.akamaized.net/images/medals_new/${rankedInfo.tier}.png?image=q_auto:best&amp;v=1` : undefined;
 
     return(
         <section className="rankedInfo">
         {imgURL ? 
-        <img className = "rank" src = {`https://opgg-static.akamaized.net/images/medals/${rankedInfo.tier}_${rankedInfo.rank}.png?image=q_auto:best&amp;v=1`} alt={`${rankedInfo.tier} tier`}/>
+        <img className = "rank" src = {imgURL} alt={`${rankedInfo.tier} tier`}/>
             :
             <img className = "rank" src = {`https://ddragon.bangingheads.net/other/emblems/unranked_1.png`} alt={`Unranked`}/>
 }
