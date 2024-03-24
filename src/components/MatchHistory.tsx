@@ -8,6 +8,8 @@ import { css } from "@emotion/react";
 import MatchDetails from "./MatchDetails";
 import {useAuth} from '../contexts/AuthContext';
 
+const defaultTag = 'NA1'
+
 const MatchHistory = () => {
   // const apiKey = process.env.REACT_APP_apiKey; -> moved API key to back-end.
   const [accountInfo, setAccountInfo] = useState<any>({});
@@ -40,7 +42,6 @@ const MatchHistory = () => {
     const loadData = async () => {
       if (sumName !== "") {
 
-
           const summonersByNameAxios = await axios({
             method: "GET",
             url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
@@ -48,36 +49,53 @@ const MatchHistory = () => {
             params: {
               apiName: "summonersByName",
               apiParam: sumName,
+              tagName: defaultTag,
             },
           })
+
+          const puuid = summonersByNameAxios.data.message.puuid;
+
+          const getSummonerIdAxios = await axios({
+            method: "GET",
+            url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+            responseType: "json",
+            params: {
+              apiName: "getSummonerId",
+              apiParam: puuid,
+            },
+          })
+
+
+
+          const summonerId = getSummonerIdAxios?.data?.message?.id;
           
           let accountInfoObj = {
-            accountId: summonersByNameAxios.data.message.accountId,
-            id: summonersByNameAxios.data.message.id,
-            name: summonersByNameAxios.data.message.name,
-            profileIconId: summonersByNameAxios.data.message.profileIconId,
-            puuid: summonersByNameAxios.data.message.puuid,
-            summonerLevel: summonersByNameAxios.data.message.summonerLevel,
+            // accountId: summonersByNameAxios.data.message.accountId,
+            // id: summonersByNameAxios.data.message.id,
+            name: summonersByNameAxios.data.message.gameName,
+            tagName: summonersByNameAxios.data.message.tagName,
+            // profileIconId: summonersByNameAxios.data.message.profileIconId,
+            puuid,
+            summonerId,
+            // summonerLevel: summonersByNameAxios.data.message.summonerLevel,
           };
 
-          console.log(summonersByNameAxios, accountInfoObj)
           setAccountInfo(accountInfoObj);
 
         const championAxios = await axios({
           method: "GET",
-          url: "https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/champion.json",
+          url: "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json",
           responseType: "json",
         });
 
-        console.log(championAxios)
         setChampObj(championAxios.data.data);
 
         const itemAxios = await axios({
           method: "GET",
-          url: "https://ddragon.bangingheads.net/cdn/12.6.1/data/en_US/item.json",
+          url: "https://ddragon.bangingheads.net/cdn/14.6.1/data/en_US/item.json",
           responseType: "json",
         });
-        console.log(itemAxios)
+
         setItemObj(itemAxios.data.data);
 
         const championMasteryAxios = await axios({
@@ -86,10 +104,9 @@ const MatchHistory = () => {
           responseType: "json",
           params: {
             apiName: "championMastery",
-            apiParam: accountInfoObj.id,
+            apiParam: accountInfoObj.puuid,
           },
         });
-        console.log(championMasteryAxios, accountInfoObj.id)
 
         let newArray = championMasteryAxios.data.message.slice(0, 10);
         setProficiencyArray(newArray);
@@ -107,7 +124,7 @@ const MatchHistory = () => {
 
         const runeAxios = await axios({
           method: "GET",
-          url: "https://ddragon.leagueoflegends.com/cdn/11.4.1/data/en_US/runesReforged.json",
+          url: "https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/runesReforged.json",
           responseType: "json",
         });
         setRuneArray(runeAxios.data);
@@ -118,7 +135,7 @@ const MatchHistory = () => {
           responseType: "json",
           params: {
             apiName: "entriesBySummoner",
-            apiParam: accountInfoObj.id,
+            apiParam: accountInfoObj.summonerId,
           },
         });
 
@@ -156,18 +173,11 @@ const MatchHistory = () => {
           },
         });
 
-        console.log(matchByAccountsAxios)
-
-
-
         let matchArray = matchByAccountsAxios.data.message;
         let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
-        initMatchArray.forEach((match: string, idx:number) => {
-          console.log(match)
-          getMatchDetail(match, idx);
+        initMatchArray.forEach(async (match: string, idx:number) => {
+          await getMatchDetail(match, idx);
         });
-
-        console.log(matchDetailArray)
 
         setMatchInfo(matchDetailArray);
         setTimeout(() => {
@@ -194,16 +204,16 @@ const MatchHistory = () => {
         apiParam: gameId,
       },
     });
-    console.log(matchDetailAxios)
-    const matchResponse = matchDetailAxios.data.message.info
+    const matchResponse = matchDetailAxios.data.message.info;
+    const matchMetaData = matchDetailAxios.data.message.metadata;
+    const matchDetailInfo = {...matchResponse, matchId: matchMetaData?.matchId }
 
-    const matchDetailInfo = Object.assign(matchDetailAxios.data.message.info, matchDetailAxios.data.message.metadata);
-    matchDetailArray.push(matchDetailInfo);
+    // const matchDetailInfo = Object.assign(matchDetailAxios.data.message.info, matchDetailAxios.data.message.metadata);
+    matchDetailArray.push(matchResponse);
   };
 
   matchInfo.sort((a: any, b: any) => b.gameCreation - a.gameCreation);
 
-  console.log(matchInfo)
 
   let participants = matchInfo.map((match: any) => {
     return match.participants;
@@ -211,7 +221,7 @@ const MatchHistory = () => {
 
   let playerInfo = participants.map((participant, index) => {
     let playerArray = participant.map((player: any) => {
-      return player.player;
+      return player;
     });
     return playerArray;
   });
@@ -281,7 +291,7 @@ const MatchHistory = () => {
                     return (
                       <div className="eachProficiency" key={`prof-${index}`}>
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+                          src={`https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/${convertChampions(
                             champ.championId,
                             champObj
                           )}.png`}
@@ -310,12 +320,12 @@ const MatchHistory = () => {
                   runeArray={runeArray}
                 />
 }
-                <button
+                {/* <button
                   className="loadButton"
                   onClick={throttle(loadMore, 20000)}
                 >
                   Load More
-                </button>
+                </button> */}
               </div>
             </div>
           </section>

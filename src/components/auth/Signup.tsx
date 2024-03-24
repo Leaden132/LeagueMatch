@@ -27,7 +27,6 @@ export default function Signup() {
 
         try {
             setError('');
-            console.log(emailRef.current.value);
             let email = emailRef.current.value.toString();
             let password = passwordRef.current.value;
             let displayName = displayNameRef.current.value;
