@@ -6,9 +6,10 @@ import RankedInfo from "./RankedInfo";
 import PulseLoader from "react-spinners/PulseLoader";
 import { css } from "@emotion/react";
 import MatchDetails from "./MatchDetails";
-import {useAuth} from '../contexts/AuthContext';
+import { useAuth } from "../contexts/AuthContext";
 
-const defaultTag = 'NA1'
+const defaultTag = "NA1";
+const isLoadVisible = false;
 
 const MatchHistory = () => {
   // const apiKey = process.env.REACT_APP_apiKey; -> moved API key to back-end.
@@ -32,7 +33,7 @@ const MatchHistory = () => {
     margin-top: 300px;
     border-color: red;
   `;
-  let sumName:string = "";
+  let sumName: string = "";
 
   useEffect(() => {
     setMatchLoading(true);
@@ -41,46 +42,43 @@ const MatchHistory = () => {
 
     const loadData = async () => {
       if (sumName !== "") {
+        const summonersByNameAxios = await axios({
+          method: "GET",
+          url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+          responseType: "json",
+          params: {
+            apiName: "summonersByName",
+            apiParam: sumName,
+            tagName: defaultTag,
+          },
+        });
 
-          const summonersByNameAxios = await axios({
-            method: "GET",
-            url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
-            responseType: "json",
-            params: {
-              apiName: "summonersByName",
-              apiParam: sumName,
-              tagName: defaultTag,
-            },
-          })
+        const puuid = summonersByNameAxios.data.message.puuid;
 
-          const puuid = summonersByNameAxios.data.message.puuid;
+        const getSummonerIdAxios = await axios({
+          method: "GET",
+          url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
+          responseType: "json",
+          params: {
+            apiName: "getSummonerId",
+            apiParam: puuid,
+          },
+        });
 
-          const getSummonerIdAxios = await axios({
-            method: "GET",
-            url: "https://4eik2iqhfj.execute-api.us-east-1.amazonaws.com/dev",
-            responseType: "json",
-            params: {
-              apiName: "getSummonerId",
-              apiParam: puuid,
-            },
-          })
+        const summonerId = getSummonerIdAxios?.data?.message?.id;
 
+        let accountInfoObj = {
+          // accountId: summonersByNameAxios.data.message.accountId,
+          // id: summonersByNameAxios.data.message.id,
+          name: summonersByNameAxios.data.message.gameName,
+          tagName: summonersByNameAxios.data.message.tagName,
+          // profileIconId: summonersByNameAxios.data.message.profileIconId,
+          puuid,
+          summonerId,
+          // summonerLevel: summonersByNameAxios.data.message.summonerLevel,
+        };
 
-
-          const summonerId = getSummonerIdAxios?.data?.message?.id;
-          
-          let accountInfoObj = {
-            // accountId: summonersByNameAxios.data.message.accountId,
-            // id: summonersByNameAxios.data.message.id,
-            name: summonersByNameAxios.data.message.gameName,
-            tagName: summonersByNameAxios.data.message.tagName,
-            // profileIconId: summonersByNameAxios.data.message.profileIconId,
-            puuid,
-            summonerId,
-            // summonerLevel: summonersByNameAxios.data.message.summonerLevel,
-          };
-
-          setAccountInfo(accountInfoObj);
+        setAccountInfo(accountInfoObj);
 
         const championAxios = await axios({
           method: "GET",
@@ -119,7 +117,7 @@ const MatchHistory = () => {
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPosition:"center"
+          backgroundPosition: "center",
         });
 
         const runeAxios = await axios({
@@ -175,7 +173,7 @@ const MatchHistory = () => {
 
         let matchArray = matchByAccountsAxios.data.message;
         let initMatchArray: Array<any> = matchArray.slice(0, loadCount);
-        initMatchArray.forEach(async (match: string, idx:number) => {
+        initMatchArray.forEach(async (match: string, idx: number) => {
           await getMatchDetail(match, idx);
         });
 
@@ -206,14 +204,16 @@ const MatchHistory = () => {
     });
     const matchResponse = matchDetailAxios.data.message.info;
     const matchMetaData = matchDetailAxios.data.message.metadata;
-    const matchDetailInfo = {...matchResponse, matchId: matchMetaData?.matchId }
+    const matchDetailInfo = {
+      ...matchResponse,
+      matchId: matchMetaData?.matchId,
+    };
 
     // const matchDetailInfo = Object.assign(matchDetailAxios.data.message.info, matchDetailAxios.data.message.metadata);
-    matchDetailArray.push(matchResponse);
+    matchDetailArray.push(matchDetailInfo);
   };
 
   matchInfo.sort((a: any, b: any) => b.gameCreation - a.gameCreation);
-
 
   let participants = matchInfo.map((match: any) => {
     return match.participants;
@@ -264,9 +264,12 @@ const MatchHistory = () => {
   if (searchError) {
     return (
       <div className="error">
-        <h4>This username is not registered at League of Legends, Please try other username.</h4>
+        <h4>
+          This username is not registered at League of Legends, Please try other
+          username.
+        </h4>
       </div>
-    )
+    );
   } else {
     return (
       <>
@@ -309,23 +312,25 @@ const MatchHistory = () => {
               </div>
 
               <div className="matchHistoryContainer">
-                {searchError ? null :
-                <MatchDetails
-                  playerInfo={playerInfo}
-                  championInfo={championInfo}
-                  accountInfo={accountInfo}
-                  matchInfo={matchInfo}
-                  itemObj={itemObj}
-                  champObj={champObj}
-                  runeArray={runeArray}
-                />
-}
-                {/* <button
-                  className="loadButton"
-                  onClick={throttle(loadMore, 20000)}
-                >
-                  Load More
-                </button> */}
+                {searchError ? null : (
+                  <MatchDetails
+                    playerInfo={playerInfo}
+                    championInfo={championInfo}
+                    accountInfo={accountInfo}
+                    matchInfo={matchInfo}
+                    itemObj={itemObj}
+                    champObj={champObj}
+                    runeArray={runeArray}
+                  />
+                )}
+                {isLoadVisible && (
+                  <button
+                    className="loadButton"
+                    onClick={throttle(loadMore, 20000)}
+                  >
+                    Load More
+                  </button>
+                )}
               </div>
             </div>
           </section>
