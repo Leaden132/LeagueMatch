@@ -2,7 +2,7 @@ import convertChampions from "./convertChampions";
 import convertRunes from "./convertRunes";
 import convertSummoners from "./convertSummoners";
 import { useHistory, Link } from "react-router-dom";
-import opacity from "../assets/opacity.png";
+import opacityItem from "../assets/opacity.png";
 import convertItemStat from "./convertItemStat";
 
 const MatchDetails = ({
@@ -83,18 +83,19 @@ const MatchDetails = ({
 
   return (
     <div className="matchHistory">
-      {/* {playerInfo.map((player: any, index: number) => {
+      {playerInfo.map((player: any, index: number) => {
         let champion = championInfo[index];
         let win = false;
         for (let i = 0; i < 10; i++) {
-          if (player[i].accountId === accountInfo.accountId) {
-            if (champion[i].stats.win) {
+          if (player?.[i]?.accountId === accountInfo.accountId) {
+            if (champion[i]?.win) {
               win = true;
             } else {
               win = false;
             }
           }
         }
+        // return null;
         return (
           <div
             className={`match ${win ? "win" : "loss"}`}
@@ -118,11 +119,11 @@ const MatchDetails = ({
               {champion.map((champ: any, i: number) => {
                 let itemArray = [];
                 for (let i = 0; i < 7; i++) {
-                  let itemNum = champ.stats[`item${i}`];
+                  let itemNum = champ?.[`item${i}`];
                   const imgSrc =
-                    champ.stats[`item${i}`] !== 0
-                      ? `https://ddragon.bangingheads.net/cdn/11.10.1/img/item/${itemNum}.png`
-                      : opacity;
+                    champ?.[`item${i}`] !== 0
+                      ? `https://ddragon.bangingheads.net/cdn/14.6.1/img/item/${itemNum}.png`
+                      : opacityItem;
                   if (i < 3) {
                     if (itemObj[itemNum]) {
                       itemArray.push(
@@ -132,7 +133,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -167,7 +168,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -183,7 +184,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -218,7 +219,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -234,7 +235,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -253,7 +254,7 @@ const MatchDetails = ({
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                             }}
                             alt="items"
                           />
@@ -262,15 +263,16 @@ const MatchDetails = ({
                     }
                   }
                 }
+
                 return (
                   <div key={`blue${i}`} className="gameInfo">
-                    {player[i].accountId === accountInfo.accountId && (
+                    {player[i]?.puuid === accountInfo?.puuid && (
                       <div className={`userPlayInfo`}>
                         <div className="champNameContainer">
                           <div className="champContainer">
                             <Link to={`/champions/${convertChampions(champ.championId, champObj)}`}>
                             <img
-                              src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+                              src={`https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/${convertChampions(
                                 champ.championId,
                                 champObj
                               )}.png`}
@@ -284,13 +286,13 @@ const MatchDetails = ({
                         <div className="summonerSpell">
                           <div className="spell spell1">
                             <img
-                              src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
-                                champ.spell1Id
+                              src={`https://ddragon.leagueoflegends.com/cdn/14.6.1/img/spell/${convertSummoners(
+                                champ.summoner1Id
                               )}.png`}
                               onError={(e: any) => {
                                 e.target.onerror = null;
                                 e.target.src =
-                                  "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                  "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                               }}
                               alt="summoner spells"
                             ></img>
@@ -298,13 +300,13 @@ const MatchDetails = ({
                           </div>
                           <div className="spell spell2">
                             <img
-                              src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/${convertSummoners(
-                                champ.spell2Id
+                              src={`https://ddragon.leagueoflegends.com/cdn/14.6.1/img/spell/${convertSummoners(
+                                champ.summoner2Id
                               )}.png`}
                               onError={(e: any) => {
                                 e.target.onerror = null;
                                 e.target.src =
-                                  "https://ddragon.bangingheads.net/cdn/11.10.1/img/item/1055.png";
+                                  "https://ddragon.bangingheads.net/cdn/14.6.1/img/item/1055.png";
                               }}
                               alt="summoner spells"
                             ></img>
@@ -315,11 +317,11 @@ const MatchDetails = ({
                           <div className="rune">
                             <img
                               src={`https://ddragon.canisback.com/img/${convertRunes(
-                                champ.stats.perk0,
+                                champ?.perks?.styles?.[0]?.selections?.[0]?.perk,
                                 runeArray
                               )}`}
                               alt={`${convertRunes(
-                                champ.stats.perk0,
+                                champ?.perks?.styles?.[1]?.selections?.[0]?.perk,
                                 runeArray
                               )}`}
                               className="runeImage"
@@ -329,10 +331,10 @@ const MatchDetails = ({
                           <div className="rune">
                             <img
                               src={`https://ddragon.canisback.com/img/${convertRunes(
-                                champ.stats.perkSubStyle,
+                                champ?.perkSubStyle,
                                 runeArray
                               )}`}
-                              alt={`${champ.stats.perkSubStyle}`}
+                              alt={`${champ?.perkSubStyle}`}
                               className="subRuneImage"
                               title="Sub Rune"
                             ></img>
@@ -346,23 +348,23 @@ const MatchDetails = ({
                             K/D/A
                           </span>
                           <span>
-                            {champ.stats.kills} / {champ.stats.deaths} /{" "}
-                            {champ.stats.assists}
+                            {champ?.kills} / {champ?.deaths} /{" "}
+                            {champ?.assists}
                           </span>
                           <div className="kdaValue">
                             <span>
                               {kdaCalc(
-                                champ.stats.kills,
-                                champ.stats.deaths,
-                                champ.stats.assists
+                                champ?.kills,
+                                champ?.deaths,
+                                champ?.assists
                               )}
                             </span>
                           </div>
                         </div>
                         <ul className="levelDetail">
-                          <li>level {champ.stats.champLevel}</li>
+                          <li>level {champ?.champLevel}</li>
                           <li className="kdaAlign">
-                            {champ.stats.totalMinionsKilled} CS
+                            {champ?.totalMinionsKilled} CS
                           </li>
                           <li></li>
                         </ul>
@@ -377,7 +379,7 @@ const MatchDetails = ({
                           champObj
                         )}`}>
                       <img
-                        src={`https://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/${convertChampions(
+                        src={`https://ddragon.leagueoflegends.com/cdn/14.6.1/img/champion/${convertChampions(
                           champ.championId,
                           champObj
                         )}.png`}
@@ -401,7 +403,7 @@ const MatchDetails = ({
             </div>
           </div>
         );
-      })} */}
+      })}
     </div>
   );
 };
