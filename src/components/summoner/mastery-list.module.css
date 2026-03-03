@@ -1,0 +1,43 @@
+.card {
+  min-width: 240px;
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-accent);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.detail {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,1 @@
+import{p as a}from"./index-gMOMPYpm.js";import{u as i,g as s,h as t}from"./use-ddragon-version-Bciv_jYy.js";function u(){const{data:e}=i();return a({queryKey:["champions",e],queryFn:()=>s(e),enabled:!!e,staleTime:1/0})}function m(e){const{data:n}=i();return a({queryKey:["champion-detail",n,e],queryFn:()=>t(n,e),enabled:!!n&&!!e,staleTime:1/0})}export{m as a,u};

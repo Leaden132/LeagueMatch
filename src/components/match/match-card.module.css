@@ -1,0 +1,176 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.mode {
+  font-weight: 600;
+}
+
+.win {
+  color: var(--color-win);
+  font-weight: 700;
+}
+
+.loss {
+  color: var(--color-loss);
+  font-weight: 700;
+}
+
+.time {
+  color: var(--color-text-muted);
+}
+
+.duration {
+  color: var(--color-text-secondary);
+}
+
+/* Player section */
+.playerSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.champArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.champImg {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+}
+
+.champName {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.spells {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spellImg {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+}
+
+.runes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.runeImg {
+  width: 28px;
+  height: 28px;
+}
+
+.subRuneImg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+}
+
+.kdaBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.kdaLabel {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kdaScore {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.kdaRatio {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  gap: 0.125rem;
+}
+
+/* Teams */
+.teams {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.teamPlayer {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.currentPlayer {
+  font-weight: 700;
+}
+
+.teamChampImg {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+
+.teamPlayerName {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teamPlayerName:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .playerSection {
+    gap: 0.5rem;
+  }
+
+  .teams {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

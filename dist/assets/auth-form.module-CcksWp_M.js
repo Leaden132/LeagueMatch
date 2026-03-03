@@ -1,0 +1,1 @@
+const o="_container_1g2jd_1",t="_title_1g2jd_19",_="_form_1g2jd_33",n="_error_1g2jd_45",r="_divider_1g2jd_63",e="_googleBtn_1g2jd_97",i="_link_1g2jd_105",d={container:o,title:t,form:_,error:n,divider:r,googleBtn:e,link:i};export{d as s};
