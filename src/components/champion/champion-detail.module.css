@@ -1,0 +1,148 @@
+.container {
+  position: relative;
+}
+
+.splash {
+  height: 300px;
+  width: 100%;
+}
+
+.content {
+  margin-top: -3rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--color-accent);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+}
+
+.tags {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.addBtn {
+  margin-left: auto;
+}
+
+/* Abilities */
+.abilities {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ability {
+  position: relative;
+  cursor: pointer;
+}
+
+.ability img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+  transition: border-color 0.15s;
+}
+
+.ability:hover img {
+  border-color: var(--color-accent);
+}
+
+.key {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--color-bg-secondary);
+  color: var(--color-accent);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+/* Lore */
+.lore {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* Stats */
+.statsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.statsSection h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.statLabel {
+  width: 80px;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+  color: var(--color-text-secondary);
+}
+
+.statBar {
+  flex: 1;
+  height: 8px;
+  background: var(--color-surface);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.statFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.attack {
+  background: #ef4444;
+}
+
+.defense {
+  background: #3b82f6;
+}
+
+.magic {
+  background: #a855f7;
+}
+
+.difficulty {
+  background: #f59e0b;
+}

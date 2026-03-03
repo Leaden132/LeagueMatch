@@ -1,0 +1,1 @@
+import{j as a}from"./index-gMOMPYpm.js";const e="_card_uecmz_1",i="_win_uecmz_15",l="_loss_uecmz_25",s={card:e,win:i,loss:l};function d({children:o,variant:c="default",className:n,...t}){const r=[s.card,s[c],n].filter(Boolean).join(" ");return a.jsx("div",{className:r,...t,children:o})}export{d as C};

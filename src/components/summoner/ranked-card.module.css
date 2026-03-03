@@ -1,0 +1,45 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emblem {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.queue {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tier {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.lp {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.winrate {
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+}
+
+.level {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
