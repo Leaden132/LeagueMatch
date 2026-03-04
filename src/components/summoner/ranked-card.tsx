@@ -10,9 +10,9 @@ interface RankedCardProps {
 }
 
 export function RankedCard({ ranked, profile }: RankedCardProps) {
-  const tierImg = ranked?.tier
-    ? `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/${ranked.tier.toLowerCase()}.png`
-    : "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/unranked.png";
+  const tierKey = ranked?.tier?.toLowerCase() ?? "unranked";
+  const ext = tierKey === "emerald" ? "svg" : "png";
+  const tierImg = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/${tierKey}.${ext}`;
 
   const rankNum = ranked?.rank ? RANK_NUMERALS[ranked.rank] ?? ranked.rank : null;
 
