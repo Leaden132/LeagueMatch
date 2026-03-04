@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { lambdaFetch } from "../lib/api";
 import type { RankedEntry } from "../lib/riot-types";
 
-export function useRanked(summonerId: string | undefined) {
+export function useRanked(puuid: string | undefined) {
   return useQuery({
-    queryKey: ["ranked", summonerId],
+    queryKey: ["ranked", puuid],
     queryFn: () =>
-      lambdaFetch<RankedEntry | RankedEntry[]>({
+      lambdaFetch<RankedEntry[]>({
         apiName: "entriesBySummoner",
-        apiParam: summonerId!,
+        apiParam: puuid!,
       }),
-    enabled: !!summonerId,
+    enabled: !!puuid,
   });
 }

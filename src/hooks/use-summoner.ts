@@ -6,7 +6,7 @@ import { DEFAULT_REGION } from "../lib/constants";
 interface AccountResponse {
   puuid: string;
   gameName: string;
-  tagName: string;
+  tagLine: string;
 }
 
 interface SummonerIdResponse {
@@ -40,7 +40,7 @@ async function fetchSummoner(
     account: {
       puuid,
       gameName: accountData.gameName,
-      tagLine: accountData.tagName,
+      tagLine: accountData.tagLine,
     },
     profile: {
       id: summonerData.id,

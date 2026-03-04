@@ -8,8 +8,14 @@
 .item {
   width: 28px;
   height: 28px;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
+  border: 1px solid var(--color-border);
+  transition: border-color 0.15s ease;
+}
+
+.item:hover {
+  border-color: var(--color-accent);
 }
 
 .trinket {
@@ -23,8 +29,9 @@
 .empty {
   width: 28px;
   height: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .tooltipContent {
