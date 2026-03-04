@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/use-auth";
 import { useAddSearch } from "../hooks/use-search-history";
 import styles from "./home.module.css";
 
-const EXAMPLE_NAMES = ["TFBlade#NA1", "Doublelift#NA1", "Trick2G#NA1"];
+const EXAMPLE_NAMES = ["TFBlade#122", "Doublelift#NA01", "Trick2g#NA1"];
 
 const FEATURES = [
   {
@@ -64,7 +64,14 @@ export default function Home() {
   };
 
   const searchExample = (name: string) => {
-    setInput(name);
+    const [gameName, tagLine] = name.split("#", 2) as [string, string];
+    if (user) {
+      addSearch.mutate(name);
+    }
+    navigate(
+      `/summoner/${encodeURIComponent(gameName)}/` +
+        `${encodeURIComponent(tagLine ?? "NA1")}`,
+    );
   };
 
   return (

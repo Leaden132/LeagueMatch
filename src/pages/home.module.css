@@ -6,29 +6,24 @@
   justify-content: center;
 }
 
-/* Animated gradient background */
+/* Champion splash background */
 .background {
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(94, 234, 212, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 60%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
-    var(--color-bg);
-  animation: gradientShift 12s ease-in-out infinite alternate;
+    url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg");
+  background-size: cover;
+  background-position: center 20%;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 0%, 100% 100%, 50% 100%;
-  }
-  50% {
-    background-position: 30% 10%, 70% 80%, 60% 90%;
-  }
-  100% {
-    background-position: 60% 20%, 40% 60%, 40% 100%;
-  }
+.background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(18, 11, 39, 0.55) 0%, rgba(18, 11, 39, 0.85) 70%),
+    linear-gradient(to bottom, rgba(18, 11, 39, 0.4) 0%, rgba(18, 11, 39, 0.95) 100%);
 }
 
 .content {
@@ -72,7 +67,9 @@
 .input {
   flex: 1;
   padding: 0.875rem 1.25rem;
-  background: var(--color-surface);
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   color: var(--color-text);
@@ -152,7 +149,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1.5rem 1rem;
-  background: var(--color-surface);
+  background: rgba(17, 24, 39, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   text-align: center;
