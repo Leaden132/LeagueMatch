@@ -66,75 +66,77 @@ export function MatchCard({
         </span>
       </div>
 
-      {/* Player info */}
-      <div className={styles.playerSection}>
-        <div className={styles.champArea}>
-          <Link to={`/champions/${champName}`}>
+      <div className={styles.body}>
+        {/* Player info */}
+        <div className={styles.playerSection}>
+          <div className={styles.champArea}>
+            <Link to={`/champions/${champName}`}>
+              <img
+                src={championImageUrl(version, champName)}
+                alt={champName}
+                className={styles.champImg}
+              />
+            </Link>
+            <span className={styles.champName}>{champName}</span>
+          </div>
+
+          <div className={styles.spells}>
             <img
-              src={championImageUrl(version, champName)}
-              alt={champName}
-              className={styles.champImg}
+              src={spellImageUrl(version, spellIdToName(player.summoner1Id))}
+              alt="spell 1"
+              className={styles.spellImg}
             />
-          </Link>
-          <span className={styles.champName}>{champName}</span>
+            <img
+              src={spellImageUrl(version, spellIdToName(player.summoner2Id))}
+              alt="spell 2"
+              className={styles.spellImg}
+            />
+          </div>
+
+          <div className={styles.runes}>
+            <img
+              src={runeIconUrl(mainRuneIcon)}
+              alt="main rune"
+              className={styles.runeImg}
+            />
+            <img
+              src={runeIconUrl(subRuneIcon)}
+              alt="sub rune"
+              className={styles.subRuneImg}
+            />
+          </div>
+
+          <div className={styles.kdaBlock}>
+            <span className={styles.kdaLabel}>K/D/A</span>
+            <span className={styles.kdaScore}>
+              {player.kills} / {player.deaths} / {player.assists}
+            </span>
+            <span className={styles.kdaRatio}>{kda}</span>
+          </div>
+
+          <div className={styles.stats}>
+            <span>Lv {player.champLevel}</span>
+            <span>{player.totalMinionsKilled} CS</span>
+          </div>
+
+          <ItemsGrid player={player} itemMap={itemMap} version={version} />
         </div>
 
-        <div className={styles.spells}>
-          <img
-            src={spellImageUrl(version, spellIdToName(player.summoner1Id))}
-            alt="spell 1"
-            className={styles.spellImg}
+        {/* All players */}
+        <div className={styles.teams}>
+          <TeamColumn
+            players={team1}
+            champMap={champMap}
+            version={version}
+            puuid={puuid}
           />
-          <img
-            src={spellImageUrl(version, spellIdToName(player.summoner2Id))}
-            alt="spell 2"
-            className={styles.spellImg}
+          <TeamColumn
+            players={team2}
+            champMap={champMap}
+            version={version}
+            puuid={puuid}
           />
         </div>
-
-        <div className={styles.runes}>
-          <img
-            src={runeIconUrl(mainRuneIcon)}
-            alt="main rune"
-            className={styles.runeImg}
-          />
-          <img
-            src={runeIconUrl(subRuneIcon)}
-            alt="sub rune"
-            className={styles.subRuneImg}
-          />
-        </div>
-
-        <div className={styles.kdaBlock}>
-          <span className={styles.kdaLabel}>K/D/A</span>
-          <span className={styles.kdaScore}>
-            {player.kills} / {player.deaths} / {player.assists}
-          </span>
-          <span className={styles.kdaRatio}>{kda}</span>
-        </div>
-
-        <div className={styles.stats}>
-          <span>Lv {player.champLevel}</span>
-          <span>{player.totalMinionsKilled} CS</span>
-        </div>
-
-        <ItemsGrid player={player} itemMap={itemMap} version={version} />
-      </div>
-
-      {/* All players */}
-      <div className={styles.teams}>
-        <TeamColumn
-          players={team1}
-          champMap={champMap}
-          version={version}
-          puuid={puuid}
-        />
-        <TeamColumn
-          players={team2}
-          champMap={champMap}
-          version={version}
-          puuid={puuid}
-        />
       </div>
     </Card>
   );

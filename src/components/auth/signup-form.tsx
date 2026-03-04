@@ -11,7 +11,7 @@ export function SignupForm() {
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signUp, signInWithGoogle } = useAuth();
+  const { signUp, signInWithGoogle: _signInWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,14 +25,6 @@ export function SignupForm() {
       setError(err instanceof Error ? err.message : "Failed to sign up");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogle = async () => {
-    try {
-      await signInWithGoogle();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to sign in with Google");
     }
   };
 
@@ -70,13 +62,14 @@ export function SignupForm() {
         </Button>
       </form>
 
-      <div className={styles.divider}>
+      {/* TODO: Uncomment when Google OAuth is configured (see tasks/google-auth-setup.md) */}
+      {/* <div className={styles.divider}>
         <span>or</span>
       </div>
 
       <Button variant="secondary" onClick={handleGoogle} className={styles.googleBtn}>
         Continue with Google
-      </Button>
+      </Button> */}
 
       <p className={styles.link}>
         Already have an account? <Link to="/login">Log In</Link>

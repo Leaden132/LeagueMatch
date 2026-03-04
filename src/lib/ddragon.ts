@@ -1,4 +1,4 @@
-import { DDRAGON_BASE, DDRAGON_ITEM_BASE } from "./constants";
+import { DDRAGON_BASE } from "./constants";
 
 let cachedVersion: string | null = null;
 
@@ -20,7 +20,7 @@ export function championSplashUrl(champId: string, skin = 0): string {
 }
 
 export function itemImageUrl(version: string, itemId: number): string {
-  return `${DDRAGON_ITEM_BASE}/cdn/${version}/img/item/${itemId}.png`;
+  return `${DDRAGON_BASE}/cdn/${version}/img/item/${itemId}.png`;
 }
 
 export function spellImageUrl(version: string, spellName: string): string {
@@ -60,7 +60,7 @@ export async function fetchItems(
   version: string,
 ): Promise<Record<string, import("./riot-types").DDragonItem>> {
   const res = await fetch(
-    `${DDRAGON_ITEM_BASE}/cdn/${version}/data/en_US/item.json`,
+    `${DDRAGON_BASE}/cdn/${version}/data/en_US/item.json`,
   );
   const data = await res.json();
   return data.data;

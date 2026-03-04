@@ -25,10 +25,9 @@ export default function Summoner() {
     useSummoner(gameName, tagLine);
 
   const puuid = summoner?.account.puuid;
-  const summonerId = summoner?.profile.id;
 
-  // These fire in parallel once we have the IDs
-  const { data: rankedData } = useRanked(summonerId);
+  // These fire in parallel once we have the puuid
+  const { data: rankedData } = useRanked(puuid);
   const { data: masteries } = useMastery(puuid);
   const { matches, isLoading: matchesLoading } = useMatches(puuid);
   const { data: champMap } = useChampions();
@@ -63,7 +62,7 @@ export default function Summoner() {
       : null;
   const bgStyle = topChampName
     ? {
-        backgroundImage: `linear-gradient(rgba(0,9,61,0.2), rgba(3,0,43,0.5)), url("${championSplashUrl(topChampName)}")`,
+        backgroundImage: `linear-gradient(rgba(11,17,32,0.6) 0%, rgba(11,17,32,0.85) 60%, rgba(11,17,32,0.95) 100%), url("${championSplashUrl(topChampName)}")`,
         backgroundAttachment: "fixed" as const,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -74,10 +73,12 @@ export default function Summoner() {
     <TooltipProvider>
       <section className={styles.page} style={bgStyle}>
         <div className={`wrapper ${styles.content}`}>
-          <h2 className={styles.title}>
-            {summoner.account.gameName}
-            <span className={styles.tag}>#{summoner.account.tagLine}</span>
-          </h2>
+          <div className={styles.header}>
+            <h2 className={styles.title}>
+              {summoner.account.gameName}
+              <span className={styles.tag}>#{summoner.account.tagLine}</span>
+            </h2>
+          </div>
 
           <div className={styles.layout}>
             <aside className={styles.sidebar}>

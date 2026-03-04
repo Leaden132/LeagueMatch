@@ -11,8 +11,8 @@ interface RankedCardProps {
 
 export function RankedCard({ ranked, profile }: RankedCardProps) {
   const tierImg = ranked?.tier
-    ? `https://opgg-static.akamaized.net/images/medals_new/${ranked.tier}.png?image=q_auto:best&v=1`
-    : "https://ddragon.bangingheads.net/other/emblems/unranked_1.png";
+    ? `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/${ranked.tier.toLowerCase()}.png`
+    : "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/unranked.png";
 
   const rankNum = ranked?.rank ? RANK_NUMERALS[ranked.rank] ?? ranked.rank : null;
 

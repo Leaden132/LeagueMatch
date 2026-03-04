@@ -1,7 +1,6 @@
 export const LAMBDA_URL = import.meta.env.VITE_LAMBDA_URL;
 
 export const DDRAGON_BASE = "https://ddragon.leagueoflegends.com";
-export const DDRAGON_ITEM_BASE = "https://ddragon.bangingheads.net";
 
 export const DEFAULT_REGION = "NA1";
 
