@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useAuth } from "../../hooks/use-auth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -10,23 +10,57 @@ export function SignupForm() {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signUp, signInWithGoogle: _signInWithGoogle } = useAuth();
-  const navigate = useNavigate();
+  const [confirmed, setConfirmed] = useState(false);
+  const { signUp, resendConfirmation } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setInfo("");
     setLoading(true);
     try {
       await signUp(email, password, displayName);
-      navigate("/");
+      setConfirmed(true);
+      setInfo("Check your email for a confirmation link.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to sign up");
     } finally {
       setLoading(false);
     }
   };
+
+  const handleResend = async () => {
+    setError("");
+    setInfo("");
+    try {
+      await resendConfirmation(email);
+      setInfo("Confirmation email resent. Check your inbox.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to resend email");
+    }
+  };
+
+  if (confirmed) {
+    return (
+      <div className={styles.container}>
+        <h2 className={styles.title}>Check Your Email</h2>
+        {info && <p className={styles.info}>{info}</p>}
+        {error && <p className={styles.error}>{error}</p>}
+        <p className={styles.text}>
+          We sent a confirmation link to <strong>{email}</strong>.
+          Click the link to activate your account.
+        </p>
+        <Button variant="secondary" onClick={handleResend}>
+          Resend Confirmation Email
+        </Button>
+        <p className={styles.link}>
+          Already confirmed? <Link to="/login">Log In</Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
