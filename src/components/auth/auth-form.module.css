@@ -29,6 +29,22 @@
   margin-bottom: 0.5rem;
 }
 
+.info {
+  background: rgba(94, 234, 212, 0.1);
+  color: var(--color-accent);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
 .divider {
   display: flex;
   align-items: center;

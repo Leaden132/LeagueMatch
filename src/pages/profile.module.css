@@ -9,6 +9,41 @@
   margin-bottom: 1.5rem;
 }
 
+.editBtn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.editBtn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.nameEdit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 320px;
+  margin-bottom: 1.5rem;
+}
+
+.nameActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editError {
+  color: var(--color-loss);
+  font-size: 0.8125rem;
+}
+
 .section {
   margin-bottom: 1.5rem;
 }

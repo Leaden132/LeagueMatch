@@ -15,6 +15,8 @@ interface AuthContextValue extends AuthState {
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  resendConfirmation: (email: string) => Promise<void>;
+  updateDisplayName: (name: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -77,7 +79,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   }, []);
 
-  const value = { ...state, signUp, signIn, signInWithGoogle, signOut, resetPassword };
+  const resendConfirmation = useCallback(async (email: string) => {
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email,
+    });
+    if (error) throw error;
+  }, []);
+
+  const updateDisplayName = useCallback(async (name: string) => {
+    const { error } = await supabase.auth.updateUser({
+      data: { display_name: name },
+    });
+    if (error) throw error;
+  }, []);
+
+  const value = { ...state, signUp, signIn, signInWithGoogle, signOut, resetPassword, resendConfirmation, updateDisplayName };
 
   return (
     <AuthContext.Provider value={value}>

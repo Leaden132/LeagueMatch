@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useFavorites, useRemoveFavorite } from "../hooks/use-favorites";
@@ -6,11 +7,12 @@ import { useDDragonVersion } from "../hooks/use-ddragon-version";
 import { championImageUrl } from "../lib/ddragon";
 import { relativeTime } from "../lib/utils";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import { Card } from "../components/ui/card";
 import styles from "./profile.module.css";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, updateDisplayName } = useAuth();
   const { data: version } = useDDragonVersion();
   const { data: favorites } = useFavorites();
   const { data: searches } = useSearchHistory();
@@ -27,12 +29,73 @@ export default function Profile() {
   const displayName =
     user.user_metadata?.display_name || user.email || "Summoner";
 
+  const [editing, setEditing] = useState(false);
+  const [nameInput, setNameInput] = useState(displayName);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSave = async () => {
+    const trimmed = nameInput.trim();
+    if (!trimmed || trimmed === displayName) {
+      setEditing(false);
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      await updateDisplayName(trimmed);
+      setEditing(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to update name");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setNameInput(displayName);
+    setError("");
+    setEditing(false);
+  };
+
   return (
     <section className={styles.page}>
       <div className="wrapper">
-        <h2 className={styles.title}>
-          {displayName}
-        </h2>
+        {editing ? (
+          <div className={styles.nameEdit}>
+            <Input
+              id="displayName"
+              label="Display Name"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSave();
+                if (e.key === "Escape") handleCancel();
+              }}
+            />
+            {error && <p className={styles.editError}>{error}</p>}
+            <div className={styles.nameActions}>
+              <Button size="sm" onClick={handleSave} disabled={saving}>
+                {saving ? "Saving..." : "Save"}
+              </Button>
+              <Button size="sm" variant="secondary" onClick={handleCancel}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <h2 className={styles.title}>
+            {displayName}
+            <button
+              className={styles.editBtn}
+              onClick={() => setEditing(true)}
+              aria-label="Edit display name"
+            >
+              Edit
+            </button>
+          </h2>
+        )}
 
         {/* Recent Searches */}
         <Card className={styles.section}>

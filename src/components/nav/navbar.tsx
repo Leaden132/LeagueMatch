@@ -19,6 +19,10 @@ export function Navbar() {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
+        <NavLink to="/" className={styles.brand}>
+          LeagueMatch
+        </NavLink>
+
         <button
           className={styles.hamburger}
           onClick={() => setMobileOpen(!mobileOpen)}
